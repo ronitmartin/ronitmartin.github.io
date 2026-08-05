@@ -1,0 +1,17 @@
+export const channels = [
+  { id: "disc", title: "Disc Channel", type: "disc", openType: "disc" },
+  { id: "mii", title: "Mii Channel", type: "mii" },
+  { id: "photo", title: "Photo Channel", type: "photo" },
+  { id: "shop", title: "Wii Shop Channel", type: "shop" },
+  { id: "empty-1", type: "empty" },
+  { id: "forecast", title: "Forecast Channel", type: "forecast" },
+  { id: "news", title: "News Channel", type: "news" },
+  { id: "empty-2", type: "empty" },
+  { id: "empty-3", type: "empty" },
+  { id: "page-arrow", type: "empty", pageArrow: true },
+  { id: "empty-4", type: "empty" },
+  { id: "empty-5", type: "empty" },
+  { id: "empty-6", type: "empty" },
+  { id: "empty-7", type: "empty" },
+  { id: "empty-8", type: "empty" },
+];
