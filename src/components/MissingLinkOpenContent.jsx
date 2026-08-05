@@ -6,9 +6,11 @@ export function MissingLinkOpenContent() {
       <div className="missing-link-title-copy">
         <p className="missing-link-title-eyebrow">Digital-first Design Agency</p>
         <h2 className="missing-link-title-wordmark">
-          Missing
-          <br />
-          <em>Link Studio</em>
+          <span className="missing-link-title-word missing-link-title-word--missing">Missing</span>
+          <em>
+            <span className="missing-link-title-word missing-link-title-word--link">Link</span>
+            <span className="missing-link-title-word missing-link-title-word--studio">Studio</span>
+          </em>
         </h2>
         <p className="missing-link-title-tagline">the bridge between where your brand is today and where it could be.</p>
       </div>

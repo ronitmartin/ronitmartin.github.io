@@ -7,8 +7,9 @@ export function ChannelArtwork({ channel }) {
         <div className="missing-link-channel-copy">
           <span className="missing-link-channel-kicker">Digital-first Design Agency</span>
           <strong>
-            Missing Link
-            <span>Studio</span>
+            <span className="missing-link-word missing-link-word--missing">Missing</span>
+            <span className="missing-link-word missing-link-word--link">Link</span>
+            <span className="missing-link-word missing-link-word--studio">Studio</span>
           </strong>
         </div>
       </div>
