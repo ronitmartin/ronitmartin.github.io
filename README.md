@@ -2,7 +2,7 @@
 
 Source code for Ronit Martin's personal portfolio website.
 
-This branch contains a React/Vite Wii Menu redesign. The live site should remain on `main` until this branch is ready to merge.
+This branch contains a React/Vite Wii Menu redesign.
 
 ## Development
 
