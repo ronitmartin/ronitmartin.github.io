@@ -309,6 +309,13 @@ body {
   text-transform: none;
 }
 
+.channel-launch-clone .missing-link-word {
+  animation: none;
+  opacity: 1;
+  filter: none;
+  transform: none;
+}
+
 @keyframes missing-link-word-in {
   0% {
     opacity: 0;
