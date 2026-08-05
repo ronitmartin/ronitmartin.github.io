@@ -1,13 +1,13 @@
 import { ChannelFrame } from "./ChannelFrame";
-import { DiscOpenContent } from "./DiscOpenContent";
+import { MissingLinkOpenContent } from "./MissingLinkOpenContent";
 
 export function ChannelOpenContent({ channel }) {
   if (!channel) {
     return null;
   }
 
-  if (channel.openType === "disc") {
-    return <DiscOpenContent />;
+  if (channel.openType === "missing-link") {
+    return <MissingLinkOpenContent />;
   }
 
   return <ChannelFrame channel={channel} disabled />;

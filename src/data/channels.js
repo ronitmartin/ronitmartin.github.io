@@ -1,5 +1,11 @@
 export const channels = [
-  { id: "disc", title: "Disc Channel", type: "disc", openType: "disc" },
+  {
+    id: "missing-link",
+    title: "Missing Link",
+    type: "missing-link",
+    openType: "missing-link",
+    startUrl: "https://missinglinkworks.com/",
+  },
   { id: "mii", title: "Mii Channel", type: "mii" },
   { id: "photo", title: "Photo Channel", type: "photo" },
   { id: "shop", title: "Wii Shop Channel", type: "shop" },
