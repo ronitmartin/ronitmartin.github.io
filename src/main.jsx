@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
+import { motion, useReducedMotion } from "framer-motion";
 import "../styles.css";
 import "./react-app.css";
 
@@ -145,18 +146,19 @@ function ChannelOutline() {
 function ChannelFrame({ channel, onOpen, disabled = false }) {
   const isEmpty = channel.type === "empty";
   const className = `channel-frame${isEmpty ? " is-empty" : ""}`;
+  const shouldReduceMotion = useReducedMotion();
 
   if (isEmpty) {
     return (
-      <div className={className}>
+      <motion.div className={className}>
         <ChannelArtwork channel={channel} />
         <ChannelOutline />
-      </div>
+      </motion.div>
     );
   }
 
   return (
-    <button
+    <motion.button
       className={className}
       type="button"
       disabled={disabled}
@@ -164,10 +166,13 @@ function ChannelFrame({ channel, onOpen, disabled = false }) {
       data-channel-title={channel.title}
       aria-label={`Open ${channel.title}`}
       onClick={(event) => onOpen?.(channel, event.currentTarget)}
+      whileHover={disabled || shouldReduceMotion ? undefined : { scale: 1.025, filter: "brightness(1.06)" }}
+      whileTap={disabled || shouldReduceMotion ? undefined : { scale: 0.985, filter: "brightness(0.98)" }}
+      transition={{ duration: 0.12, ease: "easeOut" }}
     >
       <ChannelArtwork channel={channel} />
       <ChannelOutline />
-    </button>
+    </motion.button>
   );
 }
 
