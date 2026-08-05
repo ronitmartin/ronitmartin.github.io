@@ -242,19 +242,17 @@ body {
 .missing-link-channel-symbol {
   position: absolute;
   z-index: 1;
-  right: -8%;
-  top: 39%;
-  width: 52%;
+  right: -3%;
+  top: 49%;
+  width: 50%;
   height: auto;
   object-fit: contain;
   opacity: 0.96;
-  transform: translateY(-50%) rotate(-8deg) scale(1);
-  transform-origin: 55% 50%;
+  transform: translateY(-50%) rotate(-9deg);
   filter:
     drop-shadow(0 1.1cqw 0.8cqw rgba(0, 0, 0, 0.58))
     drop-shadow(0 0 1.4cqw rgba(183, 255, 25, 0.18));
   mix-blend-mode: screen;
-  animation: missing-link-channel-symbol-drift 5.8s ease-in-out infinite;
 }
 
 .missing-link-channel-copy {
@@ -322,16 +320,6 @@ body {
     opacity: 1;
     filter: blur(0);
     transform: translateX(0);
-  }
-}
-
-@keyframes missing-link-channel-symbol-drift {
-  0%, 100% {
-    transform: translateY(-50%) rotate(-8deg) scale(1);
-  }
-
-  50% {
-    transform: translateY(-50%) rotate(-5deg) scale(1.035);
   }
 }
 
