@@ -3,15 +3,13 @@ export function ChannelArtwork({ channel }) {
     return (
       <div className="channel asset-channel missing-link-channel" aria-label={channel.title}>
         <div className="missing-link-channel-grid" aria-hidden="true" />
-        <div className="missing-link-chain-mark" aria-hidden="true">
-          <span />
-          <span />
-          <span />
-        </div>
+        <img className="missing-link-channel-symbol" src="/assets/missing-link-3d.png" alt="" aria-hidden="true" />
         <div className="missing-link-channel-copy">
-          <span className="missing-link-channel-kicker">Digital-first</span>
-          <strong>Missing Link</strong>
-          <span>Brand systems + web</span>
+          <span className="missing-link-channel-kicker">Digital-first Design Agency</span>
+          <strong>
+            Missing Link
+            <span>Studio</span>
+          </strong>
         </div>
       </div>
     );
