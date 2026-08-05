@@ -1,7 +1,7 @@
 export const channels = [
   {
     id: "missing-link",
-    title: "Missing Link",
+    title: "Missing Link Studio",
     type: "missing-link",
     openType: "missing-link",
     startUrl: "https://missinglinkworks.com/",

@@ -1033,7 +1033,6 @@ body {
     drop-shadow(0 1.6cqw 1.3cqw rgba(0, 0, 0, 0.74))
     drop-shadow(0 0 2.4cqw rgba(183, 255, 25, 0.18));
   mix-blend-mode: screen;
-  animation: missing-link-title-symbol-drift 6.2s ease-in-out infinite;
 }
 
 .missing-link-title-copy {
@@ -1108,16 +1107,6 @@ body {
     opacity: 1;
     filter: blur(0);
     transform: translateX(0);
-  }
-}
-
-@keyframes missing-link-title-symbol-drift {
-  0%, 100% {
-    transform: translateY(-50%) rotate(-10deg) scale(1);
-  }
-
-  50% {
-    transform: translateY(-54%) rotate(-6deg) scale(1.04);
   }
 }
 
