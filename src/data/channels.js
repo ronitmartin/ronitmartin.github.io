@@ -14,7 +14,6 @@ export const channels = [
   { id: "news", title: "News Channel", type: "news" },
   { id: "empty-2", type: "empty" },
   { id: "empty-3", type: "empty" },
-  { id: "page-arrow", type: "empty", pageArrow: true },
   { id: "empty-4", type: "empty" },
   { id: "empty-5", type: "empty" },
   { id: "empty-6", type: "empty" },
