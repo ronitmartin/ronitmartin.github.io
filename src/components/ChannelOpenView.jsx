@@ -1,7 +1,10 @@
+import { motion, useReducedMotion } from "framer-motion";
+import { channelOpenStageMotion } from "../animations/wiiMotion";
 import { ChannelOpenContent } from "./ChannelOpenContent";
 
 export function ChannelOpenView({ channel, onClose, stageRef }) {
   const hasStartUrl = Boolean(channel?.startUrl);
+  const shouldReduceMotion = useReducedMotion();
 
   function openStartUrl() {
     if (!channel?.startUrl) {
@@ -13,7 +16,14 @@ export function ChannelOpenView({ channel, onClose, stageRef }) {
 
   return (
     <section className="channel-open-view" aria-hidden={channel ? "false" : "true"}>
-      <div className="channel-open-stage" ref={stageRef}>
+      <motion.div
+        key={channel?.id || "closed-channel"}
+        className="channel-open-stage"
+        ref={stageRef}
+        initial={shouldReduceMotion ? false : channelOpenStageMotion.initial}
+        animate={shouldReduceMotion ? undefined : channelOpenStageMotion.animate}
+        transition={shouldReduceMotion ? undefined : channelOpenStageMotion.transition}
+      >
         <div className="channel-open-frame" aria-hidden="true">
           <div className="channel-open-bluebar" />
           <h1 className="channel-open-title">{channel?.title || "Channel"}</h1>
@@ -28,7 +38,7 @@ export function ChannelOpenView({ channel, onClose, stageRef }) {
         <button className="channel-start-button" type="button" disabled={!hasStartUrl} onClick={openStartUrl}>
           Start
         </button>
-      </div>
+      </motion.div>
     </section>
   );
 }

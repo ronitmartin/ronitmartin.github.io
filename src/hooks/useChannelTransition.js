@@ -63,54 +63,12 @@ export function useChannelTransition({ screenRef, stageRef }) {
       setIsOpen(true);
       setIsLoading(true);
 
-      requestAnimationFrame(() => {
-        const stage = stageRef.current;
-        if (!stage) {
-          launchLayer.remove();
-          setIsTransitioning(false);
-          return;
-        }
-
-        const stageAnimation = stage.animate(
-          [
-            {
-              opacity: 1,
-              filter: "brightness(1.18)",
-              transform: "translate3d(-24%, -4%, 0) scale(0.64)",
-            },
-            {
-              opacity: 1,
-              filter: "brightness(1.04)",
-              offset: 0.72,
-              transform: "translate3d(-1.5%, -0.4%, 0) scale(1.012)",
-            },
-            {
-              opacity: 1,
-              filter: "brightness(1)",
-              transform: "translate3d(0, 0, 0) scale(1)",
-            },
-          ],
-          { duration: previewDuration, easing: channelLaunchTiming.easing, fill: "both" },
-        );
-
-        stage.querySelector(".channel-open-content")?.animate(
-          [
-            { opacity: 0, filter: "brightness(1.35)" },
-            { opacity: 0, offset: 0.38, filter: "brightness(1.25)" },
-            { opacity: 1, filter: "brightness(1)" },
-          ],
-          { duration: previewDuration + 520, easing: "ease-out", fill: "both" },
-        );
-
-        stageAnimation.finished
-          .catch(() => {})
-          .then(() => {
-            setIsLoading(false);
-            launchLayer.remove();
-            setIsTransitioning(false);
-            document.querySelector(".channel-menu-button")?.focus({ preventScroll: true });
-          });
-      });
+      window.setTimeout(() => {
+        setIsLoading(false);
+        launchLayer.remove();
+        setIsTransitioning(false);
+        document.querySelector(".channel-menu-button")?.focus({ preventScroll: true });
+      }, previewDuration);
     }, previewDelay);
   }, [isOpen, isTransitioning, screenRef, stageRef]);
 
