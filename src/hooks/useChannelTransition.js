@@ -74,15 +74,15 @@ export function useChannelTransition({ screenRef, stageRef }) {
         const stageAnimation = stage.animate(
           [
             {
-              opacity: 0,
+              opacity: 1,
               filter: "brightness(1.18)",
-              transform: "translate3d(0, 0, 0) scale(1.045)",
+              transform: "translate3d(-24%, -4%, 0) scale(0.64)",
             },
             {
               opacity: 1,
               filter: "brightness(1.04)",
               offset: 0.72,
-              transform: "translate3d(0, 0, 0) scale(1.008)",
+              transform: "translate3d(-1.5%, -0.4%, 0) scale(1.012)",
             },
             {
               opacity: 1,
