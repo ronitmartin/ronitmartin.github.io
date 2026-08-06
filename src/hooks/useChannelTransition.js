@@ -41,15 +41,22 @@ export function useChannelTransition({ screenRef, stageRef }) {
     wiiScreen.append(launchLayer);
 
     const reducedMotion = prefersReducedMotion();
-    const dimDuration = reducedMotion ? 1 : channelLaunchTiming.dimDuration;
     const previewDelay = reducedMotion ? 0 : channelLaunchTiming.previewDelay;
     const previewDuration = reducedMotion ? 1 : channelLaunchTiming.previewDuration;
+    const dimDuration = reducedMotion ? 1 : previewDelay + previewDuration;
 
-    backdrop.animate([{ opacity: 0 }, { opacity: 0.72 }], {
-      duration: dimDuration,
-      easing: "ease-out",
-      fill: "forwards",
-    });
+    backdrop.animate(
+      [
+        { opacity: 0 },
+        { opacity: 0.34, offset: 0.48 },
+        { opacity: 0.88 },
+      ],
+      {
+        duration: dimDuration,
+        easing: "ease-out",
+        fill: "forwards",
+      },
+    );
 
     launchClone.animate(
       [
