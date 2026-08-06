@@ -21,9 +21,8 @@ export const channelLaunchTiming = {
 };
 
 export const channelOpenStageTransition = {
-  duration: channelLaunchTiming.previewDuration / 1000,
-  ease: [0.08, 0.54, 0.12, 1],
-  times: [0, 0.72, 1],
+  duration: 1.22,
+  ease: [0.1, 0.72, 0.18, 1],
 };
 
 export const channelOpenContentMotion = {

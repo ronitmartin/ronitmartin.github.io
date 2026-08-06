@@ -85,11 +85,11 @@ export function useChannelTransition({ screenRef, stageRef }) {
           scale: startScale,
         },
         animate: {
-          opacity: [0.98, 1, 1],
-          filter: ["brightness(1.2)", "brightness(1.06)", "brightness(1)"],
-          x: [startX, 0, 0],
-          y: [startY, 0, 0],
-          scale: [startScale, 0.985, 1],
+          opacity: 1,
+          filter: "brightness(1)",
+          x: 0,
+          y: 0,
+          scale: 1,
         },
         transition: channelOpenStageTransition,
       });
