@@ -38,8 +38,8 @@ body {
 .wii-screen {
   position: relative;
   container-type: size;
-  width: min(100vw, 133.3333vh);
-  aspect-ratio: 4 / 3;
+  width: min(100vw, 177.7778vh);
+  aspect-ratio: 16 / 9;
   overflow: hidden;
   background:
     repeating-linear-gradient(0deg, rgba(171, 171, 171, 0.1) 0 2px, transparent 2px 5px),
@@ -113,14 +113,14 @@ body {
 .channel-grid {
   position: absolute;
   z-index: 2;
-  top: 8.4%;
-  left: 8.8%;
+  top: 6.2%;
+  left: 10.8%;
   display: grid;
-  grid-template-columns: repeat(5, 19.4cqw);
-  grid-template-rows: repeat(3, 27.4%);
-  gap: 2.2% 1.45cqw;
+  grid-template-columns: repeat(5, 18.5cqw);
+  grid-template-rows: repeat(3, 31.5%);
+  gap: 1.5% 0.8cqw;
   width: 111%;
-  height: 57%;
+  height: 63%;
 }
 
 .wii-screen.is-channel-open .channel-grid,
