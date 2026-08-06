@@ -71,27 +71,18 @@ export function useChannelTransition({ screenRef, stageRef }) {
           return;
         }
 
-        const stageRect = stage.getBoundingClientRect();
-        const frameCenterX = frameRect.left - screenRect.left + frameRect.width / 2;
-        const frameCenterY = frameRect.top - screenRect.top + frameRect.height / 2;
-        const stageCenterX = stageRect.left - screenRect.left + stageRect.width / 2;
-        const stageCenterY = stageRect.top - screenRect.top + stageRect.height / 2;
-        const startScale = Math.min(frameRect.width / stageRect.width, frameRect.height / stageRect.height) * 1.28;
-        const startX = frameCenterX - stageCenterX;
-        const startY = frameCenterY - stageCenterY;
-
         const stageAnimation = stage.animate(
           [
             {
-              opacity: 0.98,
-              filter: "brightness(1.2)",
-              transform: `translate3d(${startX}px, ${startY}px, 0) scale(${startScale})`,
+              opacity: 0,
+              filter: "brightness(1.18)",
+              transform: "translate3d(0, 0, 0) scale(1.045)",
             },
             {
               opacity: 1,
-              filter: "brightness(1.06)",
+              filter: "brightness(1.04)",
               offset: 0.72,
-              transform: "translate3d(0, 0, 0) scale(0.985)",
+              transform: "translate3d(0, 0, 0) scale(1.008)",
             },
             {
               opacity: 1,
