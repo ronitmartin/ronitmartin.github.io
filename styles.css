@@ -52,6 +52,33 @@ body {
   background: #000;
 }
 
+.wii-night-sky {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.6s ease;
+  background:
+    repeating-linear-gradient(0deg, rgba(171, 171, 171, 0.06) 0 2px, transparent 2px 5px),
+    radial-gradient(1px 1px at 12% 18%, rgba(255, 255, 255, 0.9), transparent 60%),
+    radial-gradient(1px 1px at 26% 46%, rgba(255, 255, 255, 0.65), transparent 60%),
+    radial-gradient(1.4px 1.4px at 44% 12%, rgba(255, 255, 255, 0.85), transparent 60%),
+    radial-gradient(1px 1px at 58% 34%, rgba(255, 255, 255, 0.55), transparent 60%),
+    radial-gradient(1.2px 1.2px at 72% 20%, rgba(255, 255, 255, 0.8), transparent 60%),
+    radial-gradient(1px 1px at 85% 50%, rgba(255, 255, 255, 0.6), transparent 60%),
+    radial-gradient(1.3px 1.3px at 6% 60%, rgba(255, 255, 255, 0.5), transparent 60%),
+    radial-gradient(1px 1px at 34% 66%, rgba(255, 255, 255, 0.45), transparent 60%),
+    radial-gradient(1.2px 1.2px at 63% 58%, rgba(255, 255, 255, 0.55), transparent 60%),
+    radial-gradient(1px 1px at 91% 64%, rgba(255, 255, 255, 0.4), transparent 60%),
+    radial-gradient(1.1px 1.1px at 20% 8%, rgba(255, 255, 255, 0.5), transparent 60%),
+    radial-gradient(ellipse at 50% 6%, #223458 0%, #121b32 48%, #070b16 100%);
+}
+
+.wii-screen.is-dark .wii-night-sky {
+  opacity: 1;
+}
+
 .wii-screen::before,
 .wii-screen::after {
   content: "";
@@ -178,12 +205,24 @@ body {
   stroke-width: 7;
   stroke-linecap: round;
   stroke-linejoin: round;
+  transition: stroke 0.9s ease;
+}
+
+.wii-screen.is-dark .channel-outline path {
+  stroke: rgba(255, 255, 255, 0.32);
 }
 
 .channel.empty {
   background:
     repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.38) 0 2px, rgba(197, 197, 197, 0.2) 2px 5px),
     #f2f2f2;
+  transition: background-color 0.9s ease;
+}
+
+.wii-screen.is-dark .channel.empty {
+  background:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.05) 0 2px, rgba(0, 0, 0, 0.15) 2px 5px),
+    #1b2338;
 }
 
 .channel.empty::before {
@@ -509,6 +548,11 @@ body {
 .tray-fill {
   fill: url("#unused");
   fill: #d7d8dd;
+  transition: fill 0.9s ease;
+}
+
+.wii-screen.is-dark .tray-fill {
+  fill: #171f34;
 }
 
 .tray-line {
@@ -516,6 +560,11 @@ body {
   stroke: #26bfe9;
   stroke-width: 4;
   vector-effect: non-scaling-stroke;
+  transition: stroke 0.9s ease;
+}
+
+.wii-screen.is-dark .tray-line {
+  stroke: #2f8fb0;
 }
 
 .system-tray::after {
@@ -525,6 +574,11 @@ body {
   z-index: -1;
   pointer-events: none;
   background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.13) 0 2px, transparent 2px 5px);
+  transition: opacity 0.9s ease;
+}
+
+.wii-screen.is-dark .system-tray::after {
+  opacity: 0.4;
 }
 
 .clock,
@@ -601,6 +655,13 @@ body {
   opacity: 0.32;
   mix-blend-mode: multiply;
   filter: invert(1);
+  transition: opacity 0.9s ease, filter 0.9s ease;
+}
+
+.wii-screen.is-dark .clock-glyph {
+  opacity: 0.6;
+  mix-blend-mode: screen;
+  filter: brightness(0) invert(1);
 }
 
 .clock-glyph--digit {
@@ -642,6 +703,12 @@ body {
   height: 100%;
   opacity: 0.32;
   filter: brightness(0);
+  transition: opacity 0.9s ease, filter 0.9s ease;
+}
+
+.wii-screen.is-dark .clock-meridiem-image {
+  opacity: 0.6;
+  filter: brightness(0) invert(1);
 }
 
 .date {
@@ -661,6 +728,12 @@ body {
   object-fit: contain;
   opacity: 0.3;
   filter: brightness(0);
+  transition: opacity 0.9s ease, filter 0.9s ease;
+}
+
+.wii-screen.is-dark .date-glyph {
+  opacity: 0.58;
+  filter: brightness(0) invert(1);
 }
 
 .date-space {
