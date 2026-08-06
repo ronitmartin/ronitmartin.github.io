@@ -8,7 +8,7 @@ import { useChannelTransition } from "./hooks/useChannelTransition";
 export function App() {
   const screenRef = useRef(null);
   const stageRef = useRef(null);
-  const { closeChannel, isLoading, isOpen, openChannel, openChannelData } = useChannelTransition({
+  const { closeChannel, isLoading, isOpen, launchMotion, openChannel, openChannelData } = useChannelTransition({
     screenRef,
     stageRef,
   });
@@ -23,7 +23,7 @@ export function App() {
       >
         <ChannelGrid onOpen={openChannel} />
         <SystemTray />
-        <ChannelOpenView channel={openChannelData} onClose={closeChannel} stageRef={stageRef} />
+        <ChannelOpenView channel={openChannelData} launchMotion={launchMotion} onClose={closeChannel} stageRef={stageRef} />
       </main>
     </>
   );
