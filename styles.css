@@ -52,12 +52,6 @@ body {
   background: #000;
 }
 
-.wii-screen.is-channel-open.is-channel-loading {
-  background:
-    repeating-linear-gradient(0deg, rgba(171, 171, 171, 0.1) 0 2px, transparent 2px 5px),
-    radial-gradient(ellipse at 50% 7%, #fff 0%, #f9f9f9 48%, #ececec 100%);
-}
-
 .wii-screen::before,
 .wii-screen::after {
   content: "";
@@ -123,14 +117,17 @@ body {
   height: 63%;
 }
 
+.channel-grid,
+.system-tray {
+  opacity: 1;
+  transition: opacity 0.22s ease-out;
+}
+
 .wii-screen.is-channel-open .channel-grid,
 .wii-screen.is-channel-open .system-tray {
   visibility: hidden;
-}
-
-.wii-screen.is-channel-open.is-channel-loading .channel-grid,
-.wii-screen.is-channel-open.is-channel-loading .system-tray {
-  visibility: visible;
+  opacity: 0;
+  transition: opacity 0.22s ease-out, visibility 0s linear 0.22s;
 }
 
 .channel-frame {
@@ -884,10 +881,6 @@ body {
   visibility: visible;
   opacity: 1;
   pointer-events: auto;
-}
-
-.wii-screen.is-channel-open.is-channel-loading .channel-open-view {
-  background: transparent;
 }
 
 .channel-open-stage {
