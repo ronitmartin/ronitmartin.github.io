@@ -38,8 +38,8 @@ body {
 .wii-screen {
   position: relative;
   container-type: size;
-  width: min(100vw, 177.7778vh);
-  aspect-ratio: 16 / 9;
+  width: 100vw;
+  height: 100vh;
   overflow: hidden;
   background:
     repeating-linear-gradient(0deg, rgba(171, 171, 171, 0.1) 0 2px, transparent 2px 5px),
