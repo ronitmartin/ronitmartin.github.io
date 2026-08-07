@@ -4,6 +4,7 @@ import { ChannelOpenContent } from "./ChannelOpenContent";
 
 export function ChannelOpenView({ channel, launchMotion, onClose, stageRef }) {
   const hasStartUrl = Boolean(channel?.startUrl);
+  const hasOwnTitleTreatment = channel?.openType === "missing-link";
   const shouldReduceMotion = useReducedMotion();
 
   function openStartUrl() {
@@ -25,8 +26,12 @@ export function ChannelOpenView({ channel, launchMotion, onClose, stageRef }) {
         transition={shouldReduceMotion ? undefined : launchMotion?.transition}
       >
         <div className="channel-open-frame" aria-hidden="true">
-          <div className="channel-open-bluebar" />
-          <h1 className="channel-open-title">{channel?.title || "Channel"}</h1>
+          {!hasOwnTitleTreatment && (
+            <>
+              <div className="channel-open-bluebar" />
+              <h1 className="channel-open-title">{channel?.title || "Channel"}</h1>
+            </>
+          )}
           <motion.div
             key={`${channel?.id || "empty"}-content`}
             className={`channel-open-content${channel?.openType ? ` channel-open-content--${channel.openType}` : ""}`}
