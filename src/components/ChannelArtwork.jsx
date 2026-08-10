@@ -3,7 +3,9 @@ export function ChannelArtwork({ channel }) {
     return (
       <div className="channel asset-channel missing-link-channel" aria-label={channel.title}>
         <div className="missing-link-channel-grid" aria-hidden="true" />
-        <img className="missing-link-channel-symbol" src="/assets/missing-link-3d.png" alt="" aria-hidden="true" />
+        <span className="missing-link-channel-symbol" aria-hidden="true">
+          <img className="missing-link-channel-symbol-image" src="/assets/missing-link-3d.png" alt="" />
+        </span>
         <div className="missing-link-channel-copy">
           <span className="missing-link-channel-kicker">Digital-first Design Agency</span>
           <strong>
@@ -38,7 +40,7 @@ export function ChannelArtwork({ channel }) {
   if (channel.type === "shop") {
     return (
       <div className="channel asset-channel shop-channel" aria-label={channel.title}>
-        <img className="shop-bags" src="/assets/channels/shop-bags.png" alt="" aria-hidden="true" />
+        <img className="shop-avatar" src="/assets/channels/shop-avatar.png" alt="" aria-hidden="true" />
         <img className="shop-title" src="/assets/channels/shop-title.png" alt="" aria-hidden="true" />
       </div>
     );

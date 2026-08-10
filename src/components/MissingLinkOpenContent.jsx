@@ -3,7 +3,9 @@ export function MissingLinkOpenContent() {
     <div className="missing-link-title-card">
       <div className="missing-link-title-dots" aria-hidden="true" />
       <div className="missing-link-title-glow" aria-hidden="true" />
-      <img className="missing-link-title-symbol" src="/assets/missing-link-3d.png" alt="" aria-hidden="true" />
+      <span className="missing-link-title-symbol" aria-hidden="true">
+        <img className="missing-link-title-symbol-image" src="/assets/missing-link-3d.png" alt="" />
+      </span>
       <div className="missing-link-title-copy">
         <h2 className="missing-link-title-wordmark">
           <span className="missing-link-title-word missing-link-title-word--missing">Missing</span>
