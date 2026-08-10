@@ -8,7 +8,7 @@ export const channels = [
   },
   { id: "mii", title: "Mii Channel", type: "mii" },
   { id: "photo", title: "Photo Channel", type: "photo" },
-  { id: "shop", title: "Ronotion Shop Channel", type: "shop" },
+  { id: "shop", title: "Ronotion Shop Channel", type: "shop", startUrl: "https://ronotion.gumroad.com" },
   { id: "empty-1", type: "empty" },
   { id: "forecast", title: "Forecast Channel", type: "forecast" },
   { id: "news", title: "News Channel", type: "news" },
