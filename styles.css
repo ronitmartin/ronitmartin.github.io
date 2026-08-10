@@ -419,9 +419,9 @@ body {
 
 .shop-avatar {
   z-index: 1;
-  top: 6%;
-  right: 5%;
-  width: 46%;
+  top: 4%;
+  right: 8%;
+  width: 30%;
   height: auto;
   object-fit: contain;
 }
