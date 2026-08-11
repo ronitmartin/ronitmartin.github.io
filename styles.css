@@ -1279,6 +1279,160 @@ body {
   color: rgba(248, 247, 239, 0.56);
 }
 
+.channel-open-content--github {
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 78%;
+}
+
+.github-title-card {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 78% 18%, rgba(140, 149, 160, 0.24), transparent 30%),
+    radial-gradient(circle at 18% 86%, rgba(56, 165, 255, 0.14), transparent 32%),
+    linear-gradient(160deg, #21262d 0%, #0d1117 62%);
+  color: #f0f6fc;
+  text-align: center;
+}
+
+.github-title-dots {
+  position: absolute;
+  inset: -8%;
+  z-index: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.16) 1.1px, transparent 1.6px);
+  background-size: 3.4cqw 3.4cqw;
+  mask-image: radial-gradient(ellipse at 50% 40%, #000 0%, transparent 72%);
+  opacity: 0.9;
+}
+
+.github-title-glow {
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  top: 40%;
+  width: 62cqw;
+  height: 62cqw;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.18), transparent 62%);
+  filter: blur(1px);
+}
+
+.github-title-mark {
+  position: absolute;
+  z-index: 1;
+  right: 9%;
+  top: 52%;
+  width: clamp(110px, 20cqw, 260px);
+  height: auto;
+  fill: #f0f6fc;
+  opacity: 0.94;
+  transform: translateY(-50%);
+  animation: github-title-mark-float 5.2s ease-in-out infinite;
+  will-change: transform;
+  filter:
+    drop-shadow(0 1.6cqw 1.3cqw rgba(0, 0, 0, 0.6))
+    drop-shadow(0 0 2.4cqw rgba(240, 246, 252, 0.14));
+}
+
+@keyframes github-title-mark-float {
+  0%,
+  100% {
+    transform: translateY(-50%) translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translateY(-50%) translate3d(0, -2.4%, 0);
+  }
+}
+
+.github-title-copy {
+  position: relative;
+  z-index: 2;
+  min-width: 0;
+  max-width: 72%;
+}
+
+.github-title-wordmark {
+  display: flex;
+  justify-content: center;
+  gap: 0.02em;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 800;
+  font-size: clamp(30px, 6.4cqw, 118px);
+  line-height: 0.86;
+  color: #f0f6fc;
+  text-shadow:
+    0 0.26cqw 0.26cqw rgba(0, 0, 0, 0.78),
+    0 0 1.6cqw rgba(56, 165, 255, 0.32);
+}
+
+.github-title-wordmark em {
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-weight: 700;
+  color: #38a5ff;
+}
+
+.github-title-word {
+  display: inline-block;
+  opacity: 0;
+  animation: github-title-word-in 760ms cubic-bezier(.2,.72,.18,1) both;
+}
+
+.github-title-word--git {
+  animation-delay: 620ms;
+}
+
+.github-title-word--hub {
+  animation-delay: 780ms;
+}
+
+@keyframes github-title-word-in {
+  0% {
+    opacity: 0;
+    filter: blur(3px);
+    transform: translateX(-16%);
+  }
+
+  72% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateX(0);
+  }
+}
+
+.github-title-tagline {
+  max-width: 34ch;
+  margin: clamp(6px, 1.4cqw, 18px) auto 0;
+  font-size: clamp(9px, 1.1cqw, 19px);
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  color: rgba(240, 246, 252, 0.7);
+}
+
+.github-title-kicker {
+  position: absolute;
+  z-index: 2;
+  left: 4%;
+  bottom: 4%;
+  font-size: clamp(8px, 0.85cqw, 15px);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(240, 246, 252, 0.56);
+}
+
 .channel-open-content .channel-frame {
   position: absolute;
   left: 50%;
