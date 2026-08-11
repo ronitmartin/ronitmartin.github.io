@@ -1458,26 +1458,19 @@ body {
   bottom: 5.2%;
   width: 29%;
   height: 13.5%;
-  opacity: 0.9;
   display: grid;
   place-items: center;
   padding: 0;
-  border: clamp(2px, 0.22cqw, 4px) solid #34beed;
+  border: 0;
   border-radius: 999px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.2) 34%, transparent 35%),
-    #e3e8ef;
-  box-shadow:
-    0 0 0.26cqw #34beed,
-    inset 0.52cqw 0.47cqw 3.1cqw #fff,
-    inset 0 -0.52cqw 0.99cqw 0.83cqw #b1bcca;
+  background: none;
   cursor: url("/assets/wiicursor-40-upright.png") 14 2, url("/assets/wiicursor.cur"), pointer;
 }
 
-.channel-button-label {
-  width: 62%;
-  height: auto;
-  max-height: 68%;
+.channel-button-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
   display: block;
   pointer-events: none;
 }
@@ -1495,13 +1488,10 @@ body {
 .channel-start-button:hover,
 .channel-start-button:focus-visible {
   filter: brightness(1.04);
-  box-shadow:
-    0 0 1.1cqw rgba(52, 190, 237, 0.5),
-    inset 0.52cqw 0.47cqw 3.1cqw #fff,
-    inset 0 -0.52cqw 0.99cqw 0.83cqw #b1bcca;
 }
 
-.channel-menu-button:focus-visible {
+.channel-menu-button:focus-visible,
+.channel-start-button:focus-visible {
   outline: clamp(2px, 0.22cqw, 4px) solid #fff;
   outline-offset: clamp(3px, 0.36cqw, 7px);
 }
