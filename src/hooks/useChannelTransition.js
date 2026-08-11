@@ -83,14 +83,12 @@ export function useChannelTransition({ screenRef, stageRef }) {
       setLaunchMotion(reducedMotion ? null : {
         initial: {
           opacity: 0.98,
-          filter: "brightness(1.2)",
           x: startX,
           y: startY,
           scale: startScale,
         },
         animate: {
           opacity: [0.98, 1, 1],
-          filter: ["brightness(1.2)", "brightness(1.06)", "brightness(1)"],
           x: [startX, 0, 0],
           y: [startY, 0, 0],
           scale: [startScale, 0.985, 1],
@@ -158,16 +156,14 @@ export function useChannelTransition({ screenRef, stageRef }) {
 
     const returnAnimation = stageClone.animate(
       [
-        { opacity: 1, filter: "brightness(1)", transform: "translate3d(0, 0, 0) scale(1)" },
+        { opacity: 1, transform: "translate3d(0, 0, 0) scale(1)" },
         {
           opacity: 0.96,
-          filter: "brightness(0.88)",
           offset: 0.72,
           transform: `translate3d(${deltaX * 0.86}px, ${deltaY * 0.86}px, 0) scale(${endScale * 1.3})`,
         },
         {
           opacity: 0,
-          filter: "brightness(0.78)",
           transform: `translate3d(${deltaX}px, ${deltaY}px, 0) scale(${endScale})`,
         },
       ],

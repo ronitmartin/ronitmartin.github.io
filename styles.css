@@ -1168,6 +1168,12 @@ body {
     drop-shadow(0 0 2.4cqw rgba(183, 255, 25, 0.22));
 }
 
+.wii-screen.is-channel-loading .missing-link-title-dots,
+.wii-screen.is-channel-loading .missing-link-title-glow,
+.wii-screen.is-channel-loading .missing-link-title-symbol {
+  visibility: hidden;
+}
+
 .missing-link-title-copy {
   position: relative;
   z-index: 2;
@@ -1341,6 +1347,12 @@ body {
     drop-shadow(0 0 2.4cqw rgba(240, 246, 252, 0.14));
 }
 
+.wii-screen.is-channel-loading .github-title-dots,
+.wii-screen.is-channel-loading .github-title-glow,
+.wii-screen.is-channel-loading .github-title-mark {
+  visibility: hidden;
+}
+
 @keyframes github-title-mark-float {
   0%,
   100% {
@@ -1464,7 +1476,15 @@ body {
   border: 0;
   border-radius: 999px;
   background: none;
+  opacity: 1;
+  transition: opacity 0.22s ease-out;
   cursor: url("/assets/wiicursor-40-upright.png") 14 2, url("/assets/wiicursor.cur"), pointer;
+}
+
+.wii-screen.is-channel-loading .channel-menu-button,
+.wii-screen.is-channel-loading .channel-start-button {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .channel-button-svg {
@@ -1508,7 +1528,14 @@ body {
   border: 0;
   background: transparent;
   transform: translateY(-50%);
+  opacity: 1;
+  transition: opacity 0.22s ease-out;
   cursor: url("/assets/wiicursor-40-upright.png") 14 2, url("/assets/wiicursor.cur"), pointer;
+}
+
+.wii-screen.is-channel-loading .channel-nav-arrow {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .channel-nav-arrow img {

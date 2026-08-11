@@ -29,11 +29,9 @@ export const channelOpenStageTransition = {
 export const channelOpenContentMotion = {
   initial: {
     opacity: 0.22,
-    filter: "brightness(1.22)",
   },
   animate: {
     opacity: [0.22, 0.82, 1],
-    filter: ["brightness(1.22)", "brightness(1.08)", "brightness(1)"],
   },
   transition: {
     duration: 0.92,
