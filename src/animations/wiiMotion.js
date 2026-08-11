@@ -15,8 +15,8 @@ export const channelButtonMotion = {
 
 export const channelLaunchTiming = {
   dimDuration: 360,
-  previewDelay: 360,
-  previewDuration: 1420,
+  previewDelay: 80,
+  previewDuration: 620,
   easing: "cubic-bezier(.08,.54,.12,1)",
 };
 
