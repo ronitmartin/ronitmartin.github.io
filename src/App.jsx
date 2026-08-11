@@ -9,7 +9,7 @@ import { useDayNightTheme } from "./hooks/useDayNightTheme";
 export function App() {
   const screenRef = useRef(null);
   const stageRef = useRef(null);
-  const { closeChannel, isLoading, isOpen, launchKey, launchMotion, navigateChannel, openChannel, openChannelData } = useChannelTransition({
+  const { closeChannel, isLoading, isOpen, launchKey, launchStyle, navigateChannel, openChannel, openChannelData } = useChannelTransition({
     screenRef,
     stageRef,
   });
@@ -29,7 +29,7 @@ export function App() {
         <ChannelOpenView
           channel={openChannelData}
           launchKey={launchKey}
-          launchMotion={launchMotion}
+          launchStyle={launchStyle}
           onClose={closeChannel}
           onNavigate={navigateChannel}
           stageRef={stageRef}

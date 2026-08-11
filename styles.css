@@ -1017,6 +1017,31 @@ body {
   width: 95.5%;
   height: 95%;
   transform-origin: center center;
+  will-change: transform;
+  animation: channel-stage-zoom-in 1.42s cubic-bezier(.08, .54, .12, 1) both;
+}
+
+@keyframes channel-stage-zoom-in {
+  0% {
+    opacity: 0.98;
+    transform: translate3d(var(--launch-start-x, 0), var(--launch-start-y, 0), 0) scale(var(--launch-start-scale, 1));
+  }
+
+  72% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(0.985);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .channel-open-stage {
+    animation: none;
+  }
 }
 
 .channel-open-frame {
@@ -1098,6 +1123,27 @@ body {
   top: 19%;
   width: 84%;
   height: 40%;
+  animation: channel-open-content-fade-in 0.92s ease-out both;
+}
+
+@keyframes channel-open-content-fade-in {
+  0% {
+    opacity: 0.22;
+  }
+
+  34% {
+    opacity: 0.82;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .channel-open-content {
+    animation: none;
+  }
 }
 
 .channel-open-content--missing-link {
@@ -1168,11 +1214,6 @@ body {
     drop-shadow(0 0 2.4cqw rgba(183, 255, 25, 0.22));
 }
 
-.wii-screen.is-channel-loading .missing-link-title-dots,
-.wii-screen.is-channel-loading .missing-link-title-glow,
-.wii-screen.is-channel-loading .missing-link-title-symbol {
-  visibility: hidden;
-}
 
 .missing-link-title-copy {
   position: relative;
@@ -1347,11 +1388,6 @@ body {
     drop-shadow(0 0 2.4cqw rgba(240, 246, 252, 0.14));
 }
 
-.wii-screen.is-channel-loading .github-title-dots,
-.wii-screen.is-channel-loading .github-title-glow,
-.wii-screen.is-channel-loading .github-title-mark {
-  visibility: hidden;
-}
 
 @keyframes github-title-mark-float {
   0%,
@@ -1476,15 +1512,7 @@ body {
   border: 0;
   border-radius: 999px;
   background: none;
-  opacity: 1;
-  transition: opacity 0.22s ease-out;
   cursor: url("/assets/wiicursor-40-upright.png") 14 2, url("/assets/wiicursor.cur"), pointer;
-}
-
-.wii-screen.is-channel-loading .channel-menu-button,
-.wii-screen.is-channel-loading .channel-start-button {
-  opacity: 0;
-  pointer-events: none;
 }
 
 .channel-button-svg {
@@ -1528,14 +1556,7 @@ body {
   border: 0;
   background: transparent;
   transform: translateY(-50%);
-  opacity: 1;
-  transition: opacity 0.22s ease-out;
   cursor: url("/assets/wiicursor-40-upright.png") 14 2, url("/assets/wiicursor.cur"), pointer;
-}
-
-.wii-screen.is-channel-loading .channel-nav-arrow {
-  opacity: 0;
-  pointer-events: none;
 }
 
 .channel-nav-arrow img {

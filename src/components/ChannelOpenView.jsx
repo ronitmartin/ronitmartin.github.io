@@ -1,12 +1,9 @@
-import { motion, useReducedMotion } from "framer-motion";
-import { channelOpenContentMotion } from "../animations/wiiMotion";
 import { ChannelOpenContent } from "./ChannelOpenContent";
 
 const OWN_TITLE_TREATMENT_TYPES = new Set(["missing-link", "github"]);
 
-export function ChannelOpenView({ channel, launchKey, launchMotion, onClose, onNavigate, stageRef }) {
+export function ChannelOpenView({ channel, launchKey, launchStyle, onClose, onNavigate, stageRef }) {
   const hasOwnTitleTreatment = OWN_TITLE_TREATMENT_TYPES.has(channel?.openType);
-  const shouldReduceMotion = useReducedMotion();
 
   function openStartUrl() {
     if (!channel?.startUrl) {
@@ -18,14 +15,7 @@ export function ChannelOpenView({ channel, launchKey, launchMotion, onClose, onN
 
   return (
     <section className="channel-open-view" aria-hidden={channel ? "false" : "true"}>
-      <motion.div
-        key={launchKey}
-        className="channel-open-stage"
-        ref={stageRef}
-        initial={shouldReduceMotion ? false : launchMotion?.initial}
-        animate={shouldReduceMotion ? undefined : launchMotion?.animate}
-        transition={shouldReduceMotion ? undefined : launchMotion?.transition}
-      >
+      <div key={launchKey} className="channel-open-stage" ref={stageRef} style={launchStyle}>
         <div className="channel-open-frame" aria-hidden="true">
           {!hasOwnTitleTreatment && (
             <>
@@ -33,15 +23,12 @@ export function ChannelOpenView({ channel, launchKey, launchMotion, onClose, onN
               <h1 className="channel-open-title">{channel?.title || "Channel"}</h1>
             </>
           )}
-          <motion.div
+          <div
             key={`${channel?.id || "empty"}-content`}
             className={`channel-open-content${channel?.openType ? ` channel-open-content--${channel.openType}` : ""}`}
-            initial={shouldReduceMotion ? false : channelOpenContentMotion.initial}
-            animate={shouldReduceMotion ? undefined : channelOpenContentMotion.animate}
-            transition={shouldReduceMotion ? undefined : channelOpenContentMotion.transition}
           >
             <ChannelOpenContent channel={channel} />
-          </motion.div>
+          </div>
         </div>
 
         <button className="channel-menu-button" type="button" onClick={onClose} aria-label="Wii Menu">
@@ -145,7 +132,7 @@ export function ChannelOpenView({ channel, launchKey, launchMotion, onClose, onN
         >
           <img src="/assets/wii-page-arrow.png" alt="" aria-hidden="true" />
         </button>
-      </motion.div>
+      </div>
     </section>
   );
 }

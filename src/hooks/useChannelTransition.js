@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { channelLaunchTiming, channelOpenStageTransition, channelReturnTiming } from "../animations/wiiMotion";
+import { channelLaunchTiming, channelReturnTiming } from "../animations/wiiMotion";
 import { channels } from "../data/channels";
 
 const navigableChannels = channels.filter((channel) => channel.type !== "empty");
@@ -14,7 +14,7 @@ export function useChannelTransition({ screenRef, stageRef }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [launchMotion, setLaunchMotion] = useState(null);
+  const [launchStyle, setLaunchStyle] = useState(null);
   const [launchKey, setLaunchKey] = useState(0);
 
   const openChannel = useCallback((channel, frame) => {
@@ -80,20 +80,10 @@ export function useChannelTransition({ screenRef, stageRef }) {
       const startX = frameCenterX - screenRect.width / 2;
       const startY = frameCenterY - screenRect.height / 2;
 
-      setLaunchMotion(reducedMotion ? null : {
-        initial: {
-          opacity: 0.98,
-          x: startX,
-          y: startY,
-          scale: startScale,
-        },
-        animate: {
-          opacity: [0.98, 1, 1],
-          x: [startX, 0, 0],
-          y: [startY, 0, 0],
-          scale: [startScale, 0.985, 1],
-        },
-        transition: channelOpenStageTransition,
+      setLaunchStyle(reducedMotion ? null : {
+        "--launch-start-x": `${startX}px`,
+        "--launch-start-y": `${startY}px`,
+        "--launch-start-scale": startScale,
       });
       setLaunchKey((key) => key + 1);
       setIsOpen(true);
@@ -145,7 +135,7 @@ export function useChannelTransition({ screenRef, stageRef }) {
     setIsOpen(false);
     setIsLoading(false);
     setOpenChannelData(null);
-    setLaunchMotion(null);
+    setLaunchStyle(null);
 
     const duration = reducedMotion ? 1 : channelReturnTiming.duration;
     backdrop.animate([{ opacity: 0.72 }, { opacity: 0 }], {
@@ -218,9 +208,9 @@ export function useChannelTransition({ screenRef, stageRef }) {
     isLoading,
     isOpen,
     launchKey,
+    launchStyle,
     navigateChannel,
     openChannel,
     openChannelData,
-    launchMotion,
   };
 }
