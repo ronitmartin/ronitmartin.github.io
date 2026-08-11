@@ -15,7 +15,7 @@ export function SystemTray() {
 
       <div className="round-control wii-button" aria-label="Ron options">
         <img className="wii-button-surface" src="/assets/wii-button-surface.png" alt="" aria-hidden="true" />
-        <span className="wii-button-logo" aria-hidden="true">Ron</span>
+        <img className="wii-button-logo" src="/assets/ron-button-logo.png" alt="" aria-hidden="true" />
       </div>
 
       <div className="sd-card" aria-label="SD card">

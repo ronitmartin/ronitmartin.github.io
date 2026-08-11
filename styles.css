@@ -823,16 +823,12 @@ body {
   position: absolute;
   z-index: 2;
   left: 50%;
-  top: 50%;
-  transform: translate(-50.7%, -48.5%);
+  top: 51.5%;
+  width: 62%;
+  height: auto;
   margin: 0;
-  font-family: "Futura", "Avenir Next", "Century Gothic", sans-serif;
-  font-weight: 700;
-  font-size: 3.3cqw;
-  line-height: 1;
-  letter-spacing: 0.01em;
-  color: #9a9a9a;
-  text-shadow: none;
+  transform: translate(-50.7%, -50%);
+  object-fit: contain;
   pointer-events: none;
 }
 
