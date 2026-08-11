@@ -1305,21 +1305,27 @@ body {
   width: 29%;
   height: 13.5%;
   opacity: 0.9;
+  display: grid;
+  place-items: center;
+  padding: 0;
   border: clamp(2px, 0.22cqw, 4px) solid #34beed;
   border-radius: 999px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.2) 34%, transparent 35%),
     #e3e8ef;
-  color: #383e3f;
-  font-family: "Trebuchet MS", "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: clamp(28px, 4cqw, 78px);
-  font-weight: 600;
-  line-height: 1;
   box-shadow:
     0 0 0.26cqw #34beed,
     inset 0.52cqw 0.47cqw 3.1cqw #fff,
     inset 0 -0.52cqw 0.99cqw 0.83cqw #b1bcca;
   cursor: url("/assets/wiicursor-40-upright.png") 14 2, url("/assets/wiicursor.cur"), pointer;
+}
+
+.channel-button-label {
+  width: 62%;
+  height: auto;
+  max-height: 68%;
+  display: block;
+  pointer-events: none;
 }
 
 .channel-menu-button {
@@ -1328,28 +1334,12 @@ body {
 
 .channel-start-button {
   right: 17.5%;
-  color: #303030;
 }
 
-.channel-start-button:disabled {
-  border-color: rgba(165, 165, 165, 0.32);
-  color: rgba(90, 90, 90, 0.17);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.15) 34%, transparent 35%),
-    linear-gradient(180deg, #eeeeee, #d8d8d8);
-  cursor: url("/assets/wiicursor-40-mid-angle.png") 5 7, url("/assets/wiicursor.cur"), auto;
-}
-
-.channel-start-button:not(:disabled) {
-  border-color: #34beed;
-  color: #303030;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.2) 34%, transparent 35%),
-    #e3e8ef;
-}
-
-.channel-start-button:not(:disabled):hover,
-.channel-start-button:not(:disabled):focus-visible {
+.channel-menu-button:hover,
+.channel-menu-button:focus-visible,
+.channel-start-button:hover,
+.channel-start-button:focus-visible {
   filter: brightness(1.04);
   box-shadow:
     0 0 1.1cqw rgba(52, 190, 237, 0.5),
