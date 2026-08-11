@@ -3,7 +3,6 @@ import { channelOpenContentMotion } from "../animations/wiiMotion";
 import { ChannelOpenContent } from "./ChannelOpenContent";
 
 export function ChannelOpenView({ channel, launchKey, launchMotion, onClose, onNavigate, stageRef }) {
-  const hasStartUrl = Boolean(channel?.startUrl);
   const hasOwnTitleTreatment = channel?.openType === "missing-link";
   const shouldReduceMotion = useReducedMotion();
 
@@ -46,7 +45,7 @@ export function ChannelOpenView({ channel, launchKey, launchMotion, onClose, onN
         <button className="channel-menu-button" type="button" onClick={onClose}>
           Wii Menu
         </button>
-        <button className="channel-start-button" type="button" disabled={!hasStartUrl} onClick={openStartUrl}>
+        <button className="channel-start-button" type="button" onClick={openStartUrl}>
           Start
         </button>
 
