@@ -806,8 +806,7 @@ body {
   content: none;
 }
 
-.wii-button .wii-button-surface,
-.wii-button .wii-button-logo {
+.wii-button .wii-button-surface {
   position: absolute;
   inset: -5%;
   width: 110%;
@@ -815,19 +814,28 @@ body {
   margin: 0;
   border-radius: 50%;
   object-fit: cover;
-}
-
-.wii-button .wii-button-surface {
   z-index: 1;
   opacity: 0.76;
   filter: blur(clamp(0.35px, 0.035cqw, 0.65px));
 }
 
 .wii-button .wii-button-logo {
+  position: absolute;
   z-index: 2;
-  opacity: 0.82;
-  transform: translate(-0.7%, 1.5%);
-  filter: blur(clamp(0.35px, 0.04cqw, 0.75px));
+  left: 50%;
+  top: 50%;
+  transform: translate(-50.7%, -48.5%);
+  margin: 0;
+  font-family: "Futura", "Avenir Next", "Century Gothic", sans-serif;
+  font-weight: 700;
+  font-size: 3.3cqw;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  color: #9a9a9a;
+  text-shadow:
+    0 0.12cqw 0 rgba(255, 255, 255, 0.65),
+    0 -0.08cqw 0.15cqw rgba(110, 110, 110, 0.35);
+  pointer-events: none;
 }
 
 .message-button {
