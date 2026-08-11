@@ -1,3 +1,11 @@
+@font-face {
+  font-family: "FOT-RodinBokutoh Pro EB";
+  src: url("/assets/fonts/FOT-RodinBokutoh-Pro-EB.otf") format("opentype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   color-scheme: light;
   font-family: "Trebuchet MS", "Arial Narrow", Arial, sans-serif;
@@ -1264,7 +1272,7 @@ body {
     linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.2) 34%, transparent 35%),
     #e3e8ef;
   color: #383e3f;
-  font-family: "Trebuchet MS", "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "FOT-RodinBokutoh Pro EB", "Trebuchet MS", "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: clamp(28px, 4cqw, 78px);
   font-weight: 600;
   line-height: 1;
