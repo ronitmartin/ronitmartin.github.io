@@ -823,11 +823,11 @@ body {
   position: absolute;
   z-index: 2;
   left: 50%;
-  top: 51.5%;
-  width: 62%;
+  top: 50%;
+  width: 42%;
   height: auto;
   margin: 0;
-  transform: translate(-50.7%, -50%);
+  transform: translate(-50%, -50%);
   object-fit: contain;
   pointer-events: none;
 }
