@@ -1309,6 +1309,62 @@ body {
   outline-offset: clamp(3px, 0.36cqw, 7px);
 }
 
+.channel-nav-arrow {
+  position: absolute;
+  z-index: 3;
+  top: 46%;
+  width: 6.4%;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  transform: translateY(-50%);
+  cursor: url("/assets/wiicursor-40-upright.png") 14 2, url("/assets/wiicursor.cur"), pointer;
+}
+
+.channel-nav-arrow img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0.15cqw 0.3cqw rgba(0, 0, 0, 0.25));
+}
+
+.channel-nav-arrow--prev {
+  left: 2%;
+}
+
+.channel-nav-arrow--prev img {
+  transform: scaleX(-1);
+}
+
+.channel-nav-arrow--next {
+  right: 2%;
+}
+
+.channel-nav-arrow:hover img,
+.channel-nav-arrow:focus-visible img {
+  filter:
+    drop-shadow(0 0.15cqw 0.3cqw rgba(0, 0, 0, 0.25))
+    brightness(1.08);
+}
+
+.channel-nav-arrow:active img {
+  transform: scale(0.92);
+}
+
+.channel-nav-arrow--prev:active img {
+  transform: scale(0.92) scaleX(-1);
+}
+
+.channel-nav-arrow:focus-visible {
+  outline: clamp(2px, 0.22cqw, 4px) solid #38c6ec;
+  outline-offset: clamp(2px, 0.22cqw, 4px);
+  border-radius: 999px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .channel-open-view {
     transition: none;

@@ -2,7 +2,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { channelOpenContentMotion } from "../animations/wiiMotion";
 import { ChannelOpenContent } from "./ChannelOpenContent";
 
-export function ChannelOpenView({ channel, launchMotion, onClose, stageRef }) {
+export function ChannelOpenView({ channel, launchKey, launchMotion, onClose, onNavigate, stageRef }) {
   const hasStartUrl = Boolean(channel?.startUrl);
   const hasOwnTitleTreatment = channel?.openType === "missing-link";
   const shouldReduceMotion = useReducedMotion();
@@ -18,7 +18,7 @@ export function ChannelOpenView({ channel, launchMotion, onClose, stageRef }) {
   return (
     <section className="channel-open-view" aria-hidden={channel ? "false" : "true"}>
       <motion.div
-        key={channel?.id || "closed-channel"}
+        key={launchKey}
         className="channel-open-stage"
         ref={stageRef}
         initial={shouldReduceMotion ? false : launchMotion?.initial}
@@ -48,6 +48,23 @@ export function ChannelOpenView({ channel, launchMotion, onClose, stageRef }) {
         </button>
         <button className="channel-start-button" type="button" disabled={!hasStartUrl} onClick={openStartUrl}>
           Start
+        </button>
+
+        <button
+          className="channel-nav-arrow channel-nav-arrow--prev"
+          type="button"
+          aria-label="Previous channel"
+          onClick={() => onNavigate?.(-1)}
+        >
+          <img src="/assets/wii-page-arrow.png" alt="" aria-hidden="true" />
+        </button>
+        <button
+          className="channel-nav-arrow channel-nav-arrow--next"
+          type="button"
+          aria-label="Next channel"
+          onClick={() => onNavigate?.(1)}
+        >
+          <img src="/assets/wii-page-arrow.png" alt="" aria-hidden="true" />
         </button>
       </motion.div>
     </section>
