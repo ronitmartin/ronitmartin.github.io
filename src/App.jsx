@@ -9,11 +9,11 @@ import { useDayNightTheme } from "./hooks/useDayNightTheme";
 export function App() {
   const screenRef = useRef(null);
   const stageRef = useRef(null);
-  const { closeChannel, isLoading, isOpen, launchMotion, openChannel, openChannelData } = useChannelTransition({
+  const { closeChannel, isLoading, isOpen, launchKey, launchStyle, navigateChannel, openChannel, openChannelData } = useChannelTransition({
     screenRef,
     stageRef,
   });
-  const isDark = useDayNightTheme();
+  const { isDark, toggleTheme } = useDayNightTheme();
 
   return (
     <>
@@ -25,8 +25,15 @@ export function App() {
       >
         <div className="wii-night-sky" aria-hidden="true" />
         <ChannelGrid onOpen={openChannel} />
-        <SystemTray />
-        <ChannelOpenView channel={openChannelData} launchMotion={launchMotion} onClose={closeChannel} stageRef={stageRef} />
+        <SystemTray isDark={isDark} onToggleTheme={toggleTheme} />
+        <ChannelOpenView
+          channel={openChannelData}
+          launchKey={launchKey}
+          launchStyle={launchStyle}
+          onClose={closeChannel}
+          onNavigate={navigateChannel}
+          stageRef={stageRef}
+        />
       </main>
     </>
   );

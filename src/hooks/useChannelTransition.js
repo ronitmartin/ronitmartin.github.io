@@ -1,5 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { channelLaunchTiming, channelOpenStageTransition, channelReturnTiming } from "../animations/wiiMotion";
+import { channelLaunchTiming, channelReturnTiming } from "../animations/wiiMotion";
+import { channels } from "../data/channels";
+
+const navigableChannels = channels.filter((channel) => channel.type !== "empty");
 
 function prefersReducedMotion() {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -11,7 +14,8 @@ export function useChannelTransition({ screenRef, stageRef }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [launchMotion, setLaunchMotion] = useState(null);
+  const [launchStyle, setLaunchStyle] = useState(null);
+  const [launchKey, setLaunchKey] = useState(0);
 
   const openChannel = useCallback((channel, frame) => {
     const wiiScreen = screenRef.current;
@@ -76,23 +80,12 @@ export function useChannelTransition({ screenRef, stageRef }) {
       const startX = frameCenterX - screenRect.width / 2;
       const startY = frameCenterY - screenRect.height / 2;
 
-      setLaunchMotion(reducedMotion ? null : {
-        initial: {
-          opacity: 0.98,
-          filter: "brightness(1.2)",
-          x: startX,
-          y: startY,
-          scale: startScale,
-        },
-        animate: {
-          opacity: [0.98, 1, 1],
-          filter: ["brightness(1.2)", "brightness(1.06)", "brightness(1)"],
-          x: [startX, 0, 0],
-          y: [startY, 0, 0],
-          scale: [startScale, 0.985, 1],
-        },
-        transition: channelOpenStageTransition,
+      setLaunchStyle(reducedMotion ? null : {
+        "--launch-start-x": `${startX}px`,
+        "--launch-start-y": `${startY}px`,
+        "--launch-start-scale": startScale,
       });
+      setLaunchKey((key) => key + 1);
       setIsOpen(true);
       setIsLoading(true);
 
@@ -142,7 +135,7 @@ export function useChannelTransition({ screenRef, stageRef }) {
     setIsOpen(false);
     setIsLoading(false);
     setOpenChannelData(null);
-    setLaunchMotion(null);
+    setLaunchStyle(null);
 
     const duration = reducedMotion ? 1 : channelReturnTiming.duration;
     backdrop.animate([{ opacity: 0.72 }, { opacity: 0 }], {
@@ -153,16 +146,14 @@ export function useChannelTransition({ screenRef, stageRef }) {
 
     const returnAnimation = stageClone.animate(
       [
-        { opacity: 1, filter: "brightness(1)", transform: "translate3d(0, 0, 0) scale(1)" },
+        { opacity: 1, transform: "translate3d(0, 0, 0) scale(1)" },
         {
           opacity: 0.96,
-          filter: "brightness(0.88)",
           offset: 0.72,
           transform: `translate3d(${deltaX * 0.86}px, ${deltaY * 0.86}px, 0) scale(${endScale * 1.3})`,
         },
         {
           opacity: 0,
-          filter: "brightness(0.78)",
           transform: `translate3d(${deltaX}px, ${deltaY}px, 0) scale(${endScale})`,
         },
       ],
@@ -179,6 +170,28 @@ export function useChannelTransition({ screenRef, stageRef }) {
       });
   }, [isOpen, isTransitioning, screenRef, stageRef]);
 
+  const navigateChannel = useCallback((direction) => {
+    const wiiScreen = screenRef.current;
+    if (!wiiScreen || isTransitioning || !isOpen || !openChannelData) {
+      return;
+    }
+
+    const currentIndex = navigableChannels.findIndex((channel) => channel.id === openChannelData.id);
+    if (currentIndex === -1) {
+      return;
+    }
+
+    const nextIndex = (currentIndex + direction + navigableChannels.length) % navigableChannels.length;
+    const nextChannel = navigableChannels[nextIndex];
+    const nextFrame = wiiScreen.querySelector(`[data-channel-id="${nextChannel.id}"]`);
+
+    if (nextFrame) {
+      currentOpenFrame.current = nextFrame;
+    }
+
+    setOpenChannelData(nextChannel);
+  }, [isOpen, isTransitioning, openChannelData, screenRef]);
+
   useEffect(() => {
     function handleKeyDown(event) {
       if (event.key === "Escape") {
@@ -194,8 +207,10 @@ export function useChannelTransition({ screenRef, stageRef }) {
     closeChannel,
     isLoading,
     isOpen,
+    launchKey,
+    launchStyle,
+    navigateChannel,
     openChannel,
     openChannelData,
-    launchMotion,
   };
 }

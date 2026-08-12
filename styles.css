@@ -1,3 +1,11 @@
+@font-face {
+  font-family: "FOT-RodinBokutoh Pro EB";
+  src: url("/assets/fonts/FOT-RodinBokutoh-Pro-EB.otf") format("opentype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   color-scheme: light;
   font-family: "Trebuchet MS", "Arial Narrow", Arial, sans-serif;
@@ -142,12 +150,12 @@ body {
   gap: 1.5% 0.8cqw;
   width: 111%;
   height: 63%;
+  transition: opacity 0.22s ease-out;
 }
 
 .channel-grid,
 .system-tray {
   opacity: 1;
-  transition: opacity 0.22s ease-out;
 }
 
 .wii-screen.is-channel-open .channel-grid,
@@ -228,10 +236,60 @@ body {
 .channel.empty::before {
   content: "";
   position: absolute;
+  z-index: 2;
   inset: 0;
   background: url("/assets/wii-empty-channel.png") center / 100% 100% no-repeat;
   opacity: 0.1;
   mix-blend-mode: multiply;
+}
+
+.empty-channel-static {
+  position: absolute;
+  z-index: 1;
+  inset: -1px;
+  display: block;
+  opacity: 0.42;
+  mix-blend-mode: multiply;
+}
+
+.empty-channel-static-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  image-rendering: pixelated;
+  animation: empty-channel-static-cycle 360ms steps(1, end) infinite;
+}
+
+.empty-channel-static-frame--2 {
+  animation-delay: 90ms;
+}
+
+.empty-channel-static-frame--3 {
+  animation-delay: 180ms;
+}
+
+.empty-channel-static-frame--4 {
+  animation-delay: 270ms;
+}
+
+.wii-screen.is-dark .empty-channel-static {
+  opacity: 0.2;
+  mix-blend-mode: screen;
+}
+
+@keyframes empty-channel-static-cycle {
+  0%,
+  24.9% {
+    opacity: 1;
+  }
+
+  25%,
+  100% {
+    opacity: 0;
+  }
 }
 
 .asset-channel > img,
@@ -243,12 +301,8 @@ body {
 
 .missing-link-channel {
   isolation: isolate;
-  background:
-    linear-gradient(120deg, rgba(59, 164, 255, 0.72), transparent 28%),
-    radial-gradient(circle at 82% 24%, rgba(194, 255, 80, 0.28), transparent 22%),
-    radial-gradient(circle at 16% 92%, rgba(56, 165, 255, 0.32), transparent 25%),
-    linear-gradient(135deg, #07080c 0%, #101827 52%, #050506 100%);
-  color: #f8f7ef;
+  background: #ffffff;
+  color: #1a1a1a;
 }
 
 .missing-link-channel::before,
@@ -262,18 +316,15 @@ body {
 
 .missing-link-channel::before {
   background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px),
-    linear-gradient(0deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+    linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.045) 1px, transparent 1px);
   background-size: 8% 16%;
   mask-image: radial-gradient(ellipse at 68% 44%, #000 0%, transparent 72%);
 }
 
 .missing-link-channel::after {
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 18%),
-    linear-gradient(0deg, rgba(0, 0, 0, 0.44), transparent 42%);
-  mix-blend-mode: screen;
-  opacity: 0.48;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.05), transparent 22%);
+  opacity: 0.6;
 }
 
 .missing-link-channel-grid {
@@ -281,8 +332,8 @@ body {
   inset: 0;
   z-index: 0;
   background:
-    repeating-linear-gradient(115deg, transparent 0 9%, rgba(94, 207, 255, 0.18) 9.5% 10%, transparent 10.5% 17%),
-    repeating-linear-gradient(25deg, transparent 0 12%, rgba(205, 255, 64, 0.12) 12.5% 13%, transparent 13.5% 22%);
+    repeating-linear-gradient(115deg, transparent 0 9%, rgba(56, 165, 255, 0.14) 9.5% 10%, transparent 10.5% 17%),
+    repeating-linear-gradient(25deg, transparent 0 12%, rgba(107, 155, 0, 0.12) 12.5% 13%, transparent 13.5% 22%);
   opacity: 0.72;
 }
 
@@ -293,13 +344,20 @@ body {
   top: 49%;
   width: 50%;
   height: auto;
-  object-fit: contain;
   opacity: 0.96;
   transform: translateY(-50%) rotate(-9deg);
+}
+
+.missing-link-channel-symbol-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  animation: missing-link-symbol-float 4.8s ease-in-out infinite;
+  will-change: transform;
   filter:
-    drop-shadow(0 1.1cqw 0.8cqw rgba(0, 0, 0, 0.58))
-    drop-shadow(0 0 1.4cqw rgba(183, 255, 25, 0.18));
-  mix-blend-mode: screen;
+    drop-shadow(0 1.1cqw 0.8cqw rgba(0, 0, 0, 0.28))
+    drop-shadow(0 0 1.4cqw rgba(183, 255, 25, 0.14));
 }
 
 .missing-link-channel-copy {
@@ -315,7 +373,7 @@ body {
 }
 
 .missing-link-channel-kicker {
-  color: rgba(248, 247, 239, 0.68);
+  color: rgba(26, 26, 26, 0.62);
   font-family: Arial, Helvetica, sans-serif;
   font-size: clamp(6px, 0.56cqw, 10px);
   line-height: 1;
@@ -325,12 +383,12 @@ body {
 .missing-link-channel-copy strong {
   display: grid;
   gap: clamp(1px, 0.1cqw, 2px);
-  color: #f8f7ef;
+  color: #1a1a1a;
   font-family: Arial, Helvetica, sans-serif;
   font-size: clamp(16px, 2cqw, 36px);
   line-height: 0.86;
   letter-spacing: 0;
-  text-shadow: 0 0.18cqw 0.42cqw rgba(0, 0, 0, 0.72);
+  text-shadow: none;
 }
 
 .missing-link-word {
@@ -352,7 +410,7 @@ body {
   font-family: Georgia, serif;
   font-style: italic;
   font-weight: 700;
-  color: #b7ff19;
+  color: #5e8c00;
   text-transform: none;
 }
 
@@ -417,20 +475,32 @@ body {
   transform: translateX(-50%);
 }
 
-.shop-bags {
+.shop-avatar {
   z-index: 1;
-  top: -8%;
-  right: -1%;
-  width: 60%;
-  height: 104%;
+  left: 52%;
+  top: 38%;
+  width: 30%;
+  height: auto;
+  transform: translate(-50%, -50%);
   object-fit: contain;
 }
 
 .shop-title {
+  position: absolute;
   z-index: 2;
   left: 5%;
-  bottom: 8%;
+  bottom: 11%;
   width: 84%;
+  display: block;
+  pointer-events: none;
+  white-space: nowrap;
+  font-family: "Avenir Next", "Avenir Next LT Pro", Avenir, "Century Gothic", sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: clamp(8px, 1.45cqw, 26px);
+  line-height: 1.3;
+  letter-spacing: 0;
+  color: #11b5e9;
 }
 
 .forecast {
@@ -514,6 +584,45 @@ body {
   left: 50%;
   width: 73%;
   transform: translateX(-50%);
+}
+
+.github-channel {
+  background: #f7f7f7;
+}
+
+.github-channel::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 72% 18%, rgba(140, 149, 160, 0.4), transparent 46%),
+    linear-gradient(160deg, #2b3138 0%, #0d1117 72%);
+}
+
+.github-mark {
+  position: absolute;
+  z-index: 0;
+  right: -10%;
+  bottom: -16%;
+  width: 64%;
+  height: auto;
+  fill: #fff;
+  opacity: 0.16;
+}
+
+.github-channel span {
+  position: relative;
+  z-index: 2;
+  display: block;
+  padding-top: 5.5%;
+  text-align: center;
+  color: #fff;
+  font-size: clamp(18px, 2cqw, 42px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-shadow: 0 3px 2px rgba(0, 0, 0, 0.6);
 }
 
 .page-arrow {
@@ -747,12 +856,28 @@ body {
   place-items: center;
   border: clamp(2px, 0.2cqw, 4px) solid #21bde8;
   border-radius: 50%;
+  padding: 0;
   background: linear-gradient(180deg, #fafafa 0%, #ededee 40%, #d9dade 75%, #eef0f1 100%);
   box-shadow:
-    0 0 0 clamp(7px, 0.72cqw, 15px) rgba(205, 206, 210, 0.86),
-    0.72cqw 0.82cqw 0 clamp(4px, 0.36cqw, 8px) rgba(169, 170, 175, 0.42),
+    0.18cqw 0.28cqw 0 clamp(3px, 0.28cqw, 6px) rgba(190, 191, 196, 0.72),
+    0.48cqw 0.58cqw clamp(3px, 0.26cqw, 6px) rgba(160, 162, 168, 0.18),
     inset 0 0.3cqw 0.4cqw rgba(255, 255, 255, 0.82),
     inset 0 -0.4cqw 0.55cqw rgba(170, 172, 176, 0.18);
+}
+
+button.round-control {
+  appearance: none;
+  cursor: url("/assets/wiicursor-40-mid-angle.png") 5 7, url("/assets/wiicursor.cur"), pointer;
+}
+
+.ron-button:hover,
+.ron-button:focus-visible {
+  cursor: url("/assets/wiicursor-40-upright.png") 14 2, url("/assets/wiicursor.cur"), pointer;
+}
+
+button.round-control:focus-visible {
+  outline: clamp(3px, 0.3cqw, 6px) solid rgba(33, 189, 232, 0.55);
+  outline-offset: clamp(5px, 0.5cqw, 10px);
 }
 
 .round-control::after {
@@ -774,29 +899,28 @@ body {
   z-index: 1;
 }
 
-.wii-button {
+.ron-button {
   left: 4.7%;
   border-width: clamp(2px, 0.17cqw, 3px);
   border-color: #35b5d2;
   background: #f0f0f1;
   box-shadow:
     0 0 clamp(2px, 0.16cqw, 3px) clamp(1px, 0.05cqw, 1px) rgba(39, 179, 210, 0.3),
-    0.52cqw 0.66cqw 0 clamp(6px, 0.48cqw, 10px) rgba(198, 199, 203, 0.9),
-    0.88cqw 1.04cqw clamp(4px, 0.35cqw, 7px) clamp(5px, 0.38cqw, 8px) rgba(154, 156, 161, 0.27),
+    0.2cqw 0.3cqw 0 clamp(2px, 0.2cqw, 5px) rgba(198, 199, 203, 0.58),
+    0.5cqw 0.58cqw clamp(3px, 0.26cqw, 6px) rgba(154, 156, 161, 0.16),
     inset 0.08cqw 0.12cqw 0.2cqw rgba(255, 255, 255, 0.72),
     inset -0.12cqw -0.18cqw 0.3cqw rgba(144, 146, 151, 0.12);
 }
 
-.wii-button::before {
+.ron-button::before {
   content: none;
 }
 
-.wii-button::after {
+.ron-button::after {
   content: none;
 }
 
-.wii-button .wii-button-surface,
-.wii-button .wii-button-logo {
+.ron-button .wii-button-surface {
   position: absolute;
   inset: -5%;
   width: 110%;
@@ -804,19 +928,22 @@ body {
   margin: 0;
   border-radius: 50%;
   object-fit: cover;
-}
-
-.wii-button .wii-button-surface {
   z-index: 1;
   opacity: 0.76;
   filter: blur(clamp(0.35px, 0.035cqw, 0.65px));
 }
 
-.wii-button .wii-button-logo {
+.ron-button .wii-button-logo {
+  position: absolute;
   z-index: 2;
-  opacity: 0.82;
-  transform: translate(-0.7%, 1.5%);
-  filter: blur(clamp(0.35px, 0.04cqw, 0.75px));
+  left: 50%;
+  top: 50%;
+  width: 52%;
+  height: auto;
+  margin: 0;
+  transform: translate(-50%, -50%);
+  object-fit: contain;
+  pointer-events: none;
 }
 
 .message-button {
@@ -826,10 +953,25 @@ body {
   background: #f0f0f1;
   box-shadow:
     0 0 clamp(2px, 0.16cqw, 3px) clamp(1px, 0.05cqw, 1px) rgba(39, 179, 210, 0.3),
-    0.52cqw 0.66cqw 0 clamp(6px, 0.48cqw, 10px) rgba(198, 199, 203, 0.9),
-    0.88cqw 1.04cqw clamp(4px, 0.35cqw, 7px) clamp(5px, 0.38cqw, 8px) rgba(154, 156, 161, 0.27),
+    0.2cqw 0.3cqw 0 clamp(2px, 0.2cqw, 5px) rgba(198, 199, 203, 0.58),
+    0.5cqw 0.58cqw clamp(3px, 0.26cqw, 6px) rgba(154, 156, 161, 0.16),
     inset 0.08cqw 0.12cqw 0.2cqw rgba(255, 255, 255, 0.72),
     inset -0.12cqw -0.18cqw 0.3cqw rgba(144, 146, 151, 0.12);
+}
+
+.wii-screen.is-dark .ron-button,
+.wii-screen.is-dark .message-button {
+  box-shadow:
+    0 0 clamp(3px, 0.28cqw, 6px) rgba(33, 189, 232, 0.45),
+    0 0 clamp(10px, 0.9cqw, 18px) rgba(33, 189, 232, 0.18),
+    0.22cqw 0.32cqw clamp(3px, 0.24cqw, 6px) rgba(0, 0, 0, 0.55),
+    inset 0.08cqw 0.12cqw 0.22cqw rgba(255, 255, 255, 0.68),
+    inset -0.12cqw -0.18cqw 0.3cqw rgba(0, 0, 0, 0.18);
+}
+
+.wii-screen.is-dark .ron-button .wii-button-surface,
+.wii-screen.is-dark .message-button .message-button-surface {
+  opacity: 0.68;
 }
 
 .message-button::before,
@@ -956,11 +1098,36 @@ body {
   width: 95.5%;
   height: 95%;
   transform-origin: center center;
+  will-change: transform;
+  animation: channel-stage-zoom-in 0.62s cubic-bezier(.08, .54, .12, 1) both;
+}
+
+@keyframes channel-stage-zoom-in {
+  0% {
+    opacity: 0.98;
+    transform: translate3d(var(--launch-start-x, 0), var(--launch-start-y, 0), 0) scale(var(--launch-start-scale, 1));
+  }
+
+  72% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(0.985);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .channel-open-stage {
+    animation: none;
+  }
 }
 
 .channel-open-frame {
   position: absolute;
-  inset: 0 0 9.8%;
+  inset: 0;
   overflow: hidden;
   clip-path: url("#channel-crt-shape");
   background:
@@ -1037,13 +1204,34 @@ body {
   top: 19%;
   width: 84%;
   height: 40%;
+  animation: channel-open-content-fade-in 0.5s ease-out both;
+}
+
+@keyframes channel-open-content-fade-in {
+  0% {
+    opacity: 0.22;
+  }
+
+  34% {
+    opacity: 0.82;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .channel-open-content {
+    animation: none;
+  }
 }
 
 .channel-open-content--missing-link {
-  left: 7%;
-  top: 18%;
-  width: 86%;
-  height: 50%;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 78%;
 }
 
 .missing-link-title-card {
@@ -1051,93 +1239,84 @@ body {
   inset: 0;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 4%;
+  justify-content: center;
   isolation: isolate;
-  padding: 5.5% 6.2%;
   overflow: hidden;
-  border-radius: clamp(4px, 0.6cqw, 10px);
-  border: clamp(1px, 0.1cqw, 2px) solid rgba(164, 224, 255, 0.24);
   background:
-    radial-gradient(circle at 76% 22%, rgba(205, 255, 64, 0.18), transparent 22%),
-    radial-gradient(circle at 82% 44%, rgba(56, 165, 255, 0.24), transparent 32%),
-    linear-gradient(135deg, #08090d 0%, #111b2a 48%, #060607 100%);
+    radial-gradient(circle at 78% 16%, rgba(205, 255, 64, 0.16), transparent 26%),
+    radial-gradient(circle at 18% 86%, rgba(56, 165, 255, 0.2), transparent 32%),
+    linear-gradient(160deg, #0c0d11 0%, #142032 46%, #07070a 100%);
   color: #f8f7ef;
-  text-align: left;
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
-    inset 0 -1.8cqw 2.6cqw rgba(0, 0, 0, 0.36);
+  text-align: center;
 }
 
-.missing-link-title-card::after {
-  content: "";
+.missing-link-title-dots {
   position: absolute;
-  inset: 0;
+  inset: -8%;
   z-index: 0;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.16), transparent 18%),
-    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.06) 0 2px, transparent 2px 5px);
-  mix-blend-mode: screen;
-  opacity: 0.7;
-  pointer-events: none;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.16) 1.1px, transparent 1.6px);
+  background-size: 3.4cqw 3.4cqw;
+  mask-image: radial-gradient(ellipse at 50% 40%, #000 0%, transparent 72%);
+  opacity: 0.9;
 }
 
-.missing-link-title-grid {
+.missing-link-title-glow {
   position: absolute;
-  inset: -12%;
   z-index: 0;
-  background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px),
-    linear-gradient(0deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
-  background-size: 7% 13%;
-  transform: perspective(36cqw) rotateX(58deg) translateY(10%);
-  transform-origin: center bottom;
-  opacity: 0.42;
+  left: 50%;
+  top: 40%;
+  width: 62cqw;
+  height: 62cqw;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.24), transparent 62%);
+  filter: blur(1px);
 }
 
 .missing-link-title-symbol {
   position: absolute;
   z-index: 1;
-  right: 4%;
-  top: 48%;
-  width: clamp(118px, 25cqw, 300px);
+  right: 9%;
+  top: 52%;
+  width: clamp(120px, 22cqw, 280px);
+  height: auto;
+  opacity: 0.96;
+  transform: translateY(-50%) rotate(-8deg);
+}
+
+.missing-link-title-symbol-image {
+  display: block;
+  width: 100%;
   height: auto;
   object-fit: contain;
-  opacity: 0.96;
-  transform: translateY(-50%) rotate(-10deg);
+  animation: missing-link-title-symbol-float 5.2s ease-in-out infinite;
+  will-change: transform;
   filter:
     drop-shadow(0 1.6cqw 1.3cqw rgba(0, 0, 0, 0.74))
-    drop-shadow(0 0 2.4cqw rgba(183, 255, 25, 0.18));
-  mix-blend-mode: screen;
+    drop-shadow(0 0 2.4cqw rgba(183, 255, 25, 0.22));
 }
+
 
 .missing-link-title-copy {
   position: relative;
   z-index: 2;
   min-width: 0;
-}
-
-.missing-link-title-eyebrow {
-  margin: 0 0 clamp(4px, 0.9cqw, 12px);
-  font-size: clamp(7px, 0.8cqw, 13px);
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  color: #87d4ff;
+  max-width: 72%;
 }
 
 .missing-link-title-wordmark {
   display: grid;
+  justify-items: center;
   gap: clamp(1px, 0.12cqw, 3px);
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 800;
-  font-size: clamp(23px, 4.2cqw, 76px);
-  line-height: 0.84;
+  font-size: clamp(30px, 6.4cqw, 118px);
+  line-height: 0.86;
   color: #f8f7ef;
   text-transform: uppercase;
   text-shadow:
-    0 0.22cqw 0.22cqw rgba(0, 0, 0, 0.74),
-    0 0 1.1cqw rgba(56, 165, 255, 0.28);
+    0 0.26cqw 0.26cqw rgba(0, 0, 0, 0.78),
+    0 0 1.6cqw rgba(56, 165, 255, 0.32);
 }
 
 .missing-link-title-wordmark em {
@@ -1186,24 +1365,213 @@ body {
   }
 }
 
+@keyframes missing-link-symbol-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -3.5%, 0);
+  }
+}
+
+@keyframes missing-link-title-symbol-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -2.4%, 0);
+  }
+}
+
 .missing-link-title-tagline {
-  max-width: 31ch;
-  margin: clamp(4px, 1cqw, 14px) 0 0;
-  font-size: clamp(8px, 0.95cqw, 16px);
+  max-width: 34ch;
+  margin: clamp(6px, 1.4cqw, 18px) auto 0;
+  font-size: clamp(9px, 1.1cqw, 19px);
   line-height: 1.4;
   letter-spacing: 0.01em;
   color: rgba(248, 247, 239, 0.74);
 }
 
-.missing-link-title-visual {
+.missing-link-title-kicker {
+  position: absolute;
+  z-index: 2;
+  left: 4%;
+  bottom: 4%;
+  font-size: clamp(8px, 0.85cqw, 15px);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(248, 247, 239, 0.56);
+}
+
+.channel-open-content--github {
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 78%;
+}
+
+.github-title-card {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 78% 18%, rgba(140, 149, 160, 0.24), transparent 30%),
+    radial-gradient(circle at 18% 86%, rgba(56, 165, 255, 0.14), transparent 32%),
+    linear-gradient(160deg, #21262d 0%, #0d1117 62%);
+  color: #f0f6fc;
+  text-align: center;
+}
+
+.github-title-dots {
+  position: absolute;
+  inset: -8%;
+  z-index: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.16) 1.1px, transparent 1.6px);
+  background-size: 3.4cqw 3.4cqw;
+  mask-image: radial-gradient(ellipse at 50% 40%, #000 0%, transparent 72%);
+  opacity: 0.9;
+}
+
+.github-title-glow {
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  top: 43%;
+  width: 58cqw;
+  height: 58cqw;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.18), transparent 62%);
+  filter: blur(1px);
+}
+
+.github-title-mark {
+  width: clamp(118px, 19cqw, 250px);
+  height: auto;
+  fill: #f0f6fc;
+  opacity: 0;
+  animation: github-title-mark-float 5.2s ease-in-out infinite;
+  will-change: transform;
+  filter:
+    drop-shadow(0 0.7cqw 0.7cqw rgba(0, 0, 0, 0.5))
+    drop-shadow(0 0 1.8cqw rgba(240, 246, 252, 0.12));
+}
+
+@keyframes github-title-mark-float {
+  0%,
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate3d(0, -2.6%, 0);
+  }
+}
+
+.github-title-copy {
   position: relative;
   z-index: 2;
-  flex: none;
-  width: clamp(74px, 22cqw, 250px);
-  filter:
-    drop-shadow(0 1.4cqw 1.2cqw rgba(0, 0, 0, 0.68))
-    drop-shadow(0 0 2cqw rgba(56, 165, 255, 0.18));
-  transform: rotate(-8deg);
+  min-width: 0;
+  display: grid;
+  justify-items: center;
+  gap: clamp(8px, 1cqw, 18px);
+  max-width: 74%;
+}
+
+.github-title-wordmark {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 800;
+  font-size: clamp(44px, 8.2cqw, 142px);
+  line-height: 0.78;
+  color: #f0f6fc;
+  letter-spacing: 0;
+  text-shadow:
+    0 0.26cqw 0.26cqw rgba(0, 0, 0, 0.78),
+    0 0 1.4cqw rgba(240, 246, 252, 0.18);
+}
+
+.github-title-letter {
+  display: inline-block;
+  opacity: 0;
+  animation: github-title-letter-in 760ms cubic-bezier(.2,.72,.18,1) both;
+}
+
+.github-title-letter--1 {
+  animation-delay: 620ms;
+  font-weight: 700;
+}
+
+.github-title-letter--2 {
+  animation-delay: 700ms;
+}
+
+.github-title-letter--3 {
+  animation-delay: 780ms;
+}
+
+.github-title-letter--4 {
+  animation-delay: 860ms;
+  font-weight: 700;
+}
+
+.github-title-letter--5 {
+  animation-delay: 940ms;
+  margin-left: -0.04em;
+}
+
+.github-title-letter--6 {
+  animation-delay: 1020ms;
+  margin-left: -0.035em;
+}
+
+@keyframes github-title-letter-in {
+  0% {
+    opacity: 0;
+    filter: blur(3px);
+    transform: translateY(18%);
+  }
+
+  72% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+.github-title-tagline {
+  max-width: 34ch;
+  margin: 0 auto;
+  font-size: clamp(9px, 1.1cqw, 19px);
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  color: rgba(240, 246, 252, 0.7);
+}
+
+.github-title-kicker {
+  position: absolute;
+  z-index: 2;
+  left: 4%;
+  bottom: 4%;
+  font-size: clamp(8px, 0.85cqw, 15px);
+  letter-spacing: 0.24em;
+  color: rgba(240, 246, 252, 0.56);
 }
 
 .channel-open-content .channel-frame {
@@ -1228,23 +1596,30 @@ body {
 .channel-start-button {
   position: absolute;
   z-index: 3;
-  bottom: 3.9%;
+  bottom: 5.2%;
   width: 29%;
   height: 13.5%;
-  border: clamp(2px, 0.22cqw, 4px) solid #35bfeb;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
   border-radius: 999px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.2) 34%, transparent 35%),
-    linear-gradient(180deg, #fbfbfb, #dfe3e8);
-  color: #3c3c3c;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: clamp(28px, 4cqw, 78px);
-  font-weight: 300;
-  line-height: 1;
-  box-shadow:
-    inset 0 0.22cqw 0.42cqw rgba(255, 255, 255, 0.8),
-    inset 0 -0.18cqw 0.35cqw rgba(134, 141, 148, 0.18);
+  background: none;
+  filter: brightness(1);
+  transition: none;
   cursor: url("/assets/wiicursor-40-upright.png") 14 2, url("/assets/wiicursor.cur"), pointer;
+}
+
+.channel-button-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  display: block;
+  pointer-events: none;
+}
+
+.channel-button-svg > g {
+  transition: none;
 }
 
 .channel-menu-button {
@@ -1255,49 +1630,180 @@ body {
   right: 17.5%;
 }
 
-.channel-start-button:disabled {
-  border-color: rgba(165, 165, 165, 0.32);
-  color: rgba(90, 90, 90, 0.17);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.15) 34%, transparent 35%),
-    linear-gradient(180deg, #eeeeee, #d8d8d8);
-  cursor: url("/assets/wiicursor-40-mid-angle.png") 5 7, url("/assets/wiicursor.cur"), auto;
+.channel-menu-button:hover,
+.channel-menu-button:focus-visible,
+.channel-start-button:hover,
+.channel-start-button:focus-visible {
+  filter: brightness(1.08);
 }
 
-.channel-start-button:not(:disabled) {
-  border-color: #35bfeb;
-  color: #3c3c3c;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.24) 34%, transparent 35%),
-    linear-gradient(180deg, #ffffff, #dfe8ee);
+.channel-menu-button:hover .channel-button-svg > g,
+.channel-menu-button:focus-visible .channel-button-svg > g,
+.channel-start-button:hover .channel-button-svg > g,
+.channel-start-button:focus-visible .channel-button-svg > g {
+  opacity: 1;
 }
 
-.channel-start-button:not(:disabled):hover,
-.channel-start-button:not(:disabled):focus-visible {
-  filter: brightness(1.04);
-  box-shadow:
-    0 0 1.1cqw rgba(53, 191, 235, 0.34),
-    inset 0 0.22cqw 0.42cqw rgba(255, 255, 255, 0.8),
-    inset 0 -0.18cqw 0.35cqw rgba(134, 141, 148, 0.18);
-}
-
-.channel-menu-button:focus-visible {
+.channel-menu-button:focus-visible,
+.channel-start-button:focus-visible {
   outline: clamp(2px, 0.22cqw, 4px) solid #fff;
   outline-offset: clamp(3px, 0.36cqw, 7px);
 }
 
+.channel-nav-arrow {
+  position: absolute;
+  z-index: 3;
+  top: 46%;
+  width: 8.2%;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  transform: translateY(-50%);
+  cursor: url("/assets/wiicursor-40-upright.png") 14 2, url("/assets/wiicursor.cur"), pointer;
+}
+
+.channel-nav-arrow-motion {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  will-change: transform;
+  filter: drop-shadow(0 0.15cqw 0.3cqw rgba(0, 0, 0, 0.25));
+}
+
+.channel-nav-arrow-press {
+  position: absolute;
+  inset: 0;
+  display: block;
+  transform: scale(1);
+  transition: transform 0.06s ease-out;
+}
+
+.channel-nav-arrow img {
+  display: block;
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.channel-nav-arrow-triangle {
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  width: 58%;
+  transform: translateY(-50%);
+}
+
+.channel-nav-arrow-badge {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  width: 74%;
+  opacity: 0;
+  transform: translateY(-50%);
+  transition: opacity 0.08s ease-out;
+}
+
+.channel-nav-arrow--prev {
+  left: 1.35%;
+}
+
+.channel-nav-arrow--prev .channel-nav-arrow-motion {
+  animation: channel-nav-arrow-prev-bob 0.58s ease-in-out infinite alternate;
+}
+
+.channel-nav-arrow--prev .channel-nav-arrow-triangle {
+  left: -5%;
+  transform: translateY(-50%) scaleX(-1);
+}
+
+.channel-nav-arrow--prev .channel-nav-arrow-badge {
+  right: -2%;
+}
+
+.channel-nav-arrow--next {
+  right: 1.35%;
+}
+
+.channel-nav-arrow--next .channel-nav-arrow-motion {
+  animation: channel-nav-arrow-next-bob 0.58s ease-in-out infinite alternate;
+}
+
+.channel-nav-arrow--next .channel-nav-arrow-triangle {
+  right: -5%;
+}
+
+.channel-nav-arrow--next .channel-nav-arrow-badge {
+  left: -2%;
+}
+
+@keyframes channel-nav-arrow-prev-bob {
+  from {
+    transform: translateX(3%);
+  }
+
+  to {
+    transform: translateX(-3%);
+  }
+}
+
+@keyframes channel-nav-arrow-next-bob {
+  from {
+    transform: translateX(-4%);
+  }
+
+  to {
+    transform: translateX(3%);
+  }
+}
+
+.channel-nav-arrow:hover .channel-nav-arrow-motion,
+.channel-nav-arrow:focus-visible .channel-nav-arrow-motion {
+  filter:
+    drop-shadow(0 0.15cqw 0.3cqw rgba(0, 0, 0, 0.25))
+    brightness(1.08);
+}
+
+.channel-nav-arrow:hover .channel-nav-arrow-badge,
+.channel-nav-arrow:focus-visible .channel-nav-arrow-badge {
+  opacity: 1;
+}
+
+.channel-nav-arrow:active .channel-nav-arrow-press {
+  transform: scale(0.92);
+}
+
+.channel-nav-arrow:focus-visible {
+  outline: clamp(2px, 0.22cqw, 4px) solid #38c6ec;
+  outline-offset: clamp(2px, 0.22cqw, 4px);
+  border-radius: 999px;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .channel-open-view {
+  .channel-open-view,
+  .channel-grid,
+  .tray-line,
+  .clock,
+  .wii-menu-intro {
     transition: none;
   }
 
-  .missing-link-channel-symbol,
-  .missing-link-title-symbol,
+  .missing-link-channel-symbol-image,
+  .missing-link-title-symbol-image,
+  .channel-nav-arrow-motion,
+  .empty-channel-static-frame,
+  .github-title-mark,
+  .github-title-letter,
   .missing-link-word,
   .missing-link-title-word {
     animation: none;
   }
 
+  .github-title-mark,
+  .github-title-letter,
   .missing-link-word,
   .missing-link-title-word {
     opacity: 1;
