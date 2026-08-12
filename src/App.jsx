@@ -13,7 +13,7 @@ export function App() {
     screenRef,
     stageRef,
   });
-  const isDark = useDayNightTheme();
+  const { isDark, toggleTheme } = useDayNightTheme();
 
   return (
     <>
@@ -25,7 +25,7 @@ export function App() {
       >
         <div className="wii-night-sky" aria-hidden="true" />
         <ChannelGrid onOpen={openChannel} />
-        <SystemTray />
+        <SystemTray isDark={isDark} onToggleTheme={toggleTheme} />
         <ChannelOpenView
           channel={openChannelData}
           launchKey={launchKey}

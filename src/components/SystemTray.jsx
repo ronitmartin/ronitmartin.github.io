@@ -1,6 +1,6 @@
 import { SystemClock } from "./SystemClock";
 
-export function SystemTray() {
+export function SystemTray({ isDark, onToggleTheme }) {
   return (
     <section className="system-tray" aria-label="Wii Menu system controls">
       <svg className="tray-shape" viewBox="0 0 1000 340" preserveAspectRatio="none" aria-hidden="true">
@@ -13,19 +13,25 @@ export function SystemTray() {
         Wii Menu
       </div>
 
-      <div className="round-control wii-button" aria-label="Ron options">
+      <button
+        className="round-control ron-button"
+        type="button"
+        aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
+        aria-pressed={isDark}
+        onClick={onToggleTheme}
+      >
         <img className="wii-button-surface" src="/assets/wii-button-surface.png" alt="" aria-hidden="true" />
         <img className="wii-button-logo" src="/assets/ron-button-logo.png" alt="" aria-hidden="true" />
-      </div>
+      </button>
 
       <div className="sd-card" aria-label="SD card">
         <img src="/assets/wii-sd-card.png" alt="" aria-hidden="true" />
       </div>
 
-      <div className="round-control message-button" aria-label="Wii Message Board">
+      <button className="round-control message-button" type="button" aria-label="Wii Message Board">
         <img className="message-button-surface" src="/assets/wii-button-surface.png" alt="" aria-hidden="true" />
         <img className="message-button-icon" src="/assets/wii-message-icon.png" alt="" aria-hidden="true" />
-      </div>
+      </button>
     </section>
   );
 }

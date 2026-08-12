@@ -150,12 +150,12 @@ body {
   gap: 1.5% 0.8cqw;
   width: 111%;
   height: 63%;
+  transition: opacity 0.22s ease-out;
 }
 
 .channel-grid,
 .system-tray {
   opacity: 1;
-  transition: opacity 0.22s ease-out;
 }
 
 .wii-screen.is-channel-open .channel-grid,
@@ -236,10 +236,60 @@ body {
 .channel.empty::before {
   content: "";
   position: absolute;
+  z-index: 2;
   inset: 0;
   background: url("/assets/wii-empty-channel.png") center / 100% 100% no-repeat;
   opacity: 0.1;
   mix-blend-mode: multiply;
+}
+
+.empty-channel-static {
+  position: absolute;
+  z-index: 1;
+  inset: -1px;
+  display: block;
+  opacity: 0.42;
+  mix-blend-mode: multiply;
+}
+
+.empty-channel-static-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  image-rendering: pixelated;
+  animation: empty-channel-static-cycle 360ms steps(1, end) infinite;
+}
+
+.empty-channel-static-frame--2 {
+  animation-delay: 90ms;
+}
+
+.empty-channel-static-frame--3 {
+  animation-delay: 180ms;
+}
+
+.empty-channel-static-frame--4 {
+  animation-delay: 270ms;
+}
+
+.wii-screen.is-dark .empty-channel-static {
+  opacity: 0.2;
+  mix-blend-mode: screen;
+}
+
+@keyframes empty-channel-static-cycle {
+  0%,
+  24.9% {
+    opacity: 1;
+  }
+
+  25%,
+  100% {
+    opacity: 0;
+  }
 }
 
 .asset-channel > img,
@@ -806,12 +856,28 @@ body {
   place-items: center;
   border: clamp(2px, 0.2cqw, 4px) solid #21bde8;
   border-radius: 50%;
+  padding: 0;
   background: linear-gradient(180deg, #fafafa 0%, #ededee 40%, #d9dade 75%, #eef0f1 100%);
   box-shadow:
-    0 0 0 clamp(7px, 0.72cqw, 15px) rgba(205, 206, 210, 0.86),
-    0.72cqw 0.82cqw 0 clamp(4px, 0.36cqw, 8px) rgba(169, 170, 175, 0.42),
+    0.18cqw 0.28cqw 0 clamp(3px, 0.28cqw, 6px) rgba(190, 191, 196, 0.72),
+    0.48cqw 0.58cqw clamp(3px, 0.26cqw, 6px) rgba(160, 162, 168, 0.18),
     inset 0 0.3cqw 0.4cqw rgba(255, 255, 255, 0.82),
     inset 0 -0.4cqw 0.55cqw rgba(170, 172, 176, 0.18);
+}
+
+button.round-control {
+  appearance: none;
+  cursor: url("/assets/wiicursor-40-mid-angle.png") 5 7, url("/assets/wiicursor.cur"), pointer;
+}
+
+.ron-button:hover,
+.ron-button:focus-visible {
+  cursor: url("/assets/wiicursor-40-upright.png") 14 2, url("/assets/wiicursor.cur"), pointer;
+}
+
+button.round-control:focus-visible {
+  outline: clamp(3px, 0.3cqw, 6px) solid rgba(33, 189, 232, 0.55);
+  outline-offset: clamp(5px, 0.5cqw, 10px);
 }
 
 .round-control::after {
@@ -833,28 +899,28 @@ body {
   z-index: 1;
 }
 
-.wii-button {
+.ron-button {
   left: 4.7%;
   border-width: clamp(2px, 0.17cqw, 3px);
   border-color: #35b5d2;
   background: #f0f0f1;
   box-shadow:
     0 0 clamp(2px, 0.16cqw, 3px) clamp(1px, 0.05cqw, 1px) rgba(39, 179, 210, 0.3),
-    0.52cqw 0.66cqw 0 clamp(6px, 0.48cqw, 10px) rgba(198, 199, 203, 0.9),
-    0.88cqw 1.04cqw clamp(4px, 0.35cqw, 7px) clamp(5px, 0.38cqw, 8px) rgba(154, 156, 161, 0.27),
+    0.2cqw 0.3cqw 0 clamp(2px, 0.2cqw, 5px) rgba(198, 199, 203, 0.58),
+    0.5cqw 0.58cqw clamp(3px, 0.26cqw, 6px) rgba(154, 156, 161, 0.16),
     inset 0.08cqw 0.12cqw 0.2cqw rgba(255, 255, 255, 0.72),
     inset -0.12cqw -0.18cqw 0.3cqw rgba(144, 146, 151, 0.12);
 }
 
-.wii-button::before {
+.ron-button::before {
   content: none;
 }
 
-.wii-button::after {
+.ron-button::after {
   content: none;
 }
 
-.wii-button .wii-button-surface {
+.ron-button .wii-button-surface {
   position: absolute;
   inset: -5%;
   width: 110%;
@@ -867,7 +933,7 @@ body {
   filter: blur(clamp(0.35px, 0.035cqw, 0.65px));
 }
 
-.wii-button .wii-button-logo {
+.ron-button .wii-button-logo {
   position: absolute;
   z-index: 2;
   left: 50%;
@@ -887,10 +953,25 @@ body {
   background: #f0f0f1;
   box-shadow:
     0 0 clamp(2px, 0.16cqw, 3px) clamp(1px, 0.05cqw, 1px) rgba(39, 179, 210, 0.3),
-    0.52cqw 0.66cqw 0 clamp(6px, 0.48cqw, 10px) rgba(198, 199, 203, 0.9),
-    0.88cqw 1.04cqw clamp(4px, 0.35cqw, 7px) clamp(5px, 0.38cqw, 8px) rgba(154, 156, 161, 0.27),
+    0.2cqw 0.3cqw 0 clamp(2px, 0.2cqw, 5px) rgba(198, 199, 203, 0.58),
+    0.5cqw 0.58cqw clamp(3px, 0.26cqw, 6px) rgba(154, 156, 161, 0.16),
     inset 0.08cqw 0.12cqw 0.2cqw rgba(255, 255, 255, 0.72),
     inset -0.12cqw -0.18cqw 0.3cqw rgba(144, 146, 151, 0.12);
+}
+
+.wii-screen.is-dark .ron-button,
+.wii-screen.is-dark .message-button {
+  box-shadow:
+    0 0 clamp(3px, 0.28cqw, 6px) rgba(33, 189, 232, 0.45),
+    0 0 clamp(10px, 0.9cqw, 18px) rgba(33, 189, 232, 0.18),
+    0.22cqw 0.32cqw clamp(3px, 0.24cqw, 6px) rgba(0, 0, 0, 0.55),
+    inset 0.08cqw 0.12cqw 0.22cqw rgba(255, 255, 255, 0.68),
+    inset -0.12cqw -0.18cqw 0.3cqw rgba(0, 0, 0, 0.18);
+}
+
+.wii-screen.is-dark .ron-button .wii-button-surface,
+.wii-screen.is-dark .message-button .message-button-surface {
+  opacity: 0.68;
 }
 
 .message-button::before,
@@ -1363,40 +1444,36 @@ body {
   position: absolute;
   z-index: 0;
   left: 50%;
-  top: 40%;
-  width: 62cqw;
-  height: 62cqw;
+  top: 43%;
+  width: 58cqw;
+  height: 58cqw;
   transform: translate(-50%, -50%);
   background: radial-gradient(circle, rgba(255, 255, 255, 0.18), transparent 62%);
   filter: blur(1px);
 }
 
 .github-title-mark {
-  position: absolute;
-  z-index: 1;
-  right: 9%;
-  top: 52%;
-  width: clamp(110px, 20cqw, 260px);
+  width: clamp(118px, 19cqw, 250px);
   height: auto;
   fill: #f0f6fc;
-  opacity: 0.94;
-  transform: translateY(-50%);
+  opacity: 0;
   animation: github-title-mark-float 5.2s ease-in-out infinite;
   will-change: transform;
   filter:
-    drop-shadow(0 1.6cqw 1.3cqw rgba(0, 0, 0, 0.6))
-    drop-shadow(0 0 2.4cqw rgba(240, 246, 252, 0.14));
+    drop-shadow(0 0.7cqw 0.7cqw rgba(0, 0, 0, 0.5))
+    drop-shadow(0 0 1.8cqw rgba(240, 246, 252, 0.12));
 }
-
 
 @keyframes github-title-mark-float {
   0%,
   100% {
-    transform: translateY(-50%) translate3d(0, 0, 0);
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
   }
 
   50% {
-    transform: translateY(-50%) translate3d(0, -2.4%, 0);
+    opacity: 1;
+    transform: translate3d(0, -2.6%, 0);
   }
 }
 
@@ -1404,50 +1481,67 @@ body {
   position: relative;
   z-index: 2;
   min-width: 0;
-  max-width: 72%;
+  display: grid;
+  justify-items: center;
+  gap: clamp(8px, 1cqw, 18px);
+  max-width: 74%;
 }
 
 .github-title-wordmark {
   display: flex;
   justify-content: center;
-  gap: 0.02em;
+  gap: 0;
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 800;
-  font-size: clamp(30px, 6.4cqw, 118px);
-  line-height: 0.86;
+  font-size: clamp(44px, 8.2cqw, 142px);
+  line-height: 0.78;
   color: #f0f6fc;
+  letter-spacing: 0;
   text-shadow:
     0 0.26cqw 0.26cqw rgba(0, 0, 0, 0.78),
-    0 0 1.6cqw rgba(56, 165, 255, 0.32);
+    0 0 1.4cqw rgba(240, 246, 252, 0.18);
 }
 
-.github-title-wordmark em {
-  font-family: Georgia, serif;
-  font-style: italic;
-  font-weight: 700;
-  color: #38a5ff;
-}
-
-.github-title-word {
+.github-title-letter {
   display: inline-block;
   opacity: 0;
-  animation: github-title-word-in 760ms cubic-bezier(.2,.72,.18,1) both;
+  animation: github-title-letter-in 760ms cubic-bezier(.2,.72,.18,1) both;
 }
 
-.github-title-word--git {
+.github-title-letter--1 {
   animation-delay: 620ms;
+  font-weight: 700;
 }
 
-.github-title-word--hub {
+.github-title-letter--2 {
+  animation-delay: 700ms;
+}
+
+.github-title-letter--3 {
   animation-delay: 780ms;
 }
 
-@keyframes github-title-word-in {
+.github-title-letter--4 {
+  animation-delay: 860ms;
+  font-weight: 700;
+}
+
+.github-title-letter--5 {
+  animation-delay: 940ms;
+  margin-left: -0.04em;
+}
+
+.github-title-letter--6 {
+  animation-delay: 1020ms;
+  margin-left: -0.035em;
+}
+
+@keyframes github-title-letter-in {
   0% {
     opacity: 0;
     filter: blur(3px);
-    transform: translateX(-16%);
+    transform: translateY(18%);
   }
 
   72% {
@@ -1457,13 +1551,13 @@ body {
   100% {
     opacity: 1;
     filter: blur(0);
-    transform: translateX(0);
+    transform: translateY(0);
   }
 }
 
 .github-title-tagline {
   max-width: 34ch;
-  margin: clamp(6px, 1.4cqw, 18px) auto 0;
+  margin: 0 auto;
   font-size: clamp(9px, 1.1cqw, 19px);
   line-height: 1.4;
   letter-spacing: 0.01em;
@@ -1477,7 +1571,6 @@ body {
   bottom: 4%;
   font-size: clamp(8px, 0.85cqw, 15px);
   letter-spacing: 0.24em;
-  text-transform: uppercase;
   color: rgba(240, 246, 252, 0.56);
 }
 
@@ -1512,6 +1605,8 @@ body {
   border: 0;
   border-radius: 999px;
   background: none;
+  filter: brightness(1);
+  transition: none;
   cursor: url("/assets/wiicursor-40-upright.png") 14 2, url("/assets/wiicursor.cur"), pointer;
 }
 
@@ -1521,6 +1616,10 @@ body {
   overflow: visible;
   display: block;
   pointer-events: none;
+}
+
+.channel-button-svg > g {
+  transition: none;
 }
 
 .channel-menu-button {
@@ -1535,7 +1634,14 @@ body {
 .channel-menu-button:focus-visible,
 .channel-start-button:hover,
 .channel-start-button:focus-visible {
-  filter: brightness(1.04);
+  filter: brightness(1.08);
+}
+
+.channel-menu-button:hover .channel-button-svg > g,
+.channel-menu-button:focus-visible .channel-button-svg > g,
+.channel-start-button:hover .channel-button-svg > g,
+.channel-start-button:focus-visible .channel-button-svg > g {
+  opacity: 1;
 }
 
 .channel-menu-button:focus-visible,
@@ -1548,7 +1654,7 @@ body {
   position: absolute;
   z-index: 3;
   top: 46%;
-  width: 6.4%;
+  width: 8.2%;
   aspect-ratio: 1;
   display: grid;
   place-items: center;
@@ -1559,39 +1665,115 @@ body {
   cursor: url("/assets/wiicursor-40-upright.png") 14 2, url("/assets/wiicursor.cur"), pointer;
 }
 
-.channel-nav-arrow img {
+.channel-nav-arrow-motion {
+  position: relative;
   display: block;
   width: 100%;
-  height: auto;
-  object-fit: contain;
+  aspect-ratio: 1;
+  will-change: transform;
   filter: drop-shadow(0 0.15cqw 0.3cqw rgba(0, 0, 0, 0.25));
 }
 
-.channel-nav-arrow--prev {
-  left: 2%;
+.channel-nav-arrow-press {
+  position: absolute;
+  inset: 0;
+  display: block;
+  transform: scale(1);
+  transition: transform 0.06s ease-out;
 }
 
-.channel-nav-arrow--prev img {
-  transform: scaleX(-1);
+.channel-nav-arrow img {
+  display: block;
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.channel-nav-arrow-triangle {
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  width: 58%;
+  transform: translateY(-50%);
+}
+
+.channel-nav-arrow-badge {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  width: 74%;
+  opacity: 0;
+  transform: translateY(-50%);
+  transition: opacity 0.08s ease-out;
+}
+
+.channel-nav-arrow--prev {
+  left: 1.35%;
+}
+
+.channel-nav-arrow--prev .channel-nav-arrow-motion {
+  animation: channel-nav-arrow-prev-bob 0.58s ease-in-out infinite alternate;
+}
+
+.channel-nav-arrow--prev .channel-nav-arrow-triangle {
+  left: -5%;
+  transform: translateY(-50%) scaleX(-1);
+}
+
+.channel-nav-arrow--prev .channel-nav-arrow-badge {
+  right: -2%;
 }
 
 .channel-nav-arrow--next {
-  right: 2%;
+  right: 1.35%;
 }
 
-.channel-nav-arrow:hover img,
-.channel-nav-arrow:focus-visible img {
+.channel-nav-arrow--next .channel-nav-arrow-motion {
+  animation: channel-nav-arrow-next-bob 0.58s ease-in-out infinite alternate;
+}
+
+.channel-nav-arrow--next .channel-nav-arrow-triangle {
+  right: -5%;
+}
+
+.channel-nav-arrow--next .channel-nav-arrow-badge {
+  left: -2%;
+}
+
+@keyframes channel-nav-arrow-prev-bob {
+  from {
+    transform: translateX(3%);
+  }
+
+  to {
+    transform: translateX(-3%);
+  }
+}
+
+@keyframes channel-nav-arrow-next-bob {
+  from {
+    transform: translateX(-4%);
+  }
+
+  to {
+    transform: translateX(3%);
+  }
+}
+
+.channel-nav-arrow:hover .channel-nav-arrow-motion,
+.channel-nav-arrow:focus-visible .channel-nav-arrow-motion {
   filter:
     drop-shadow(0 0.15cqw 0.3cqw rgba(0, 0, 0, 0.25))
     brightness(1.08);
 }
 
-.channel-nav-arrow:active img {
-  transform: scale(0.92);
+.channel-nav-arrow:hover .channel-nav-arrow-badge,
+.channel-nav-arrow:focus-visible .channel-nav-arrow-badge {
+  opacity: 1;
 }
 
-.channel-nav-arrow--prev:active img {
-  transform: scale(0.92) scaleX(-1);
+.channel-nav-arrow:active .channel-nav-arrow-press {
+  transform: scale(0.92);
 }
 
 .channel-nav-arrow:focus-visible {
@@ -1601,17 +1783,27 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .channel-open-view {
+  .channel-open-view,
+  .channel-grid,
+  .tray-line,
+  .clock,
+  .wii-menu-intro {
     transition: none;
   }
 
   .missing-link-channel-symbol-image,
   .missing-link-title-symbol-image,
+  .channel-nav-arrow-motion,
+  .empty-channel-static-frame,
+  .github-title-mark,
+  .github-title-letter,
   .missing-link-word,
   .missing-link-title-word {
     animation: none;
   }
 
+  .github-title-mark,
+  .github-title-letter,
   .missing-link-word,
   .missing-link-title-word {
     opacity: 1;
