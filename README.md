@@ -1,18 +1,5 @@
 # ronitmartin.github.io
 
-Source code for Ronit Martin's personal portfolio website.
+This is the source code for Ronit Martin's Personal Portfolio Website.
 
-This branch contains a React/Vite Wii Menu redesign.
-
-## Development
-
-```bash
-npm install
-npm run dev
-```
-
-## Production Build
-
-```bash
-npm run build
-```
+https://ronitmartin.github.io/
