@@ -9,12 +9,25 @@ export function ChannelOpenView({ channel, isLoading, launchKey, launchStyle, on
   const isChannelOpen = Boolean(channel);
   const [keyboardDirection, setKeyboardDirection] = useState(null);
   const keyboardFeedbackTimeout = useRef(null);
+  const keyboardCursorRef = useRef(null);
+  const pointerPositionRef = useRef({ x: 0, y: 0, hasPosition: false });
   const onNavigateRef = useRef(onNavigate);
   onNavigateRef.current = onNavigate;
 
   useEffect(() => {
+    function handlePointerMove(event) {
+      pointerPositionRef.current = { x: event.clientX, y: event.clientY, hasPosition: true };
+      keyboardCursorRef.current?.classList.remove("is-visible");
+    }
+
+    document.addEventListener("pointermove", handlePointerMove, { passive: true });
+    return () => document.removeEventListener("pointermove", handlePointerMove);
+  }, []);
+
+  useEffect(() => {
     if (!isChannelOpen) {
       setKeyboardDirection(null);
+      keyboardCursorRef.current?.classList.remove("is-visible");
       return undefined;
     }
 
@@ -31,6 +44,22 @@ export function ChannelOpenView({ channel, isLoading, launchKey, launchStyle, on
 
       event.preventDefault();
       onNavigateRef.current?.(direction);
+
+      const pointerPosition = pointerPositionRef.current;
+      const cursorEcho = keyboardCursorRef.current;
+      if (cursorEcho && pointerPosition.hasPosition) {
+        const hoveredElement = document.elementFromPoint(pointerPosition.x, pointerPosition.y);
+        const usesPointerCursor = hoveredElement && getComputedStyle(hoveredElement).cursor.includes("upright");
+        cursorEcho.src = usesPointerCursor
+          ? "/assets/wiicursor-40-upright.png"
+          : "/assets/wiicursor-40-mid-angle.png";
+        cursorEcho.style.setProperty("--cursor-x", `${pointerPosition.x}px`);
+        cursorEcho.style.setProperty("--cursor-y", `${pointerPosition.y}px`);
+        cursorEcho.style.setProperty("--cursor-hotspot-x", usesPointerCursor ? "14px" : "5px");
+        cursorEcho.style.setProperty("--cursor-hotspot-y", usesPointerCursor ? "2px" : "7px");
+        cursorEcho.classList.add("is-visible");
+      }
+
       setKeyboardDirection(direction);
       window.clearTimeout(keyboardFeedbackTimeout.current);
       keyboardFeedbackTimeout.current = window.setTimeout(() => {
@@ -55,6 +84,7 @@ export function ChannelOpenView({ channel, isLoading, launchKey, launchStyle, on
 
   return (
     <section className="channel-open-view" aria-hidden={channel ? "false" : "true"}>
+      <img ref={keyboardCursorRef} className="channel-keyboard-cursor" alt="" aria-hidden="true" />
       <div key={launchKey} className="channel-open-stage" ref={stageRef} style={launchStyle}>
         <div className="channel-open-frame" aria-hidden="true">
           {!isLoading && !hasOwnTitleTreatment && (

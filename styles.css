@@ -1244,6 +1244,22 @@ button.round-control:focus-visible {
   pointer-events: auto;
 }
 
+.channel-keyboard-cursor {
+  position: fixed;
+  z-index: 1000;
+  left: calc(var(--cursor-x, 0px) - var(--cursor-hotspot-x, 0px));
+  top: calc(var(--cursor-y, 0px) - var(--cursor-hotspot-y, 0px));
+  width: 40px;
+  height: 40px;
+  display: block;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.channel-keyboard-cursor.is-visible {
+  opacity: 1;
+}
+
 .channel-open-stage {
   position: relative;
   width: 95.5%;
