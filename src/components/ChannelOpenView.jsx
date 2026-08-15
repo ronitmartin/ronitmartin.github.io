@@ -1,9 +1,49 @@
+import { useEffect, useRef, useState } from "react";
 import { ChannelOpenContent } from "./ChannelOpenContent";
 
 const OWN_TITLE_TREATMENT_TYPES = new Set(["missing-link", "github"]);
+const KEYBOARD_ARROW_FEEDBACK_DURATION = 700;
 
 export function ChannelOpenView({ channel, launchKey, launchStyle, onClose, onNavigate, stageRef }) {
   const hasOwnTitleTreatment = OWN_TITLE_TREATMENT_TYPES.has(channel?.openType);
+  const isChannelOpen = Boolean(channel);
+  const [keyboardDirection, setKeyboardDirection] = useState(null);
+  const keyboardFeedbackTimeout = useRef(null);
+  const onNavigateRef = useRef(onNavigate);
+  onNavigateRef.current = onNavigate;
+
+  useEffect(() => {
+    if (!isChannelOpen) {
+      setKeyboardDirection(null);
+      return undefined;
+    }
+
+    function handleKeyDown(event) {
+      const direction = event.key === "ArrowLeft" ? -1 : event.key === "ArrowRight" ? 1 : 0;
+      if (!direction || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
+        return;
+      }
+
+      const target = event.target;
+      if (target instanceof HTMLElement && (target.isContentEditable || /^(INPUT|SELECT|TEXTAREA)$/.test(target.tagName))) {
+        return;
+      }
+
+      event.preventDefault();
+      onNavigateRef.current?.(direction);
+      setKeyboardDirection(direction);
+      window.clearTimeout(keyboardFeedbackTimeout.current);
+      keyboardFeedbackTimeout.current = window.setTimeout(() => {
+        setKeyboardDirection(null);
+      }, KEYBOARD_ARROW_FEEDBACK_DURATION);
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      window.clearTimeout(keyboardFeedbackTimeout.current);
+    };
+  }, [isChannelOpen]);
 
   function openStartUrl() {
     if (!channel?.startUrl) {
@@ -118,7 +158,7 @@ export function ChannelOpenView({ channel, launchKey, launchStyle, onClose, onNa
         </button>
 
         <button
-          className="channel-nav-arrow channel-nav-arrow--prev"
+          className={`channel-nav-arrow channel-nav-arrow--prev${keyboardDirection === -1 ? " is-keyboard-active" : ""}`}
           type="button"
           aria-label="Previous channel"
           onClick={() => onNavigate?.(-1)}
@@ -131,7 +171,7 @@ export function ChannelOpenView({ channel, launchKey, launchStyle, onClose, onNa
           </span>
         </button>
         <button
-          className="channel-nav-arrow channel-nav-arrow--next"
+          className={`channel-nav-arrow channel-nav-arrow--next${keyboardDirection === 1 ? " is-keyboard-active" : ""}`}
           type="button"
           aria-label="Next channel"
           onClick={() => onNavigate?.(1)}

@@ -3,6 +3,8 @@ name: Deploy site
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: "17 3 * * *"
   workflow_dispatch:
 
 permissions:
@@ -24,6 +26,13 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Refresh GitHub contribution snapshot
+        continue-on-error: true
+        run: node scripts/update-github-contributions.mjs
+        env:
+          GH_TOKEN: ${{ secrets.CONTRIBUTIONS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_CONTRIBUTIONS_USER: ronitmartin
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:

@@ -1,14 +1,15 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { ChannelGrid } from "./components/ChannelGrid";
 import { ChannelOpenView } from "./components/ChannelOpenView";
 import { ChannelShapeDefinitions } from "./components/ChannelShapeDefinitions";
-import { SystemTray } from "./components/SystemTray";
+import { MenuPanelInfo, SystemTray } from "./components/SystemTray";
 import { useChannelTransition } from "./hooks/useChannelTransition";
 import { useDayNightTheme } from "./hooks/useDayNightTheme";
 
 export function App() {
   const screenRef = useRef(null);
   const stageRef = useRef(null);
+  const [isMessageBoardOpen, setIsMessageBoardOpen] = useState(false);
   const { closeChannel, isLoading, isOpen, launchKey, launchStyle, navigateChannel, openChannel, openChannelData } = useChannelTransition({
     screenRef,
     stageRef,
@@ -20,12 +21,25 @@ export function App() {
       <ChannelShapeDefinitions />
       <main
         ref={screenRef}
-        className={`wii-screen${isOpen ? " is-channel-open" : ""}${isLoading ? " is-channel-loading" : ""}${isDark ? " is-dark" : ""}`}
+        className={`wii-screen${isOpen ? " is-channel-open" : ""}${isLoading ? " is-channel-loading" : ""}${isMessageBoardOpen ? " is-message-board-open" : ""}${isDark ? " is-dark" : ""}`}
         aria-label="Interactive recreation of the Wii Menu"
       >
-        <div className="wii-night-sky" aria-hidden="true" />
-        <ChannelGrid onOpen={openChannel} />
-        <SystemTray isDark={isDark} onToggleTheme={toggleTheme} />
+        <SystemTray
+          isDark={isDark}
+          isMessageBoardOpen={isMessageBoardOpen}
+          onCloseMessageBoard={() => setIsMessageBoardOpen(false)}
+          onOpenMessageBoard={() => setIsMessageBoardOpen(true)}
+          onToggleTheme={toggleTheme}
+        />
+
+        <div className="menu-panel-motion" aria-hidden={isMessageBoardOpen} inert={isMessageBoardOpen}>
+          <div className="menu-surface">
+            <div className="wii-night-sky" aria-hidden="true" />
+            <ChannelGrid onOpen={openChannel} />
+          </div>
+          <MenuPanelInfo />
+        </div>
+
         <ChannelOpenView
           channel={openChannelData}
           launchKey={launchKey}
