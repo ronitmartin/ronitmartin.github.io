@@ -1044,7 +1044,7 @@ button.round-control:focus-visible {
 }
 
 .wii-screen.is-dark .ron-button .wii-button-surface,
-.wii-screen.is-dark .message-button .message-button-surface {
+.wii-screen.is-dark .message-toggle-artwork--message .message-button-surface {
   opacity: 0.68;
 }
 
@@ -1053,8 +1053,8 @@ button.round-control:focus-visible {
   content: none;
 }
 
-.message-button .message-button-surface,
-.message-button .message-button-icon {
+.message-toggle-artwork--message .message-button-surface,
+.message-toggle-artwork--message .message-button-icon {
   position: absolute;
   inset: -5%;
   width: 110%;
@@ -1064,13 +1064,13 @@ button.round-control:focus-visible {
   object-fit: cover;
 }
 
-.message-button .message-button-surface {
+.message-toggle-artwork--message .message-button-surface {
   z-index: 1;
   opacity: 0.76;
   filter: blur(clamp(0.35px, 0.035cqw, 0.65px));
 }
 
-.message-button .message-button-icon {
+.message-toggle-artwork--message .message-button-icon {
   z-index: 2;
   opacity: 0.24;
   mix-blend-mode: multiply;
@@ -1082,6 +1082,8 @@ button.round-control:focus-visible {
   position: absolute;
   inset: 0;
   display: block;
+  overflow: hidden;
+  border-radius: 50%;
   pointer-events: none;
   transition: opacity 0.14s ease-out;
 }
@@ -1114,7 +1116,7 @@ button.round-control:focus-visible {
   content: none;
 }
 
-.system-tray .message-board-return .wii-button-surface {
+.message-toggle-artwork--ron .wii-button-surface {
   position: absolute;
   inset: -5%;
   width: 110%;
@@ -1125,7 +1127,7 @@ button.round-control:focus-visible {
   filter: blur(clamp(0.35px, 0.035cqw, 0.65px));
 }
 
-.system-tray .message-board-return .wii-button-logo {
+.message-toggle-artwork--ron .wii-button-logo {
   position: absolute;
   left: 50%;
   top: 50%;
