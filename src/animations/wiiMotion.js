@@ -14,10 +14,11 @@ export const channelButtonMotion = {
 };
 
 export const channelLaunchTiming = {
-  dimDuration: 360,
-  previewDelay: 80,
-  previewDuration: 620,
-  easing: "cubic-bezier(.08,.54,.12,1)",
+  dimDuration: 330,
+  previewDelay: 145,
+  previewDuration: 285,
+  contentDelay: 95,
+  easing: "cubic-bezier(.12,.72,.14,1)",
 };
 
 export const channelReturnTiming = {

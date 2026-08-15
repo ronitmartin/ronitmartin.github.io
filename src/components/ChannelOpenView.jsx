@@ -4,7 +4,7 @@ import { ChannelOpenContent } from "./ChannelOpenContent";
 const OWN_TITLE_TREATMENT_TYPES = new Set(["missing-link", "github"]);
 const KEYBOARD_ARROW_FEEDBACK_DURATION = 700;
 
-export function ChannelOpenView({ channel, launchKey, launchStyle, onClose, onNavigate, stageRef }) {
+export function ChannelOpenView({ channel, isLoading, launchKey, launchStyle, onClose, onNavigate, stageRef }) {
   const hasOwnTitleTreatment = OWN_TITLE_TREATMENT_TYPES.has(channel?.openType);
   const isChannelOpen = Boolean(channel);
   const [keyboardDirection, setKeyboardDirection] = useState(null);
@@ -57,18 +57,20 @@ export function ChannelOpenView({ channel, launchKey, launchStyle, onClose, onNa
     <section className="channel-open-view" aria-hidden={channel ? "false" : "true"}>
       <div key={launchKey} className="channel-open-stage" ref={stageRef} style={launchStyle}>
         <div className="channel-open-frame" aria-hidden="true">
-          {!hasOwnTitleTreatment && (
+          {!isLoading && !hasOwnTitleTreatment && (
             <>
               <div className="channel-open-bluebar" />
               <h1 className="channel-open-title">{channel?.title || "Channel"}</h1>
             </>
           )}
-          <div
-            key={`${channel?.id || "empty"}-content`}
-            className={`channel-open-content${channel?.openType ? ` channel-open-content--${channel.openType}` : ""}`}
-          >
-            <ChannelOpenContent channel={channel} />
-          </div>
+          {!isLoading && (
+            <div
+              key={`${channel?.id || "empty"}-content`}
+              className={`channel-open-content${channel?.openType ? ` channel-open-content--${channel.openType}` : ""}`}
+            >
+              <ChannelOpenContent channel={channel} />
+            </div>
+          )}
         </div>
 
         <button className="channel-menu-button" type="button" onClick={onClose} aria-label="Ron Menu">
@@ -157,32 +159,36 @@ export function ChannelOpenView({ channel, launchKey, launchStyle, onClose, onNa
           </svg>
         </button>
 
-        <button
-          className={`channel-nav-arrow channel-nav-arrow--prev${keyboardDirection === -1 ? " is-keyboard-active" : ""}`}
-          type="button"
-          aria-label="Previous channel"
-          onClick={() => onNavigate?.(-1)}
-        >
-          <span className="channel-nav-arrow-motion" aria-hidden="true">
-            <span className="channel-nav-arrow-press">
-              <img className="channel-nav-arrow-triangle" src="/assets/wii-page-arrow.png" alt="" />
-              <img className="channel-nav-arrow-badge" src="/assets/wii-nav-minus.png" alt="" />
-            </span>
-          </span>
-        </button>
-        <button
-          className={`channel-nav-arrow channel-nav-arrow--next${keyboardDirection === 1 ? " is-keyboard-active" : ""}`}
-          type="button"
-          aria-label="Next channel"
-          onClick={() => onNavigate?.(1)}
-        >
-          <span className="channel-nav-arrow-motion" aria-hidden="true">
-            <span className="channel-nav-arrow-press">
-              <img className="channel-nav-arrow-triangle" src="/assets/wii-page-arrow.png" alt="" />
-              <img className="channel-nav-arrow-badge" src="/assets/wii-nav-plus.png" alt="" />
-            </span>
-          </span>
-        </button>
+        {!isLoading && (
+          <>
+            <button
+              className={`channel-nav-arrow channel-nav-arrow--prev${keyboardDirection === -1 ? " is-keyboard-active" : ""}`}
+              type="button"
+              aria-label="Previous channel"
+              onClick={() => onNavigate?.(-1)}
+            >
+              <span className="channel-nav-arrow-motion" aria-hidden="true">
+                <span className="channel-nav-arrow-press">
+                  <img className="channel-nav-arrow-triangle" src="/assets/wii-page-arrow.png" alt="" />
+                  <img className="channel-nav-arrow-badge" src="/assets/wii-nav-minus.png" alt="" />
+                </span>
+              </span>
+            </button>
+            <button
+              className={`channel-nav-arrow channel-nav-arrow--next${keyboardDirection === 1 ? " is-keyboard-active" : ""}`}
+              type="button"
+              aria-label="Next channel"
+              onClick={() => onNavigate?.(1)}
+            >
+              <span className="channel-nav-arrow-motion" aria-hidden="true">
+                <span className="channel-nav-arrow-press">
+                  <img className="channel-nav-arrow-triangle" src="/assets/wii-page-arrow.png" alt="" />
+                  <img className="channel-nav-arrow-badge" src="/assets/wii-nav-plus.png" alt="" />
+                </span>
+              </span>
+            </button>
+          </>
+        )}
       </div>
     </section>
   );

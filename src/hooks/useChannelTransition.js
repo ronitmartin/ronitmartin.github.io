@@ -47,13 +47,13 @@ export function useChannelTransition({ screenRef, stageRef }) {
     const reducedMotion = prefersReducedMotion();
     const previewDelay = reducedMotion ? 0 : channelLaunchTiming.previewDelay;
     const previewDuration = reducedMotion ? 1 : channelLaunchTiming.previewDuration;
-    const dimDuration = reducedMotion ? 1 : previewDelay + previewDuration;
+    const dimDuration = reducedMotion ? 1 : channelLaunchTiming.dimDuration;
 
     backdrop.animate(
       [
         { opacity: 0 },
-        { opacity: 0.34, offset: 0.48 },
-        { opacity: 0.88 },
+        { opacity: 0.3, offset: 0.48 },
+        { opacity: 0.82 },
       ],
       {
         duration: dimDuration,
@@ -94,7 +94,7 @@ export function useChannelTransition({ screenRef, stageRef }) {
         launchLayer.remove();
         setIsTransitioning(false);
         document.querySelector(".channel-menu-button")?.focus({ preventScroll: true });
-      }, previewDuration);
+      }, previewDuration + (reducedMotion ? 0 : channelLaunchTiming.contentDelay));
     }, previewDelay);
   }, [isOpen, isTransitioning, screenRef, stageRef]);
 

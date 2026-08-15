@@ -92,7 +92,7 @@ body {
     #101010;
 }
 
-.wii-screen.is-channel-open {
+.wii-screen.is-channel-open:not(.is-channel-loading) {
   background: #000;
 }
 
@@ -195,9 +195,9 @@ body {
   opacity: 1;
 }
 
-.wii-screen.is-channel-open .channel-grid,
-.wii-screen.is-channel-open .menu-panel-info,
-.wii-screen.is-channel-open .system-tray {
+.wii-screen.is-channel-open:not(.is-channel-loading) .channel-grid,
+.wii-screen.is-channel-open:not(.is-channel-loading) .menu-panel-info,
+.wii-screen.is-channel-open:not(.is-channel-loading) .system-tray {
   visibility: hidden;
   opacity: 0;
   transition: opacity 0.22s ease-out, visibility 0s linear 0.22s;
@@ -884,7 +884,7 @@ body {
 }
 
 .date {
-  left: 49.25%;
+  left: 52.5%;
   top: 46%;
   height: 26%;
   display: flex;
@@ -1227,9 +1227,13 @@ button.round-control:focus-visible {
   place-items: center;
   visibility: hidden;
   opacity: 0;
-  background: #000;
+  background: transparent;
   transition: opacity 0.16s ease;
   pointer-events: none;
+}
+
+.wii-screen.is-channel-open:not(.is-channel-loading) .channel-open-view {
+  background: #000;
 }
 
 .wii-screen.is-channel-open .channel-open-view {
@@ -1241,10 +1245,10 @@ button.round-control:focus-visible {
 .channel-open-stage {
   position: relative;
   width: 95.5%;
-  height: 95%;
+  height: 92.5%;
   transform-origin: center center;
   will-change: transform;
-  animation: channel-stage-zoom-in 0.62s cubic-bezier(.08, .54, .12, 1) both;
+  animation: channel-stage-zoom-in 0.285s cubic-bezier(.12, .72, .14, 1) both;
 }
 
 @keyframes channel-stage-zoom-in {
@@ -1349,16 +1353,12 @@ button.round-control:focus-visible {
   top: 19%;
   width: 84%;
   height: 40%;
-  animation: channel-open-content-fade-in 0.5s ease-out both;
+  animation: channel-open-content-fade-in 0.12s ease-out both;
 }
 
 @keyframes channel-open-content-fade-in {
   0% {
-    opacity: 0.22;
-  }
-
-  34% {
-    opacity: 0.82;
+    opacity: 0;
   }
 
   100% {
@@ -1847,11 +1847,11 @@ button.round-control:focus-visible {
   }
 }
 
-.github-contribution-day--level-0 { background: #161b22; }
-.github-contribution-day--level-1 { background: #0e4429; }
-.github-contribution-day--level-2 { background: #006d32; }
-.github-contribution-day--level-3 { background: #26a641; }
-.github-contribution-day--level-4 { background: #39d353; }
+.github-contribution-day--level-0 { background: #151b23; }
+.github-contribution-day--level-1 { background: #033a16; }
+.github-contribution-day--level-2 { background: #196c2e; }
+.github-contribution-day--level-3 { background: #2ea043; }
+.github-contribution-day--level-4 { background: #56d364; }
 
 .github-contribution-day:hover {
   z-index: 2;

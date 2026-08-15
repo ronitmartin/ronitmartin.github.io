@@ -42,6 +42,7 @@ export function App() {
 
         <ChannelOpenView
           channel={openChannelData}
+          isLoading={isLoading}
           launchKey={launchKey}
           launchStyle={launchStyle}
           onClose={closeChannel}

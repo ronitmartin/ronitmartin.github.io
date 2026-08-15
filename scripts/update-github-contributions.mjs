@@ -7,7 +7,7 @@ const token = process.env.GH_TOKEN || process.env.GITHUB_TOKEN;
 const scriptDirectory = dirname(fileURLToPath(import.meta.url));
 const outputPath = resolve(scriptDirectory, "../src/data/github-contributions.json");
 const levelNames = ["NONE", "FIRST_QUARTILE", "SECOND_QUARTILE", "THIRD_QUARTILE", "FOURTH_QUARTILE"];
-const fallbackColors = ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"];
+const fallbackColors = ["#151b23", "#033a16", "#196c2e", "#2ea043", "#56d364"];
 
 function contributionLevelIndex(level) {
   const index = levelNames.indexOf(level);
