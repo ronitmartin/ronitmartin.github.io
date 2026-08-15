@@ -50,10 +50,46 @@ body {
   height: 100vh;
   overflow: hidden;
   background:
-    repeating-linear-gradient(0deg, rgba(171, 171, 171, 0.1) 0 2px, transparent 2px 5px),
-    radial-gradient(ellipse at 50% 7%, #fff 0%, #f9f9f9 48%, #ececec 100%);
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.1) 0 2px, transparent 2px 5px),
+    #d7d8dd;
   box-shadow: inset 0 -2px 0 #7b7b7b;
   filter: none;
+}
+
+.menu-panel-motion,
+.menu-surface {
+  position: absolute;
+  inset: 0;
+}
+
+.menu-panel-motion {
+  z-index: 2;
+  pointer-events: none;
+  transform: translate3d(0, 0, 0);
+  transition: transform 0.72s cubic-bezier(0.42, 0, 0.58, 1);
+  will-change: transform;
+}
+
+.wii-screen.is-message-board-open .menu-panel-motion {
+  transform: translate3d(0, -105%, 0);
+}
+
+.menu-surface {
+  overflow: hidden;
+  clip-path: url("#menu-panel-shape");
+  background:
+    repeating-linear-gradient(0deg, rgba(171, 171, 171, 0.1) 0 2px, transparent 2px 5px),
+    radial-gradient(ellipse at 50% 7%, #fff 0%, #f9f9f9 48%, #ececec 100%);
+}
+
+.menu-surface .channel-grid {
+  pointer-events: auto;
+}
+
+.wii-screen.is-dark {
+  background:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.025) 0 2px, transparent 2px 5px),
+    #101010;
 }
 
 .wii-screen.is-channel-open {
@@ -154,11 +190,13 @@ body {
 }
 
 .channel-grid,
+.menu-panel-info,
 .system-tray {
   opacity: 1;
 }
 
 .wii-screen.is-channel-open .channel-grid,
+.wii-screen.is-channel-open .menu-panel-info,
 .wii-screen.is-channel-open .system-tray {
   visibility: hidden;
   opacity: 0;
@@ -641,10 +679,20 @@ body {
   transform: translateY(-50%);
 }
 
-.system-tray {
+.system-tray,
+.menu-panel-info {
   position: absolute;
-  z-index: 3;
   inset: 72% 0 0;
+}
+
+.system-tray {
+  z-index: 1;
+  pointer-events: none;
+}
+
+.menu-panel-info {
+  z-index: 3;
+  pointer-events: none;
 }
 
 .tray-shape {
@@ -655,13 +703,11 @@ body {
 }
 
 .tray-fill {
-  fill: url("#unused");
-  fill: #d7d8dd;
-  transition: fill 0.9s ease;
+  fill: transparent;
 }
 
 .wii-screen.is-dark .tray-fill {
-  fill: #101010;
+  fill: transparent;
 }
 
 .tray-line {
@@ -672,17 +718,39 @@ body {
 }
 
 .system-tray::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.13) 0 2px, transparent 2px 5px);
-  transition: opacity 0.9s ease;
+  content: none;
 }
 
-.wii-screen.is-dark .system-tray::after {
-  opacity: 0.4;
+.system-tray-controls {
+  position: absolute;
+  inset: 0;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.16s ease-out, visibility 0s linear;
+}
+
+.system-tray-controls > .round-control,
+.system-tray-controls > .sd-card,
+.system-tray > .message-toggle-button {
+  pointer-events: auto;
+}
+
+.system-tray-controls--board {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.16s ease-out, visibility 0s linear 0.16s;
+}
+
+.system-tray.is-board-open .system-tray-controls--menu {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.16s ease-out, visibility 0s linear 0.16s;
+}
+
+.system-tray.is-board-open .system-tray-controls--board {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.16s ease-out, visibility 0s linear;
 }
 
 .clock,
@@ -835,6 +903,10 @@ body {
   transition: opacity 0.9s ease, filter 0.9s ease;
 }
 
+.date-glyph--value-5 {
+  transform: translateY(2.2%);
+}
+
 .wii-screen.is-dark .date-glyph {
   opacity: 0.58;
   filter: brightness(0) invert(1);
@@ -871,7 +943,9 @@ button.round-control {
 }
 
 .ron-button:hover,
-.ron-button:focus-visible {
+.ron-button:focus-visible,
+.message-button:hover,
+.message-button:focus-visible {
   cursor: url("/assets/wiicursor-40-upright.png") 14 2, url("/assets/wiicursor.cur"), pointer;
 }
 
@@ -1002,6 +1076,77 @@ button.round-control:focus-visible {
   mix-blend-mode: multiply;
   transform: translate(1.8%, 2.2%);
   filter: invert(1) blur(clamp(0.35px, 0.04cqw, 0.75px));
+}
+
+.message-toggle-artwork {
+  position: absolute;
+  inset: 0;
+  display: block;
+  pointer-events: none;
+  transition: opacity 0.14s ease-out;
+}
+
+.message-toggle-artwork--message,
+.message-board-return .message-toggle-artwork--ron {
+  opacity: 1;
+}
+
+.message-toggle-artwork--ron,
+.message-board-return .message-toggle-artwork--message {
+  opacity: 0;
+}
+
+.system-tray .message-board-return {
+  right: 4.65%;
+  border-width: clamp(2px, 0.17cqw, 3px);
+  border-color: #35b5d2;
+  background: #f0f0f1;
+  box-shadow:
+    0 0 clamp(2px, 0.16cqw, 3px) clamp(1px, 0.05cqw, 1px) rgba(39, 179, 210, 0.3),
+    0.2cqw 0.3cqw 0 clamp(2px, 0.2cqw, 5px) rgba(198, 199, 203, 0.58),
+    0.5cqw 0.58cqw clamp(3px, 0.26cqw, 6px) rgba(154, 156, 161, 0.16),
+    inset 0.08cqw 0.12cqw 0.2cqw rgba(255, 255, 255, 0.72),
+    inset -0.12cqw -0.18cqw 0.3cqw rgba(144, 146, 151, 0.12);
+}
+
+.system-tray .message-board-return::before,
+.system-tray .message-board-return::after {
+  content: none;
+}
+
+.system-tray .message-board-return .wii-button-surface {
+  position: absolute;
+  inset: -5%;
+  width: 110%;
+  height: 110%;
+  border-radius: 50%;
+  object-fit: cover;
+  opacity: 0.76;
+  filter: blur(clamp(0.35px, 0.035cqw, 0.65px));
+}
+
+.system-tray .message-board-return .wii-button-logo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 52%;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: contain;
+}
+
+.wii-screen.is-dark .message-board-return {
+  box-shadow:
+    0 0 clamp(3px, 0.28cqw, 6px) rgba(33, 189, 232, 0.45),
+    0 0 clamp(10px, 0.9cqw, 18px) rgba(33, 189, 232, 0.18),
+    0.22cqw 0.32cqw clamp(3px, 0.24cqw, 6px) rgba(0, 0, 0, 0.55),
+    inset 0.08cqw 0.12cqw 0.22cqw rgba(255, 255, 255, 0.68),
+    inset -0.12cqw -0.18cqw 0.3cqw rgba(0, 0, 0, 0.18);
+}
+
+.message-board-return:hover,
+.message-board-return:focus-visible {
+  cursor: url("/assets/wiicursor-40-upright.png") 14 2, url("/assets/wiicursor.cur"), pointer;
 }
 
 .sd-card {
@@ -1417,9 +1562,6 @@ button.round-control:focus-visible {
 .github-title-card {
   position: absolute;
   inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   isolation: isolate;
   overflow: hidden;
   background:
@@ -1444,7 +1586,7 @@ button.round-control:focus-visible {
   position: absolute;
   z-index: 0;
   left: 50%;
-  top: 43%;
+  top: 39%;
   width: 58cqw;
   height: 58cqw;
   transform: translate(-50%, -50%);
@@ -1453,7 +1595,8 @@ button.round-control:focus-visible {
 }
 
 .github-title-mark {
-  width: clamp(118px, 19cqw, 250px);
+  flex: none;
+  width: 74px;
   height: auto;
   fill: #f0f6fc;
   opacity: 0;
@@ -1478,13 +1621,22 @@ button.round-control:focus-visible {
 }
 
 .github-title-copy {
-  position: relative;
+  position: absolute;
   z-index: 2;
+  top: 5.5%;
+  left: 50%;
+  width: 78%;
   min-width: 0;
-  display: grid;
-  justify-items: center;
-  gap: clamp(8px, 1cqw, 18px);
-  max-width: 74%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  transform: translateX(-50%);
+  text-align: left;
+}
+
+.github-title-identity {
+  min-width: 0;
 }
 
 .github-title-wordmark {
@@ -1494,8 +1646,8 @@ button.round-control:focus-visible {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 800;
-  font-size: clamp(44px, 8.2cqw, 142px);
-  line-height: 0.78;
+  font-size: 64px;
+  line-height: 0.82;
   color: #f0f6fc;
   letter-spacing: 0;
   text-shadow:
@@ -1556,12 +1708,175 @@ button.round-control:focus-visible {
 }
 
 .github-title-tagline {
-  max-width: 34ch;
-  margin: 0 auto;
-  font-size: clamp(9px, 1.1cqw, 19px);
+  max-width: none;
+  margin: 8px 0 0;
+  font-size: 14px;
   line-height: 1.4;
-  letter-spacing: 0.01em;
+  letter-spacing: 0;
   color: rgba(240, 246, 252, 0.7);
+  white-space: nowrap;
+}
+
+.github-contributions {
+  position: absolute;
+  z-index: 3;
+  top: 27%;
+  left: 50%;
+  width: min(84%, 1320px);
+  color: #f0f6fc;
+  text-align: left;
+  transform: translateX(-50%);
+  animation: github-contributions-in 620ms ease-out 1040ms both;
+}
+
+@keyframes github-contributions-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.github-contributions-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 10px;
+  color: rgba(240, 246, 252, 0.76);
+  font-size: 15px;
+}
+
+.github-contributions-header p {
+  margin: 0;
+}
+
+.github-contributions-header strong {
+  color: #f0f6fc;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.github-contributions-header > span {
+  color: rgba(240, 246, 252, 0.5);
+  font-size: 13px;
+}
+
+.github-contributions-calendar {
+  padding: 14px 16px 12px;
+  border: 1px solid rgba(139, 148, 158, 0.42);
+  border-radius: 6px;
+  background: rgba(13, 17, 23, 0.66);
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.2),
+    inset 0 1px rgba(255, 255, 255, 0.025);
+  backdrop-filter: blur(4px);
+}
+
+.github-contributions-months {
+  display: grid;
+  grid-template-columns: repeat(var(--week-count), minmax(0, 1fr));
+  height: 18px;
+  margin-left: 36px;
+  color: rgba(240, 246, 252, 0.62);
+  font-size: 11px;
+  line-height: 1;
+}
+
+.github-contributions-months span {
+  white-space: nowrap;
+}
+
+.github-contributions-body {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 8px;
+}
+
+.github-contributions-weekdays {
+  display: grid;
+  grid-template-rows: repeat(7, 1fr);
+  align-items: center;
+  color: rgba(240, 246, 252, 0.54);
+  font-size: 10px;
+  line-height: 1;
+}
+
+.github-contributions-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--week-count), minmax(0, 1fr));
+  gap: 3px;
+}
+
+.github-contributions-week {
+  display: grid;
+  grid-template-rows: repeat(7, 1fr);
+  gap: 3px;
+  min-width: 0;
+}
+
+.github-contribution-day {
+  display: block;
+  aspect-ratio: 1;
+  border: 1px solid rgba(240, 246, 252, 0.035);
+  border-radius: 2px;
+  background: #161b22;
+}
+
+.github-contribution-day {
+  position: relative;
+  min-width: 0;
+  opacity: 0;
+  animation: github-contribution-day-in 340ms ease-out var(--cell-delay) both;
+  transition: transform 90ms ease-out, filter 90ms ease-out, outline-color 90ms ease-out;
+}
+
+@keyframes github-contribution-day-in {
+  from {
+    opacity: 0;
+    filter: brightness(1.8);
+  }
+
+  to {
+    opacity: 1;
+    filter: brightness(1);
+  }
+}
+
+.github-contribution-day--level-0 { background: #161b22; }
+.github-contribution-day--level-1 { background: #0e4429; }
+.github-contribution-day--level-2 { background: #006d32; }
+.github-contribution-day--level-3 { background: #26a641; }
+.github-contribution-day--level-4 { background: #39d353; }
+
+.github-contribution-day:hover {
+  z-index: 2;
+  outline: 2px solid rgba(88, 166, 255, 0.9);
+  outline-offset: 1px;
+  filter: brightness(1.22);
+  transform: scale(1.34);
+}
+
+.github-contributions-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  min-height: 16px;
+  margin-top: 10px;
+  color: rgba(240, 246, 252, 0.58);
+  font-size: 11px;
+  line-height: 1;
+}
+
+.github-contributions-footer > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .github-title-kicker {
@@ -1572,6 +1887,80 @@ button.round-control:focus-visible {
   font-size: clamp(8px, 0.85cqw, 15px);
   letter-spacing: 0.24em;
   color: rgba(240, 246, 252, 0.56);
+}
+
+@media (max-width: 700px) {
+  .github-title-copy {
+    top: 4%;
+    width: 86%;
+    gap: 10px;
+  }
+
+  .github-title-mark {
+    width: 48px;
+  }
+
+  .github-title-wordmark {
+    font-size: 40px;
+  }
+
+  .github-title-tagline {
+    margin-top: 4px;
+    font-size: 10px;
+  }
+
+  .github-contributions {
+    top: 23%;
+    width: 91%;
+  }
+
+  .github-contributions-header {
+    margin-bottom: 6px;
+    font-size: 10px;
+  }
+
+  .github-contributions-header strong {
+    font-size: 13px;
+  }
+
+  .github-contributions-header > span {
+    font-size: 9px;
+  }
+
+  .github-contributions-calendar {
+    padding: 8px 7px 7px;
+  }
+
+  .github-contributions-months {
+    height: 12px;
+    margin-left: 23px;
+    font-size: 7px;
+  }
+
+  .github-contributions-body {
+    grid-template-columns: 18px minmax(0, 1fr);
+    gap: 4px;
+  }
+
+  .github-contributions-weekdays,
+  .github-contributions-footer {
+    font-size: 7px;
+  }
+
+  .github-contributions-grid,
+  .github-contributions-week {
+    gap: 1px;
+  }
+
+  .github-contribution-day {
+    border-width: 0;
+    border-radius: 1px;
+  }
+
+  .github-contributions-footer {
+    margin-top: 6px;
+  }
+
 }
 
 .channel-open-content .channel-frame {
@@ -1761,14 +2150,16 @@ button.round-control:focus-visible {
 }
 
 .channel-nav-arrow:hover .channel-nav-arrow-motion,
-.channel-nav-arrow:focus-visible .channel-nav-arrow-motion {
+.channel-nav-arrow:focus-visible .channel-nav-arrow-motion,
+.channel-nav-arrow.is-keyboard-active .channel-nav-arrow-motion {
   filter:
     drop-shadow(0 0.15cqw 0.3cqw rgba(0, 0, 0, 0.25))
     brightness(1.08);
 }
 
 .channel-nav-arrow:hover .channel-nav-arrow-badge,
-.channel-nav-arrow:focus-visible .channel-nav-arrow-badge {
+.channel-nav-arrow:focus-visible .channel-nav-arrow-badge,
+.channel-nav-arrow.is-keyboard-active .channel-nav-arrow-badge {
   opacity: 1;
 }
 
@@ -1785,6 +2176,7 @@ button.round-control:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   .channel-open-view,
   .channel-grid,
+  .menu-panel-motion,
   .tray-line,
   .clock,
   .wii-menu-intro {
@@ -1795,6 +2187,8 @@ button.round-control:focus-visible {
   .missing-link-title-symbol-image,
   .channel-nav-arrow-motion,
   .empty-channel-static-frame,
+  .github-contributions,
+  .github-contribution-day,
   .github-title-mark,
   .github-title-letter,
   .missing-link-word,
@@ -1804,10 +2198,16 @@ button.round-control:focus-visible {
 
   .github-title-mark,
   .github-title-letter,
+  .github-contribution-day,
   .missing-link-word,
   .missing-link-title-word {
     opacity: 1;
     filter: none;
     transform: none;
+  }
+
+  .github-contributions {
+    opacity: 1;
+    transform: translateX(-50%);
   }
 }

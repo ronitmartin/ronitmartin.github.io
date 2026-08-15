@@ -18,7 +18,7 @@ const weekdayFormatter = new Intl.DateTimeFormat("en-US", {
   weekday: "short",
 });
 
-export function SystemClock() {
+function useSystemTime() {
   const [now, setNow] = useState(() => new Date());
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export function SystemClock() {
     return () => window.clearInterval(intervalId);
   }, []);
 
-  const timeParts = useMemo(() => {
+  return useMemo(() => {
     const hours = now.getHours();
     const displayHours = hours % 12 || 12;
     const minutes = String(now.getMinutes()).padStart(2, "0");
@@ -35,43 +35,67 @@ export function SystemClock() {
     return {
       clockValue: `${displayHours}:${minutes}`,
       meridiem,
+      isoTime: now.toISOString(),
       dateValue: `${weekdayFormatter.format(now)} ${now.getMonth() + 1}/${now.getDate()}`,
       dateTime: `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`,
     };
   }, [now]);
+}
+
+export function SystemDate({ className = "", id = "system-date" }) {
+  const timeParts = useSystemTime();
 
   return (
-    <>
-      <time className="clock" id="system-clock" dateTime={now.toISOString()} aria-label={`${timeParts.clockValue} ${timeParts.meridiem}`}>
-        <span className="clock-digits" aria-hidden="true">
-          {[...timeParts.clockValue].map((character, index) => (
-            <img
-              key={`${character}-${index}`}
-              className={
-                character === ":"
-                  ? "clock-glyph clock-glyph--colon"
-                  : `clock-glyph clock-glyph--digit clock-glyph--value-${character}`
-              }
-              src={clockGlyphs[character]}
-              alt=""
-              draggable="false"
-            />
-          ))}
-        </span>
-        <span className="clock-meridiem" aria-hidden="true">
-          <img className="clock-meridiem-image" src={`/assets/wii-clock-${timeParts.meridiem.toLowerCase()}.png`} alt="" draggable="false" />
-        </span>
-      </time>
+    <time className={`date${className ? ` ${className}` : ""}`} id={id} dateTime={timeParts.dateTime}>
+      {[...timeParts.dateValue].map((character, index) =>
+        character === " " ? (
+          <span key={`space-${index}`} className="date-space" />
+        ) : (
+          <img
+            key={`${character}-${index}`}
+            className={`date-glyph date-glyph--value-${character}`}
+            src={`/assets/wii-date-${character.codePointAt(0)}.png`}
+            alt=""
+            draggable="false"
+          />
+        ),
+      )}
+    </time>
+  );
+}
 
-      <time className="date" id="system-date" dateTime={timeParts.dateTime}>
-        {[...timeParts.dateValue].map((character, index) =>
-          character === " " ? (
-            <span key={`space-${index}`} className="date-space" />
-          ) : (
-            <img key={`${character}-${index}`} className="date-glyph" src={`/assets/wii-date-${character.codePointAt(0)}.png`} alt="" draggable="false" />
-          ),
-        )}
-      </time>
+export function SystemTime() {
+  const timeParts = useSystemTime();
+
+  return (
+    <time className="clock" id="system-clock" dateTime={timeParts.isoTime} aria-label={`${timeParts.clockValue} ${timeParts.meridiem}`}>
+      <span className="clock-digits" aria-hidden="true">
+        {[...timeParts.clockValue].map((character, index) => (
+          <img
+            key={`${character}-${index}`}
+            className={
+              character === ":"
+                ? "clock-glyph clock-glyph--colon"
+                : `clock-glyph clock-glyph--digit clock-glyph--value-${character}`
+            }
+            src={clockGlyphs[character]}
+            alt=""
+            draggable="false"
+          />
+        ))}
+      </span>
+      <span className="clock-meridiem" aria-hidden="true">
+        <img className="clock-meridiem-image" src={`/assets/wii-clock-${timeParts.meridiem.toLowerCase()}.png`} alt="" draggable="false" />
+      </span>
+    </time>
+  );
+}
+
+export function SystemClock() {
+  return (
+    <>
+      <SystemTime />
+      <SystemDate />
     </>
   );
 }
