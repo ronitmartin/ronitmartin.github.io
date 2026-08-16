@@ -2,6 +2,8 @@ import { useRef, useState } from "react";
 import { ChannelGrid } from "./components/ChannelGrid";
 import { ChannelOpenView } from "./components/ChannelOpenView";
 import { ChannelShapeDefinitions } from "./components/ChannelShapeDefinitions";
+import { MessageBoard } from "./components/MessageBoard";
+import { StartupSequence } from "./components/StartupSequence";
 import { MenuPanelInfo, SystemTray } from "./components/SystemTray";
 import { useChannelTransition } from "./hooks/useChannelTransition";
 import { useDayNightTheme } from "./hooks/useDayNightTheme";
@@ -10,6 +12,7 @@ export function App() {
   const screenRef = useRef(null);
   const stageRef = useRef(null);
   const [isMessageBoardOpen, setIsMessageBoardOpen] = useState(false);
+  const [isStartupActive, setIsStartupActive] = useState(true);
   const { closeChannel, isLoading, isOpen, launchKey, launchStyle, navigateChannel, openChannel, openChannelData } = useChannelTransition({
     screenRef,
     stageRef,
@@ -21,7 +24,7 @@ export function App() {
       <ChannelShapeDefinitions />
       <main
         ref={screenRef}
-        className={`wii-screen${isOpen ? " is-channel-open" : ""}${isLoading ? " is-channel-loading" : ""}${isMessageBoardOpen ? " is-message-board-open" : ""}${isDark ? " is-dark" : ""}`}
+        className={`wii-screen${isOpen ? " is-channel-open" : ""}${isLoading ? " is-channel-loading" : ""}${isMessageBoardOpen ? " is-message-board-open" : ""}${isStartupActive ? " is-startup-active" : ""}${isDark ? " is-dark" : ""}`}
         aria-label="Interactive recreation of the Wii Menu"
       >
         <SystemTray
@@ -31,6 +34,8 @@ export function App() {
           onOpenMessageBoard={() => setIsMessageBoardOpen(true)}
           onToggleTheme={toggleTheme}
         />
+
+        <MessageBoard isOpen={isMessageBoardOpen} />
 
         <div className="menu-panel-motion" aria-hidden={isMessageBoardOpen} inert={isMessageBoardOpen}>
           <div className="menu-surface">
@@ -49,6 +54,8 @@ export function App() {
           onNavigate={navigateChannel}
           stageRef={stageRef}
         />
+
+        {isStartupActive && <StartupSequence onComplete={() => setIsStartupActive(false)} />}
       </main>
     </>
   );

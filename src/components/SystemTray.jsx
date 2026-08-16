@@ -9,7 +9,7 @@ export function MenuPanelInfo() {
 
       <SystemTime />
       <div className="wii-menu-intro" aria-hidden="true">
-        Wii Menu
+        Ron Menu
       </div>
     </section>
   );

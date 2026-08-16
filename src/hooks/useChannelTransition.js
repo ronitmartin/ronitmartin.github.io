@@ -48,6 +48,19 @@ export function useChannelTransition({ screenRef, stageRef }) {
     const previewDelay = reducedMotion ? 0 : channelLaunchTiming.previewDelay;
     const previewDuration = reducedMotion ? 1 : channelLaunchTiming.previewDuration;
     const dimDuration = reducedMotion ? 1 : channelLaunchTiming.dimDuration;
+    const launchDuration = previewDelay + previewDuration;
+    const stageWidth = screenRect.width * 0.955;
+    const stageHeight = screenRect.height * 0.925;
+    const frameCenterX = frameRect.left - screenRect.left + frameRect.width / 2;
+    const frameCenterY = frameRect.top - screenRect.top + frameRect.height / 2;
+    const targetX = screenRect.width / 2 - frameCenterX;
+    const targetY = screenRect.height / 2 - frameCenterY;
+    const targetScaleX = stageWidth / frameRect.width;
+    const targetScaleY = stageHeight / frameRect.height;
+    const zoomStartOffset = launchDuration > 0 ? previewDelay / launchDuration : 0;
+    const artworkFadeEndOffset = launchDuration > 0
+      ? (previewDelay + previewDuration * 0.5) / launchDuration
+      : 0;
 
     backdrop.animate(
       [
@@ -64,18 +77,15 @@ export function useChannelTransition({ screenRef, stageRef }) {
 
     launchClone.animate(
       [
-        { filter: "brightness(1.08)", opacity: 1, transform: "scale(1)" },
-        { filter: "brightness(1.14)", opacity: 1, offset: 0.58, transform: "scale(1.035)" },
-        { filter: "brightness(1.04)", opacity: 0, transform: "scale(1.035)" },
+        { filter: "brightness(1.08)", opacity: 1, transform: "translate3d(0, 0, 0) scale(1)", easing: "ease-out" },
+        { filter: "brightness(1.14)", opacity: 1, offset: zoomStartOffset, transform: "translate3d(0, 0, 0) scale(1.035)", easing: channelLaunchTiming.easing },
+        { filter: "brightness(1.08)", opacity: 0, offset: artworkFadeEndOffset },
+        { filter: "brightness(1.04)", opacity: 0, transform: `translate3d(${targetX}px, ${targetY}px, 0) scale(${targetScaleX}, ${targetScaleY})` },
       ],
-      { duration: previewDelay + 260, easing: "ease-out", fill: "forwards" },
+      { duration: launchDuration, easing: "linear", fill: "forwards" },
     );
 
     window.setTimeout(() => {
-      const stageWidth = screenRect.width * 0.955;
-      const stageHeight = screenRect.height * 0.95;
-      const frameCenterX = frameRect.left - screenRect.left + frameRect.width / 2;
-      const frameCenterY = frameRect.top - screenRect.top + frameRect.height / 2;
       const startScale = Math.min(frameRect.width / stageWidth, frameRect.height / stageHeight) * 1.28;
       const startX = frameCenterX - screenRect.width / 2;
       const startY = frameCenterY - screenRect.height / 2;
@@ -110,12 +120,14 @@ export function useChannelTransition({ screenRef, stageRef }) {
     const reducedMotion = prefersReducedMotion();
     const screenRect = wiiScreen.getBoundingClientRect();
     const stageRect = stage.getBoundingClientRect();
-    const targetRect = currentOpenFrame.current?.getBoundingClientRect();
+    const targetFrame = currentOpenFrame.current;
+    const targetRect = targetFrame?.getBoundingClientRect();
     const targetCenterX = targetRect ? targetRect.left - screenRect.left + targetRect.width / 2 : screenRect.width / 2;
     const targetCenterY = targetRect ? targetRect.top - screenRect.top + targetRect.height / 2 : screenRect.height * 0.42;
     const stageCenterX = stageRect.left - screenRect.left + stageRect.width / 2;
     const stageCenterY = stageRect.top - screenRect.top + stageRect.height / 2;
-    const endScale = targetRect ? Math.min(targetRect.width / stageRect.width, targetRect.height / stageRect.height) * 1.32 : 0.24;
+    const endScaleX = targetRect ? targetRect.width / stageRect.width : 0.24;
+    const endScaleY = targetRect ? targetRect.height / stageRect.height : 0.24;
     const deltaX = targetCenterX - stageCenterX;
     const deltaY = targetCenterY - stageCenterY;
 
@@ -131,6 +143,7 @@ export function useChannelTransition({ screenRef, stageRef }) {
     stageClone.style.height = `${stageRect.height}px`;
     returnLayer.append(backdrop, stageClone);
     wiiScreen.append(returnLayer);
+    targetFrame?.classList.add("is-channel-return-target");
 
     setIsOpen(false);
     setIsLoading(false);
@@ -138,33 +151,46 @@ export function useChannelTransition({ screenRef, stageRef }) {
     setLaunchStyle(null);
 
     const duration = reducedMotion ? 1 : channelReturnTiming.duration;
-    backdrop.animate([{ opacity: 0.72 }, { opacity: 0 }], {
-      duration: duration + 120,
-      easing: "ease-out",
+    backdrop.animate([
+      { opacity: 1 },
+      { opacity: 1, offset: 0.48, easing: "ease-out" },
+      { opacity: 0 },
+    ], {
+      duration,
+      easing: "linear",
       fill: "forwards",
     });
 
     const returnAnimation = stageClone.animate(
       [
-        { opacity: 1, transform: "translate3d(0, 0, 0) scale(1)" },
+        { transform: "translate3d(0, 0, 0) scale(1)" },
         {
-          opacity: 0.96,
           offset: 0.72,
-          transform: `translate3d(${deltaX * 0.86}px, ${deltaY * 0.86}px, 0) scale(${endScale * 1.3})`,
+          transform: `translate3d(${deltaX * 0.86}px, ${deltaY * 0.86}px, 0) scale(${endScaleX * 1.3}, ${endScaleY * 1.3})`,
         },
         {
-          opacity: 0,
-          transform: `translate3d(${deltaX}px, ${deltaY}px, 0) scale(${endScale})`,
+          transform: `translate3d(${deltaX}px, ${deltaY}px, 0) scale(${endScaleX}, ${endScaleY})`,
         },
       ],
       { duration, easing: channelReturnTiming.easing, fill: "forwards" },
     );
 
+    const artworkFadeTiming = {
+      delay: duration * 0.5,
+      duration: duration * 0.5,
+      easing: "ease-in-out",
+      fill: "forwards",
+    };
+    stageClone.animate([{ opacity: 1 }, { opacity: 0 }], artworkFadeTiming);
+    const targetFadeAnimation = targetFrame?.animate([{ opacity: 0 }, { opacity: 1 }], artworkFadeTiming);
+
     returnAnimation.finished
       .catch(() => {})
       .then(() => {
+        targetFrame?.classList.remove("is-channel-return-target");
+        targetFadeAnimation?.cancel();
         returnLayer.remove();
-        currentOpenFrame.current?.focus({ preventScroll: true });
+        targetFrame?.focus({ preventScroll: true });
         currentOpenFrame.current = null;
         setIsTransitioning(false);
       });

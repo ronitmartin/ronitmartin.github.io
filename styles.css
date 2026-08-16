@@ -16,6 +16,18 @@
   box-sizing: border-box;
 }
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 html,
 body {
   width: 100%;
@@ -74,6 +86,219 @@ body {
   transform: translate3d(0, -105%, 0);
 }
 
+.message-board {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0s linear 0.72s, visibility 0s linear 0.72s;
+}
+
+.message-board.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 0.18s ease-out, visibility 0s linear;
+}
+
+.contact-memo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(42cqw, 68cqh);
+  height: min(64cqh, 78cqw);
+  transform: translate(-50%, -50%);
+}
+
+.contact-memo-surface {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+
+.contact-memo-title {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 0;
+  height: 11.6%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 0.4%;
+  margin: 0;
+  color: #fff;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: clamp(14px, 2.05cqw, 36px);
+  font-weight: 300;
+  line-height: 1;
+  text-align: center;
+  transform: translateY(1.1cqh);
+}
+
+.contact-memo-form {
+  position: absolute;
+  left: 8.5%;
+  right: 8.5%;
+  top: 15%;
+  bottom: 18.5%;
+  display: grid;
+  grid-template-rows: 16% 16% minmax(0, 1fr) 17%;
+  gap: 3.5%;
+}
+
+.contact-memo-form label,
+.contact-memo-form input,
+.contact-memo-form select,
+.contact-memo-form textarea {
+  display: block;
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.contact-memo-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 4%;
+}
+
+.contact-memo-inquiry {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 4%;
+  min-width: 0;
+}
+
+.contact-memo-inquiry.has-other {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.contact-memo-form input,
+.contact-memo-form select,
+.contact-memo-form textarea {
+  appearance: none;
+  padding: 0 clamp(10px, 1.15cqw, 20px);
+  border: clamp(1px, 0.16cqw, 3px) solid #b3b3b3;
+  border-radius: clamp(3px, 0.42cqw, 7px);
+  outline: none;
+  background: rgba(250, 250, 250, 0.94);
+  color: #4d4d4d;
+  font: 400 clamp(10px, 1.15cqw, 19px) / 1.2 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  transition: border-color 0.12s ease-out, box-shadow 0.12s ease-out, background-color 0.12s ease-out;
+}
+
+.contact-memo-form select {
+  padding-right: clamp(32px, 3cqw, 48px);
+  background-image:
+    linear-gradient(45deg, transparent 50%, #8f8f8f 50%),
+    linear-gradient(135deg, #8f8f8f 50%, transparent 50%);
+  background-position:
+    calc(100% - clamp(18px, 1.55cqw, 27px)) 50%,
+    calc(100% - clamp(12px, 1.15cqw, 20px)) 50%;
+  background-size: clamp(5px, 0.48cqw, 8px) clamp(5px, 0.48cqw, 8px);
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.contact-memo-form select:invalid {
+  color: #9a9a9a;
+}
+
+.contact-memo-form select option {
+  color: #4d4d4d;
+}
+
+.contact-memo-form textarea {
+  padding-top: clamp(8px, 0.85cqw, 15px);
+  resize: none;
+}
+
+.contact-memo-form input::placeholder,
+.contact-memo-form textarea::placeholder {
+  color: #9a9a9a;
+  opacity: 1;
+}
+
+.contact-memo-form input:focus,
+.contact-memo-form select:focus,
+.contact-memo-form textarea:focus {
+  border-color: #2abce8;
+  background: #fff;
+  box-shadow: 0 0 0 clamp(1px, 0.12cqw, 2px) rgba(42, 188, 232, 0.2);
+}
+
+.contact-memo-submit {
+  position: relative;
+  justify-self: center;
+  width: min(58%, 26cqh);
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #4b4f50;
+  cursor: url("/assets/wiicursor-40-upright.png") 14 2, url("/assets/wiicursor.cur"), pointer;
+  transform: translateY(-1.1cqh);
+}
+
+.contact-memo-submit img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  transition: filter 0.08s linear;
+}
+
+.contact-memo-submit span {
+  position: relative;
+  z-index: 1;
+  font: 400 clamp(10px, 1.2cqw, 20px) / 1 "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.contact-memo-submit:hover img,
+.contact-memo-submit:focus-visible img {
+  filter: brightness(1.08);
+}
+
+.contact-memo-submit:active {
+  transform: translateY(-1.1cqh) scale(0.975);
+}
+
+.contact-memo-submit:focus-visible {
+  outline: clamp(1px, 0.14cqw, 3px) solid #2abce8;
+  outline-offset: clamp(1px, 0.15cqw, 3px);
+  border-radius: 999px;
+}
+
+.contact-memo-brand {
+  position: absolute;
+  left: 50%;
+  bottom: 5.2%;
+  width: 20%;
+  height: 7.5%;
+  display: grid;
+  place-items: center;
+  background: #fff;
+  transform: translateX(-50%);
+}
+
+.contact-memo-brand img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: block;
+  width: auto;
+  height: 62%;
+  max-width: 82%;
+  opacity: 0.82;
+  transform: translate(-50%, -50%);
+}
+
 .menu-surface {
   overflow: hidden;
   clip-path: url("#menu-panel-shape");
@@ -111,7 +336,6 @@ body {
     radial-gradient(1px 1px at 58% 34%, rgba(255, 255, 255, 0.55), transparent 60%),
     radial-gradient(1.2px 1.2px at 72% 20%, rgba(255, 255, 255, 0.8), transparent 60%),
     radial-gradient(1px 1px at 85% 50%, rgba(255, 255, 255, 0.6), transparent 60%),
-    radial-gradient(1.3px 1.3px at 6% 60%, rgba(255, 255, 255, 0.5), transparent 60%),
     radial-gradient(1px 1px at 34% 66%, rgba(255, 255, 255, 0.45), transparent 60%),
     radial-gradient(1.2px 1.2px at 63% 58%, rgba(255, 255, 255, 0.55), transparent 60%),
     radial-gradient(1px 1px at 91% 64%, rgba(255, 255, 255, 0.4), transparent 60%),
@@ -131,6 +355,94 @@ body {
   inset: 0;
   z-index: 20;
   pointer-events: none;
+}
+
+.startup-sequence {
+  position: absolute;
+  z-index: 100;
+  inset: 0;
+  overflow: hidden;
+  background: #000;
+  cursor: none;
+  animation: startup-sequence-reveal 3.35s linear forwards;
+}
+
+.startup-sequence-grid {
+  position: absolute;
+  top: 6.2%;
+  left: 10.8%;
+  display: grid;
+  grid-template-columns: repeat(4, 18.5cqw);
+  grid-template-rows: repeat(3, 31.5%);
+  gap: 1.5% 0.8cqw;
+  width: 111%;
+  height: 63%;
+}
+
+.startup-sequence-tile {
+  min-width: 0;
+  min-height: 0;
+  opacity: 0;
+  animation: startup-sequence-tile-on 0.34s ease-out var(--startup-in-delay) forwards;
+}
+
+.startup-sequence-tile-face {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  place-items: center;
+  overflow: hidden;
+  clip-path: url("#channel-crt-shape");
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12), transparent 48%),
+    #747474;
+  box-shadow: inset 0 0 0 clamp(1px, 0.12cqw, 2px) rgba(255, 255, 255, 0.1);
+  animation: startup-sequence-tile-off 0.3s ease-in var(--startup-out-delay) forwards;
+}
+
+.startup-sequence-tile-face img {
+  display: block;
+  width: 22%;
+  height: auto;
+  opacity: 0.42;
+  filter: grayscale(1) brightness(0.38) contrast(1.15);
+}
+
+@keyframes startup-sequence-tile-on {
+  from {
+    opacity: 0;
+    filter: brightness(0.18);
+  }
+  to {
+    opacity: 1;
+    filter: brightness(1);
+  }
+}
+
+@keyframes startup-sequence-tile-off {
+  from {
+    opacity: 1;
+    filter: brightness(1);
+  }
+  to {
+    opacity: 0;
+    filter: brightness(0.12);
+  }
+}
+
+@keyframes startup-sequence-reveal {
+  0%, 78% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .startup-sequence {
+    animation-duration: 0.01ms;
+  }
 }
 
 .wii-screen::before {
@@ -781,6 +1093,11 @@ body {
   animation: system-info-intro-in 0.48s ease-out 3s both;
 }
 
+.wii-screen.is-startup-active .wii-menu-intro,
+.wii-screen.is-startup-active .clock {
+  animation-play-state: paused;
+}
+
 @keyframes wii-menu-intro-out {
   0%, 84% {
     opacity: 1;
@@ -884,7 +1201,7 @@ body {
 }
 
 .date {
-  left: 52.5%;
+  left: 50%;
   top: 46%;
   height: 26%;
   display: flex;
@@ -1169,13 +1486,13 @@ button.round-control:focus-visible {
 .channel-launch-layer {
   position: absolute;
   inset: 0;
-  z-index: 35;
   overflow: hidden;
   pointer-events: none;
 }
 
 .channel-launch-backdrop {
   position: absolute;
+  z-index: 35;
   inset: 0;
   background: #000;
   opacity: 0;
@@ -1183,6 +1500,7 @@ button.round-control:focus-visible {
 
 .channel-launch-clone {
   position: absolute;
+  z-index: 45;
   left: var(--launch-left);
   top: var(--launch-top);
   width: var(--launch-width);
@@ -1207,7 +1525,7 @@ button.round-control:focus-visible {
   position: absolute;
   inset: 0;
   background: #000;
-  opacity: 0.72;
+  opacity: 1;
 }
 
 .channel-return-stage {
@@ -1219,6 +1537,15 @@ button.round-control:focus-visible {
 .channel-return-stage .channel-menu-button,
 .channel-return-stage .channel-start-button {
   pointer-events: none;
+}
+
+.channel-return-stage .channel-open-content {
+  opacity: 1;
+  animation: none;
+}
+
+.channel-frame.is-channel-return-target {
+  opacity: 0;
 }
 
 .channel-open-view {
@@ -1266,7 +1593,7 @@ button.round-control:focus-visible {
   height: 92.5%;
   transform-origin: center center;
   will-change: transform;
-  animation: channel-stage-zoom-in 0.285s cubic-bezier(.12, .72, .14, 1) both;
+  animation: channel-stage-zoom-in 0.7s cubic-bezier(.12, .72, .14, 1) both;
 }
 
 @keyframes channel-stage-zoom-in {
@@ -1371,7 +1698,11 @@ button.round-control:focus-visible {
   top: 19%;
   width: 84%;
   height: 40%;
-  animation: channel-open-content-fade-in 0.12s ease-out both;
+  opacity: 1;
+}
+
+.channel-open-content.is-opening {
+  animation: channel-open-content-fade-in 0.35s ease-in-out both;
 }
 
 @keyframes channel-open-content-fade-in {
@@ -1494,8 +1825,7 @@ button.round-control:focus-visible {
 
 .missing-link-title-word {
   display: block;
-  opacity: 0;
-  animation: missing-link-title-word-in 760ms cubic-bezier(.2,.72,.18,1) both;
+  opacity: 1;
 }
 
 .missing-link-title-word--missing {

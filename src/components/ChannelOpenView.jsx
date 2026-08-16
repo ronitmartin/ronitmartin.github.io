@@ -93,10 +93,10 @@ export function ChannelOpenView({ channel, isLoading, launchKey, launchStyle, on
               <h1 className="channel-open-title">{channel?.title || "Channel"}</h1>
             </>
           )}
-          {!isLoading && (
+          {channel && (
             <div
               key={`${channel?.id || "empty"}-content`}
-              className={`channel-open-content${channel?.openType ? ` channel-open-content--${channel.openType}` : ""}`}
+              className={`channel-open-content${channel?.openType ? ` channel-open-content--${channel.openType}` : ""}${isLoading ? " is-opening" : ""}`}
             >
               <ChannelOpenContent channel={channel} />
             </div>
