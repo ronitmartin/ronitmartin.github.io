@@ -43,6 +43,10 @@ export function ChannelOpenView({ channel, isLoading, launchKey, launchStyle, on
       }
 
       event.preventDefault();
+      const focusedElement = document.activeElement;
+      if (focusedElement instanceof HTMLElement && focusedElement.matches(".channel-menu-button, .channel-start-button")) {
+        focusedElement.blur();
+      }
       onNavigateRef.current?.(direction);
 
       const pointerPosition = pointerPositionRef.current;

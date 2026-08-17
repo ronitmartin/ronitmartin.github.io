@@ -22,7 +22,6 @@ export function GithubOpenContent() {
         </div>
       </div>
       <GithubContributionGraph />
-      <span className="github-title-kicker">github.com/ronitmartin</span>
     </div>
   );
 }

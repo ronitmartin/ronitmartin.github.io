@@ -75,6 +75,14 @@ export function GithubContributionGraph() {
           <span>{activeDay ? formatContributionDetail(activeDay) : `Updated ${generatedDate}`}</span>
         </div>
       </div>
+      <a
+        className="github-title-kicker"
+        href="https://github.com/ronitmartin"
+        target="_blank"
+        rel="noreferrer"
+      >
+        github.com/ronitmartin
+      </a>
     </section>
   );
 }

@@ -64,7 +64,6 @@ body {
   background:
     repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.1) 0 2px, transparent 2px 5px),
     #d7d8dd;
-  box-shadow: inset 0 -2px 0 #7b7b7b;
   filter: none;
 }
 
@@ -106,7 +105,7 @@ body {
 .contact-memo {
   position: absolute;
   left: 50%;
-  top: 50%;
+  top: 48.8%;
   width: min(42cqw, 68cqh);
   height: min(64cqh, 78cqw);
   transform: translate(-50%, -50%);
@@ -363,7 +362,7 @@ body {
   inset: 0;
   overflow: hidden;
   background: #000;
-  cursor: none;
+  cursor: default;
   animation: startup-sequence-reveal 3.35s linear forwards;
 }
 
@@ -1094,7 +1093,8 @@ body {
 }
 
 .wii-screen.is-startup-active .wii-menu-intro,
-.wii-screen.is-startup-active .clock {
+.wii-screen.is-startup-active .clock,
+.wii-screen.is-startup-active .missing-link-word {
   animation-play-state: paused;
 }
 
@@ -1825,7 +1825,8 @@ button.round-control:focus-visible {
 
 .missing-link-title-word {
   display: block;
-  opacity: 1;
+  opacity: 0;
+  animation: missing-link-title-word-in 760ms cubic-bezier(.2,.72,.18,1) both;
 }
 
 .missing-link-title-word--missing {
@@ -2228,13 +2229,20 @@ button.round-control:focus-visible {
 }
 
 .github-title-kicker {
-  position: absolute;
-  z-index: 2;
-  left: 4%;
-  bottom: 4%;
+  display: block;
+  margin-top: clamp(8px, 0.7cqw, 13px);
   font-size: clamp(8px, 0.85cqw, 15px);
   letter-spacing: 0.24em;
   color: rgba(240, 246, 252, 0.56);
+  text-align: center;
+  text-decoration: none;
+  cursor: url("/assets/wiicursor-40-upright.png") 14 2, url("/assets/wiicursor.cur"), pointer;
+  transition: color 0.12s ease-out;
+}
+
+.github-title-kicker:hover,
+.github-title-kicker:focus-visible {
+  color: rgba(240, 246, 252, 0.82);
 }
 
 @media (max-width: 700px) {

@@ -22,7 +22,7 @@ export function StartupSequence({ onComplete }) {
               key={index}
               style={{
                 "--startup-in-delay": `${0.16 + waveStep * 0.1}s`,
-                "--startup-out-delay": `${1.34 + waveStep * 0.085}s`,
+                "--startup-out-delay": `${1.08 + waveStep * 0.085}s`,
               }}
             >
               <div className="startup-sequence-tile-face">
