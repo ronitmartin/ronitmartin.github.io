@@ -15,7 +15,7 @@ export function MenuPanelInfo() {
   );
 }
 
-export function SystemTray({ isDark, isMessageBoardOpen, onCloseMessageBoard, onOpenMessageBoard, onToggleTheme }) {
+export function SystemTray({ isMessageBoardOpen, onCloseMessageBoard, onOpenMessageBoard, onOpenSystemMenu }) {
   return (
     <section className={`system-tray${isMessageBoardOpen ? " is-board-open" : ""}`} aria-label="Wii Menu system controls">
       <svg className="tray-shape" viewBox="0 0 1000 340" preserveAspectRatio="none" aria-hidden="true">
@@ -28,9 +28,8 @@ export function SystemTray({ isDark, isMessageBoardOpen, onCloseMessageBoard, on
         <button
           className="round-control ron-button"
           type="button"
-          aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
-          aria-pressed={isDark}
-          onClick={onToggleTheme}
+          aria-label="Open Ron system menu"
+          onClick={onOpenSystemMenu}
         >
           <img className="wii-button-surface" src="/assets/wii-button-surface.png" alt="" aria-hidden="true" />
           <img className="wii-button-logo" src="/assets/ron-button-logo.png" alt="" aria-hidden="true" />

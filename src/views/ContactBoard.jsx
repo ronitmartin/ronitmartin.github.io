@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export function MessageBoard({ isOpen }) {
+export function ContactBoard({ isOpen }) {
   const [inquiry, setInquiry] = useState("");
 
   function handleSubmit(event) {

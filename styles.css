@@ -40,7 +40,7 @@ body {
   display: grid;
   place-items: center;
   background: #000;
-  cursor: url("/assets/wiicursor-40-mid-angle.png") 5 7, url("/assets/wiicursor.cur"), auto;
+  cursor: auto;
 }
 
 .channel-shape-definitions {
@@ -64,7 +64,338 @@ body {
   background:
     repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.1) 0 2px, transparent 2px 5px),
     #d7d8dd;
+  cursor: url("/assets/wiicursor-40-mid-angle.png") 5 7, url("/assets/wiicursor.cur"), auto;
   filter: none;
+  transform: scale(1);
+  transform-origin: center;
+  transition:
+    border-radius 0.24s ease-in-out,
+    filter 0.24s ease-in-out,
+    height 0.28s ease-in-out,
+    transform 0.24s ease-in-out,
+    width 0.28s ease-in-out;
+}
+
+.screen-view-fade {
+  position: absolute;
+  z-index: 250;
+  inset: 0;
+  pointer-events: none;
+  background: #000;
+  opacity: 0;
+  transition: opacity 0.22s ease-in-out;
+}
+
+.screen-view-fade.is-visible {
+  opacity: 1;
+}
+
+.wii-screen.is-view-transitioning {
+  pointer-events: none;
+}
+
+.ron-system-menu {
+  position: absolute;
+  z-index: 30;
+  inset: 0;
+  overflow: hidden;
+  color: #777;
+  background:
+    linear-gradient(180deg, rgba(20, 31, 26, 0.24), transparent 18%),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.13) 0 2px, transparent 2px 6px),
+    #020303;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.ron-system-menu-header {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 15.4%;
+  border-bottom: clamp(2px, 0.34cqh, 4px) solid #f4f4f4;
+}
+
+.ron-system-menu-header::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: clamp(-8px, -0.72cqh, -4px);
+  left: 0;
+  height: clamp(1px, 0.2cqh, 3px);
+  background: #f4f4f4;
+}
+
+.ron-system-menu-header img {
+  position: absolute;
+  top: 38%;
+  right: 6.1%;
+  width: min(9.4cqw, 18cqh);
+  height: auto;
+  opacity: 0.98;
+  filter: brightness(0) invert(1);
+}
+
+.ron-system-menu-rule {
+  position: absolute;
+  top: 16.8%;
+  right: 0;
+  left: 0;
+  height: clamp(1px, 0.18cqh, 2px);
+  background: rgba(245, 245, 245, 0.82);
+}
+
+.ron-system-menu-options {
+  position: absolute;
+  top: 28.3%;
+  right: 12.4%;
+  left: 12.4%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.ron-system-menu-option {
+  position: relative;
+  width: 30.2cqw;
+  aspect-ratio: 256 / 200;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+
+.ron-system-menu-option img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+
+.ron-system-menu-data-art {
+  position: absolute;
+  top: 13.1%;
+  right: 4.2%;
+  bottom: 29.2%;
+  left: 4.2%;
+  overflow: hidden;
+}
+
+.ron-system-menu-data-icon {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  box-sizing: border-box;
+  width: 37%;
+  aspect-ratio: 9 / 7;
+  border: clamp(3px, 0.44cqw, 7px) solid #858585;
+  border-radius: 18% 18% 22% 22% / 16% 16% 20% 20%;
+  background: repeating-linear-gradient(
+    0deg,
+    #ececec 0 8%,
+    #b9b9b9 8% 16%
+  );
+  box-shadow:
+    inset 0 0.5cqh 0.8cqh rgba(255, 255, 255, 0.45),
+    inset 0 -0.3cqh 0.5cqh rgba(100, 100, 100, 0.12);
+  transform: translateX(-50%);
+}
+
+.ron-system-menu-data-icon::before {
+  content: none;
+}
+
+.ron-system-menu-data-icon::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 48%;
+  height: 34%;
+  background: url("/assets/ron-button-logo.png") center / contain no-repeat;
+  filter: brightness(0.56);
+  transform: translate(-50%, -52%);
+}
+
+.ron-system-menu-option--theme {
+  cursor: url("/assets/wiicursor-40-upright.png") 14 2, url("/assets/wiicursor.cur"), pointer;
+}
+
+.ron-system-menu-option--display {
+  cursor: url("/assets/wiicursor-40-upright.png") 14 2, url("/assets/wiicursor.cur"), pointer;
+}
+
+.ron-system-menu-option--display > img,
+.ron-system-menu-option--theme > img {
+  transition: filter 0.12s ease-out;
+}
+
+.ron-system-menu-option--display:hover > img,
+.ron-system-menu-option--display:focus-visible > img,
+.ron-system-menu-option--theme:hover > img,
+.ron-system-menu-option--theme:focus-visible > img {
+  filter: brightness(1.055);
+}
+
+.ron-system-menu-option--display:focus-visible,
+.ron-system-menu-option--theme:focus-visible {
+  outline: none;
+}
+
+.ron-system-menu-option--display:active,
+.ron-system-menu-option--theme:active {
+  transform: scale(0.992);
+}
+
+.ron-system-menu-theme-art {
+  position: absolute;
+  top: 13.1%;
+  right: 4.2%;
+  bottom: 29.2%;
+  left: 4.2%;
+  overflow: hidden;
+}
+
+.ron-system-menu-theme-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 42%;
+  height: 74%;
+  overflow: visible;
+  fill: #cfcfcf;
+  stroke: #858585;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 7;
+  filter: drop-shadow(0 0.35cqh 0.25cqh rgba(86, 86, 86, 0.14));
+  transition:
+    opacity 0.32s ease-in-out,
+    transform 0.32s ease-in-out;
+}
+
+.ron-system-menu-theme-icon--sun {
+  transform: translate(-50%, -50%);
+}
+
+.ron-system-menu-theme-icon--moon {
+  opacity: 0;
+  transform: translate(-38%, -50%);
+}
+
+.ron-system-menu-theme-rays {
+  fill: none;
+}
+
+.ron-system-menu-option--theme.is-dark .ron-system-menu-theme-icon--sun {
+  opacity: 0;
+  transform: translate(-62%, -50%);
+}
+
+.ron-system-menu-option--theme.is-dark .ron-system-menu-theme-icon--moon {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+
+.ron-system-menu-option span {
+  position: absolute;
+  right: 5%;
+  bottom: 8.5%;
+  left: 5%;
+  overflow: hidden;
+  color: #797979;
+  font-size: clamp(17px, 4.2cqh, 46px);
+  font-weight: 300;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.ron-system-menu-option--data > span,
+.ron-system-menu-option--theme > span {
+  bottom: 13%;
+  overflow: visible;
+  line-height: 1.15;
+}
+
+.wii-screen.is-crt .ron-system-menu-option--data > span,
+.wii-screen.is-crt .ron-system-menu-option--theme > span {
+  bottom: 9.5%;
+}
+
+.ron-system-menu-footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 17.2%;
+  border-top: clamp(2px, 0.32cqh, 4px) solid #f4f4f4;
+  background: rgba(0, 0, 0, 0.16);
+}
+
+.ron-system-menu-footer::before {
+  content: "";
+  position: absolute;
+  top: clamp(-8px, -0.72cqh, -4px);
+  right: 0;
+  left: 0;
+  height: clamp(1px, 0.2cqh, 3px);
+  background: #f4f4f4;
+}
+
+.ron-system-menu-back {
+  position: absolute;
+  left: 8.45%;
+  bottom: 1.4cqh;
+  width: min(28cqw, 52cqh);
+  aspect-ratio: 724 / 224;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #4d5051;
+  cursor: url("/assets/wiicursor-40-upright.png") 14 2, url("/assets/wiicursor.cur"), pointer;
+}
+
+.wii-screen.is-crt .ron-system-menu-back {
+  left: 9.7%;
+  bottom: 4.2cqh;
+}
+
+.ron-system-menu-back img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  transition: filter 0.08s linear;
+}
+
+.ron-system-menu-back span {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  place-items: center;
+  padding-bottom: 2%;
+  font-size: clamp(20px, 7cqh, 72px);
+  font-weight: 300;
+  line-height: 1;
+}
+
+.ron-system-menu-back:hover img,
+.ron-system-menu-back:focus-visible img {
+  filter: brightness(1.08);
+}
+
+.ron-system-menu-back:active {
+  transform: scale(0.975);
+}
+
+.ron-system-menu-back:focus-visible {
+  outline: clamp(2px, 0.3cqh, 4px) solid #35bde7;
+  outline-offset: clamp(2px, 0.35cqh, 5px);
+  border-radius: 999px;
 }
 
 .menu-panel-motion,
@@ -200,7 +531,7 @@ body {
     calc(100% - clamp(12px, 1.15cqw, 20px)) 50%;
   background-size: clamp(5px, 0.48cqw, 8px) clamp(5px, 0.48cqw, 8px);
   background-repeat: no-repeat;
-  cursor: pointer;
+  cursor: url("/assets/wiicursor-40-upright.png") 14 2, url("/assets/wiicursor.cur"), pointer;
 }
 
 .contact-memo-form select:invalid {
@@ -352,8 +683,22 @@ body {
   display: none;
   position: absolute;
   inset: 0;
-  z-index: 20;
   pointer-events: none;
+}
+
+.wii-screen.is-crt::before,
+.wii-screen.is-crt::after {
+  display: block;
+}
+
+.wii-screen.is-crt {
+  width: min(96vw, calc(96vh * 4 / 3));
+  height: min(96vh, calc(96vw * 3 / 4));
+  aspect-ratio: 4 / 3;
+  border-radius: 6cqw / 8cqh;
+  clip-path: url("#screen-crt-shape");
+  filter: contrast(1.065) saturate(1.055);
+  transform: scale(1);
 }
 
 .startup-sequence {
@@ -439,45 +784,45 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .screen-view-fade {
+    transition-duration: 0.01ms;
+  }
+
   .startup-sequence {
     animation-duration: 0.01ms;
   }
 }
 
 .wii-screen::before {
+  z-index: 240;
   background:
     repeating-linear-gradient(
       0deg,
-      rgba(10, 18, 24, 0.08) 0,
-      rgba(10, 18, 24, 0.08) 1px,
-      transparent 1px,
-      transparent 4px
+      rgba(0, 0, 0, 0.13) 0,
+      rgba(0, 0, 0, 0.13) 1px,
+      rgba(255, 255, 255, 0.012) 1px,
+      rgba(255, 255, 255, 0.012) 2px,
+      transparent 2px,
+      transparent 5px
     ),
     repeating-linear-gradient(
       90deg,
-      rgba(255, 40, 40, 0.025) 0 1px,
-      rgba(40, 255, 90, 0.018) 1px 2px,
-      rgba(40, 100, 255, 0.025) 2px 3px
+      rgba(255, 40, 40, 0.018) 0 1px,
+      rgba(45, 255, 95, 0.012) 1px 2px,
+      rgba(55, 105, 255, 0.018) 2px 3px
     );
-  mix-blend-mode: multiply;
-  opacity: 0.58;
-  animation: crt-flicker 7s steps(1, end) infinite;
+  opacity: 0.43;
 }
 
 .wii-screen::after {
-  z-index: 21;
+  z-index: 241;
   background:
-    linear-gradient(115deg, rgba(255, 255, 255, 0.06), transparent 27%),
-    radial-gradient(ellipse at center, transparent 58%, rgba(17, 24, 34, 0.14) 100%);
+    linear-gradient(112deg, rgba(255, 255, 255, 0.055), transparent 24%),
+    radial-gradient(ellipse at center, transparent 46%, rgba(3, 7, 12, 0.28) 100%);
   box-shadow:
-    inset 0 0 2.2cqw rgba(255, 255, 255, 0.08),
-    inset 0 0 7cqw rgba(7, 13, 22, 0.13);
-}
-
-@keyframes crt-flicker {
-  0%, 94%, 100% { opacity: 0.58; }
-  95% { opacity: 0.52; }
-  96% { opacity: 0.61; }
+    inset 0 0 1.4cqw rgba(255, 255, 255, 0.075),
+    inset 0 0 10cqw rgba(0, 4, 10, 0.24),
+    inset 0 0 0 0.18cqw rgba(12, 16, 20, 0.5);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1256,7 +1601,7 @@ body {
 
 button.round-control {
   appearance: none;
-  cursor: url("/assets/wiicursor-40-mid-angle.png") 5 7, url("/assets/wiicursor.cur"), pointer;
+  cursor: url("/assets/wiicursor-40-upright.png") 14 2, url("/assets/wiicursor.cur"), pointer;
 }
 
 .ron-button:hover,

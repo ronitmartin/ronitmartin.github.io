@@ -10,8 +10,6 @@ export const channels = [
   { id: "photo", title: "Photo Channel", type: "photo" },
   { id: "shop", title: "Ronotion Shop Channel", type: "shop", startUrl: "https://ronotion.gumroad.com" },
   { id: "empty-1", type: "empty" },
-  { id: "forecast", title: "Forecast Channel", type: "forecast" },
-  { id: "news", title: "News Channel", type: "news" },
   {
     id: "github",
     title: "GitHub Channel",
@@ -19,6 +17,7 @@ export const channels = [
     openType: "github",
     startUrl: "https://github.com/ronitmartin",
   },
+  { id: "empty-2", type: "empty" },
   { id: "empty-3", type: "empty" },
   { id: "empty-4", type: "empty" },
   { id: "empty-5", type: "empty" },
@@ -26,4 +25,5 @@ export const channels = [
   { id: "empty-7", type: "empty" },
   { id: "empty-8", type: "empty" },
   { id: "empty-9", type: "empty" },
+  { id: "empty-10", type: "empty" },
 ];

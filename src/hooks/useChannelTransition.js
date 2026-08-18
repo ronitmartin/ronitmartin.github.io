@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { channelLaunchTiming, channelReturnTiming } from "../animations/wiiMotion";
 import { channels } from "../data/channels";
+import { setChannelIdInUrl } from "../routing/channelUrl";
 
 const navigableChannels = channels.filter((channel) => channel.type !== "empty");
 
@@ -26,6 +27,7 @@ export function useChannelTransition({ screenRef, stageRef }) {
     setIsTransitioning(true);
     currentOpenFrame.current = frame;
     setOpenChannelData(channel);
+    setChannelIdInUrl(channel.id);
 
     const screenRect = wiiScreen.getBoundingClientRect();
     const frameRect = frame.getBoundingClientRect();
@@ -149,6 +151,7 @@ export function useChannelTransition({ screenRef, stageRef }) {
     setIsLoading(false);
     setOpenChannelData(null);
     setLaunchStyle(null);
+    setChannelIdInUrl(null);
 
     const duration = reducedMotion ? 1 : channelReturnTiming.duration;
     backdrop.animate([
@@ -216,6 +219,7 @@ export function useChannelTransition({ screenRef, stageRef }) {
     }
 
     setOpenChannelData(nextChannel);
+    setChannelIdInUrl(nextChannel.id);
   }, [isOpen, isTransitioning, openChannelData, screenRef]);
 
   useEffect(() => {

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ChannelOpenContent } from "./ChannelOpenContent";
+import { WiiCursor } from "./WiiCursor";
 
 const OWN_TITLE_TREATMENT_TYPES = new Set(["missing-link", "github"]);
 const KEYBOARD_ARROW_FEEDBACK_DURATION = 700;
@@ -88,7 +89,7 @@ export function ChannelOpenView({ channel, isLoading, launchKey, launchStyle, on
 
   return (
     <section className="channel-open-view" aria-hidden={channel ? "false" : "true"}>
-      <img ref={keyboardCursorRef} className="channel-keyboard-cursor" alt="" aria-hidden="true" />
+      <WiiCursor ref={keyboardCursorRef} />
       <div key={launchKey} className="channel-open-stage" ref={stageRef} style={launchStyle}>
         <div className="channel-open-frame" aria-hidden="true">
           {!isLoading && !hasOwnTitleTreatment && (
