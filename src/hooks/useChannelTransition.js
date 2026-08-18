@@ -63,12 +63,11 @@ export function useChannelTransition({ screenRef, stageRef }) {
     const artworkFadeEndOffset = launchDuration > 0
       ? (previewDelay + previewDuration * 0.5) / launchDuration
       : 0;
-
     backdrop.animate(
       [
         { opacity: 0 },
         { opacity: 0.3, offset: 0.48 },
-        { opacity: 0.82 },
+        { opacity: 1 },
       ],
       {
         duration: dimDuration,
