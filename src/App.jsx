@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+  import { useEffect, useRef, useState } from "react";
 import { ChannelShapeDefinitions } from "./components/ChannelShapeDefinitions";
 import { HomeMenu } from "./views/HomeMenu";
 import { SystemMenu } from "./views/SystemMenu";
@@ -8,14 +8,25 @@ import { useDisplayMode } from "./hooks/useDisplayMode";
 import { channels } from "./data/channels";
 import { getChannelIdFromUrl, setChannelIdInUrl } from "./routing/channelUrl";
 
+const STARTUP_SESSION_KEY = "wii-menu-startup-played";
+
+function shouldPlayStartup() {
+  try {
+    return window.sessionStorage.getItem(STARTUP_SESSION_KEY) !== "true";
+  } catch {
+    return true;
+  }
+}
+
 export function App() {
   const screenRef = useRef(null);
   const stageRef = useRef(null);
   const [isMessageBoardOpen, setIsMessageBoardOpen] = useState(false);
-  const [isStartupActive, setIsStartupActive] = useState(true);
+  const [isStartupActive, setIsStartupActive] = useState(shouldPlayStartup);
   const [activeView, setActiveView] = useState("menu");
   const [isScreenCovered, setIsScreenCovered] = useState(false);
   const [isViewTransitioning, setIsViewTransitioning] = useState(false);
+  const [hasVisitedSystemMenu, setHasVisitedSystemMenu] = useState(false);
   const viewTransitionTimersRef = useRef([]);
   const initialChannelHandledRef = useRef(false);
   const channelTransition = useChannelTransition({
@@ -25,6 +36,18 @@ export function App() {
   const { isLoading, isOpen, openChannel } = channelTransition;
   const { isDark, toggleTheme } = useDayNightTheme();
   const { isCrt, toggleDisplayMode } = useDisplayMode();
+
+  useEffect(() => {
+    if (!isStartupActive) {
+      return;
+    }
+
+    try {
+      window.sessionStorage.setItem(STARTUP_SESSION_KEY, "true");
+    } catch {
+      // Keep the startup sequence usable when browser storage is unavailable.
+    }
+  }, [isStartupActive]);
 
   useEffect(() => {
     return () => {
@@ -86,34 +109,40 @@ export function App() {
   return (
     <>
       <ChannelShapeDefinitions />
-      <main
-        ref={screenRef}
-        className={`wii-screen${isOpen ? " is-channel-open" : ""}${isLoading ? " is-channel-loading" : ""}${isMessageBoardOpen ? " is-message-board-open" : ""}${isStartupActive ? " is-startup-active" : ""}${activeView === "system" ? " is-system-menu-open" : ""}${isViewTransitioning ? " is-view-transitioning" : ""}${isDark ? " is-dark" : ""}${isCrt ? " is-crt" : ""}`}
-        aria-label="Interactive recreation of the Wii Menu"
-      >
-        {activeView === "menu" ? (
-          <HomeMenu
-            channelTransition={channelTransition}
-            isMessageBoardOpen={isMessageBoardOpen}
-            isStartupActive={isStartupActive}
-            onCloseMessageBoard={() => setIsMessageBoardOpen(false)}
+      <div className={`display-shell${isCrt ? " is-crt" : ""}`}>
+        <main
+          ref={screenRef}
+          className={`wii-screen${isOpen ? " is-channel-open" : ""}${isLoading ? " is-channel-loading" : ""}${isMessageBoardOpen ? " is-message-board-open" : ""}${isStartupActive ? " is-startup-active" : ""}${activeView === "system" ? " is-system-menu-open" : ""}${isViewTransitioning ? " is-view-transitioning" : ""}${isDark ? " is-dark" : ""}${isCrt ? " is-crt" : ""}`}
+          aria-label="Interactive recreation of the Wii Menu"
+        >
+          {activeView === "menu" ? (
+            <HomeMenu
+              channelTransition={channelTransition}
+              isMessageBoardOpen={isMessageBoardOpen}
+              isStartupActive={isStartupActive}
+              onCloseMessageBoard={() => setIsMessageBoardOpen(false)}
             onFinishStartup={() => setIsStartupActive(false)}
             onOpenMessageBoard={() => setIsMessageBoardOpen(true)}
-            onOpenSystemMenu={() => transitionToView("system")}
+            onOpenSystemMenu={() => {
+              setHasVisitedSystemMenu(true);
+              transitionToView("system");
+            }}
+            suppressMenuIntro={hasVisitedSystemMenu}
             stageRef={stageRef}
-          />
-        ) : (
-          <SystemMenu
-            isCrt={isCrt}
-            isDark={isDark}
-            onBack={() => transitionToView("menu")}
-            onToggleDisplay={toggleDisplayMode}
-            onToggleTheme={toggleTheme}
-          />
-        )}
+            />
+          ) : (
+            <SystemMenu
+              isCrt={isCrt}
+              isDark={isDark}
+              onBack={() => transitionToView("menu")}
+              onToggleDisplay={toggleDisplayMode}
+              onToggleTheme={toggleTheme}
+            />
+          )}
 
-        <div className={`screen-view-fade${isScreenCovered ? " is-visible" : ""}`} aria-hidden="true" />
-      </main>
+          <div className={`screen-view-fade${isScreenCovered ? " is-visible" : ""}`} aria-hidden="true" />
+        </main>
+      </div>
     </>
   );
 }

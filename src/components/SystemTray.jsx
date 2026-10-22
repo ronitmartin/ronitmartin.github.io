@@ -1,8 +1,8 @@
 import { SystemDate, SystemTime } from "./SystemClock";
 
-export function MenuPanelInfo() {
+export function MenuPanelInfo({ suppressIntro = false }) {
   return (
-    <section className="menu-panel-info" aria-label="Current time">
+    <section className={`menu-panel-info${suppressIntro ? " suppress-intro" : ""}`} aria-label="Current time">
       <svg className="tray-shape" viewBox="0 0 1000 340" preserveAspectRatio="none" aria-hidden="true">
         <path className="tray-line" d="M0 0H168C234 0 255 18 286 61 314 99 333 114 379 114H621C667 114 686 99 714 61 745 18 766 0 832 0H1000" />
       </svg>

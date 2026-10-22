@@ -13,6 +13,7 @@ export function HomeMenu({
   onOpenMessageBoard,
   onOpenSystemMenu,
   stageRef,
+  suppressMenuIntro,
 }) {
   const { closeChannel, isLoading, launchKey, launchStyle, navigateChannel, openChannel, openChannelData } = channelTransition;
 
@@ -32,7 +33,7 @@ export function HomeMenu({
           <div className="wii-night-sky" aria-hidden="true" />
           <ChannelGrid onOpen={openChannel} />
         </div>
-        <MenuPanelInfo />
+        <MenuPanelInfo suppressIntro={suppressMenuIntro} />
       </div>
 
       <ChannelOpenView

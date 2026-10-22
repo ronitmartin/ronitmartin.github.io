@@ -5,8 +5,6 @@ export function SystemMenu({ isCrt, isDark, onBack, onToggleDisplay, onToggleThe
         <img src="/assets/ron-button-logo.png" alt="Ron" />
       </header>
 
-      <div className="ron-system-menu-rule" aria-hidden="true" />
-
       <div className="ron-system-menu-options">
         <button
           className={`ron-system-menu-option ron-system-menu-option--data ron-system-menu-option--display${isCrt ? " is-crt" : ""}`}
@@ -47,7 +45,6 @@ export function SystemMenu({ isCrt, isDark, onBack, onToggleDisplay, onToggleThe
 
       <div className="ron-system-menu-footer">
         <button className="ron-system-menu-back" type="button" onClick={onBack}>
-          <img src="/assets/wii-send-button.png" alt="" aria-hidden="true" />
           <span>Back</span>
         </button>
       </div>

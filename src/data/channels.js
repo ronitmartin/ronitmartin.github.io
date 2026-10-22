@@ -17,6 +17,12 @@ export const channels = [
     openType: "github",
     startUrl: "https://github.com/ronitmartin",
   },
+  {
+    id: "research",
+    title: "Research Channel",
+    type: "research",
+    openType: "research",
+  },
   { id: "empty-2", type: "empty" },
   { id: "empty-3", type: "empty" },
   { id: "empty-4", type: "empty" },
@@ -25,5 +31,4 @@ export const channels = [
   { id: "empty-7", type: "empty" },
   { id: "empty-8", type: "empty" },
   { id: "empty-9", type: "empty" },
-  { id: "empty-10", type: "empty" },
 ];

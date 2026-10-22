@@ -1,0 +1,389 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap");
+
+:root {
+  --gate-ink: #0a0a0a;
+  --gate-paper: #f1f0eb;
+  --gate-line: rgba(10, 10, 10, 0.18);
+  --gate-orange: #ff5a1f;
+  --gate-cyan: #35bde9;
+}
+
+.experience-gate,
+.experience-gate *,
+.experience-switcher {
+  box-sizing: border-box;
+}
+
+.experience-gate {
+  min-height: 100%;
+  overflow-x: hidden;
+  background: var(--gate-ink);
+  color: #fff;
+  font-family: "Manrope", Arial, sans-serif;
+  padding: clamp(1.2rem, 2vw, 2rem) clamp(1rem, 4vw, 4.5rem) clamp(1rem, 2vw, 1.75rem);
+}
+
+.experience-gate__meta,
+.experience-gate__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  color: rgba(255, 255, 255, 0.56);
+  font: 500 0.72rem/1.3 "DM Mono", monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.experience-gate__intro {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 2rem;
+  padding: clamp(4rem, 10vh, 7.5rem) 0 clamp(2.2rem, 5vh, 4rem);
+}
+
+.experience-gate__intro p {
+  margin: 0 0 0.45rem;
+  color: rgba(255, 255, 255, 0.58);
+  font: 500 0.75rem/1.3 "DM Mono", monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.experience-gate__intro h1 {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: clamp(2.65rem, 7.25vw, 7.8rem);
+  font-weight: 700;
+  letter-spacing: -0.072em;
+  line-height: 0.86;
+  text-transform: uppercase;
+}
+
+.experience-options {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+}
+
+.experience-card {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto minmax(9rem, 1fr) auto auto;
+  min-height: clamp(29rem, 55vh, 40rem);
+  padding: clamp(1.35rem, 2.75vw, 2.65rem);
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  text-align: left;
+  cursor: pointer;
+  isolation: isolate;
+}
+
+.experience-card--classic {
+  background: #101010;
+  color: #fff;
+}
+
+.experience-card--wii {
+  background: var(--gate-paper);
+  color: var(--gate-ink);
+  border-left: 1px solid rgba(255, 255, 255, 0.24);
+}
+
+.experience-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  transform: translateY(101%);
+  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.experience-card--classic::before {
+  background: var(--gate-orange);
+}
+
+.experience-card--wii::before {
+  background: var(--gate-cyan);
+}
+
+.experience-card:hover::before,
+.experience-card:focus-visible::before {
+  transform: translateY(0);
+}
+
+.experience-card:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: -7px;
+}
+
+.experience-card__topline {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font: 500 0.75rem/1.25 "DM Mono", monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+
+.experience-preview {
+  position: absolute;
+  top: clamp(4rem, 7vw, 7rem);
+  right: clamp(1.5rem, 3vw, 3.5rem);
+  width: clamp(8rem, 16vw, 14rem);
+  aspect-ratio: 4 / 3;
+  opacity: 0.28;
+  transform: rotate(4deg);
+  transition: opacity 350ms ease, transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.experience-card:hover .experience-preview,
+.experience-card:focus-visible .experience-preview {
+  opacity: 0.8;
+  transform: rotate(0deg) translateY(-0.35rem);
+}
+
+.experience-preview--classic {
+  border: 1px solid currentColor;
+  padding: 0.8rem;
+}
+
+.experience-preview--classic > span {
+  position: absolute;
+  display: block;
+  background: currentColor;
+}
+
+.classic-preview-kicker {
+  top: 0.8rem;
+  left: 0.8rem;
+  width: 27%;
+  height: 3px;
+}
+
+.classic-preview-heading {
+  top: 2rem;
+  left: 0.8rem;
+  width: 48%;
+  height: 7px;
+}
+
+.classic-preview-heading--short {
+  top: 2.75rem;
+  width: 34%;
+}
+
+.classic-preview-portrait {
+  right: 0.8rem;
+  bottom: 0.8rem;
+  width: 34%;
+  height: 57%;
+}
+
+.classic-preview-line {
+  bottom: 2rem;
+  left: 0.8rem;
+  width: 42%;
+  height: 2px;
+}
+
+.classic-preview-line--short {
+  bottom: 1.45rem;
+  width: 31%;
+}
+
+.experience-preview--wii {
+  border: 1px solid currentColor;
+  border-radius: 0.9rem;
+  padding: 1rem;
+}
+
+.wii-preview-topbar,
+.wii-preview-dock {
+  position: absolute;
+  left: 1rem;
+  right: 1rem;
+  height: 2px;
+  background: currentColor;
+}
+
+.wii-preview-topbar {
+  top: 0.7rem;
+}
+
+.wii-preview-dock {
+  bottom: 0.7rem;
+}
+
+.wii-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.32rem;
+  height: 100%;
+}
+
+.wii-preview-channel {
+  border: 1px solid currentColor;
+  border-radius: 0.3rem;
+}
+
+.wii-preview-channel--1,
+.wii-preview-channel--5 {
+  background: currentColor;
+}
+
+.experience-card__copy {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(12rem, 0.72fr);
+  align-items: end;
+  gap: clamp(1.5rem, 4vw, 4rem);
+}
+
+.experience-card__copy strong {
+  font-size: clamp(2.7rem, 5vw, 6rem);
+  font-weight: 700;
+  letter-spacing: -0.07em;
+  line-height: 0.88;
+  text-transform: uppercase;
+}
+
+.experience-card__copy strong span {
+  display: block;
+}
+
+.experience-card__description {
+  max-width: 26rem;
+  font-size: clamp(0.95rem, 1.1vw, 1.12rem);
+  line-height: 1.58;
+  opacity: 0.7;
+}
+
+.experience-card__action {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: clamp(2rem, 4vw, 3.75rem);
+  padding-top: 1rem;
+  border-top: 1px solid currentColor;
+  font: 500 0.76rem/1.2 "DM Mono", monospace;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.experience-card__action span {
+  font-size: 1.25rem;
+  transition: transform 250ms ease;
+}
+
+.experience-card:hover .experience-card__action span,
+.experience-card:focus-visible .experience-card__action span {
+  transform: translate(0.25rem, -0.25rem);
+}
+
+.experience-gate__footer {
+  padding-top: 1.25rem;
+}
+
+.experience-switcher {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10000;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 999px;
+  background: rgba(10, 10, 10, 0.76);
+  color: #fff;
+  padding: 0.68rem 0.92rem;
+  box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(14px);
+  font: 500 0.72rem/1 "DM Mono", monospace;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.experience-switcher::before {
+  content: "×";
+  font-size: 1.05rem;
+  line-height: 0;
+}
+
+.experience-switcher:hover,
+.experience-switcher:focus-visible {
+  background: #fff;
+  color: #111;
+}
+
+.experience-switcher:focus-visible {
+  outline: 2px solid var(--gate-cyan);
+  outline-offset: 3px;
+}
+
+@media (max-width: 900px) {
+  .experience-gate__intro {
+    padding-top: 4rem;
+  }
+
+  .experience-options {
+    grid-template-columns: 1fr;
+  }
+
+  .experience-card {
+    min-height: 31rem;
+  }
+
+  .experience-card--wii {
+    border-top: 1px solid rgba(255, 255, 255, 0.24);
+    border-left: 0;
+  }
+}
+
+@media (max-width: 580px) {
+  .experience-gate__meta,
+  .experience-gate__footer {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .experience-gate__meta span:last-child,
+  .experience-gate__footer span:last-child {
+    opacity: 0.7;
+  }
+
+  .experience-gate__intro h1 {
+    font-size: clamp(2.6rem, 15vw, 4.6rem);
+  }
+
+  .experience-card {
+    min-height: 29rem;
+  }
+
+  .experience-card__copy {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+
+  .experience-card__copy strong {
+    font-size: clamp(3rem, 15vw, 4.8rem);
+  }
+
+  .experience-preview {
+    width: 8rem;
+    opacity: 0.18;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .experience-card::before,
+  .experience-preview,
+  .experience-card__action span {
+    transition: none;
+  }
+}

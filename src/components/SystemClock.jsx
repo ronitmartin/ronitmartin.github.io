@@ -28,16 +28,16 @@ function useSystemTime() {
 
   return useMemo(() => {
     const hours = now.getHours();
-    const displayHours = hours % 12 || 12;
+    const displayHours = String(hours).padStart(2, "0");
     const minutes = String(now.getMinutes()).padStart(2, "0");
-    const meridiem = hours < 12 ? "AM" : "PM";
+    const day = String(now.getDate()).padStart(2, "0");
+    const month = String(now.getMonth() + 1).padStart(2, "0");
 
     return {
       clockValue: `${displayHours}:${minutes}`,
-      meridiem,
       isoTime: now.toISOString(),
-      dateValue: `${weekdayFormatter.format(now)} ${now.getMonth() + 1}/${now.getDate()}`,
-      dateTime: `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`,
+      dateValue: `${weekdayFormatter.format(now)} ${day}/${month}`,
+      dateTime: `${now.getFullYear()}-${month}-${day}`,
     };
   }, [now]);
 }
@@ -53,7 +53,7 @@ export function SystemDate({ className = "", id = "system-date" }) {
         ) : (
           <img
             key={`${character}-${index}`}
-            className={`date-glyph date-glyph--value-${character}`}
+            className={`date-glyph date-glyph--value-${character}${character === "/" ? " date-glyph--slash" : ""}`}
             src={`/assets/wii-date-${character.codePointAt(0)}.png`}
             alt=""
             draggable="false"
@@ -68,7 +68,7 @@ export function SystemTime() {
   const timeParts = useSystemTime();
 
   return (
-    <time className="clock" id="system-clock" dateTime={timeParts.isoTime} aria-label={`${timeParts.clockValue} ${timeParts.meridiem}`}>
+    <time className="clock" id="system-clock" dateTime={timeParts.isoTime} aria-label={timeParts.clockValue}>
       <span className="clock-digits" aria-hidden="true">
         {[...timeParts.clockValue].map((character, index) => (
           <img
@@ -83,9 +83,6 @@ export function SystemTime() {
             draggable="false"
           />
         ))}
-      </span>
-      <span className="clock-meridiem" aria-hidden="true">
-        <img className="clock-meridiem-image" src={`/assets/wii-clock-${timeParts.meridiem.toLowerCase()}.png`} alt="" draggable="false" />
       </span>
     </time>
   );
